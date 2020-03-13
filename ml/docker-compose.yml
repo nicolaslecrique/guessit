@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+
+  ml:
+    build:
+      context: .
+    image: ml-img
+    ports:
+      - "8788:80"
