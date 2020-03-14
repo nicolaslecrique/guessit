@@ -1,2 +1,8 @@
 .git
 .idea
+Dockerfile
+README.md
+*.pyc
+*.pyo
+*.pyd
+__pycache__

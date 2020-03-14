@@ -3,6 +3,8 @@ version: '3'
 services:
 
   ml:
+    environment: 
+      - PORT=80
     build:
       context: .
     image: ml-img
