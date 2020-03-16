@@ -1,4 +1,9 @@
--i https://pypi.org/simple
+# This is not ideal at all because it's used by all package. It would be cleaner to be able to specify this option
+# by package as it seems to be possible given requirements file format documentation.
+# According to https://github.com/pypa/pip/issues/7050 this is the intended behavior, an issue has been created to 
+# update the documentation.
+-f https://download.pytorch.org/whl/torch_stable.html
+
 click==7.1.1
 fastapi==0.52.0
 h11==0.9.0
@@ -8,3 +13,6 @@ starlette==0.13.2
 uvicorn==0.11.3
 uvloop==0.14.0 ; sys_platform != 'win32' and sys_platform != 'cygwin' and platform_python_implementation != 'PyPy'
 websockets==8.1
+torch==1.4.0+cpu
+torchvision==0.5.0+cpu
+transformers==2.5.1
