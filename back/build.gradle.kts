@@ -7,13 +7,14 @@ plugins {
 	kotlin("plugin.spring") version "1.3.61"
 }
 
-group = "co.globers"
+group = "co.globers.ibo"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
+val developmentOnly by configurations.creating
 configurations {
-	compileOnly {
-		extendsFrom(configurations.annotationProcessor.get())
+	runtimeClasspath {
+		extendsFrom(developmentOnly)
 	}
 }
 
@@ -22,10 +23,11 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter")
+	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}

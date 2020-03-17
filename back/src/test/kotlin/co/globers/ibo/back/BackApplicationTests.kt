@@ -1,10 +1,10 @@
-package co.globers.ibo
+package co.globers.ibo.back
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class IboApplicationTests {
+class BackApplicationTests {
 
 	@Test
 	fun contextLoads() {
