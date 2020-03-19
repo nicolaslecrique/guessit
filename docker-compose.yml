@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+
+  ml:
+    environment: 
+      - PORT=8082
+    build:
+      context: ./ml
+    image: ml-img
+    ports:
+      - "8083:8082"
+
+  back:
+    environment: 
+      - PORT=8080
+      - ML_PORT=8083
+    build:
+      context: ./back
+    image: back-img
+    ports:
+      - "8081:8080"
