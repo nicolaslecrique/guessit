@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "ibo.ml.url",
+      "type": "java.lang.String",
+      "description": "Description for ibo.ml.url."
+  }
+] }
