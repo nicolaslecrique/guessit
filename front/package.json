@@ -17,8 +17,9 @@
     "typescript": "^3.7.5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "REACT_APP_BACK_URL=http://localhost:8080 react-scripts start",
+    "build:docker": "REACT_APP_BACK_URL=http://localhost:8082 react-scripts build",
+    "build:prod": "REACT_APP_BACK_URL=https://back-wqpbmzg6eq-ew.a.run.app react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

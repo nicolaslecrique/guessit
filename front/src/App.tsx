@@ -1,13 +1,15 @@
 import React from 'react';
 import './App.css';
-import backUrl from "./backUrl"
 
 function App() {
 
-    // TODO NICO: GERER CORS SUR LE BACKEND
-    // Blocage d’une requête multiorigines (Cross-Origin Request) : la politique « Same Origin » ne permet pas de consulter la ressource distante située sur http://localhost:8080/compute_guesses. Raison : échec de la requête CORS.
+    // TODO: 1) run "as-prod" in docker container (file server on npm run build command), configure docker-compose
+    // 2) publish on firebase hosting
+
 
     async function computeGuesses() {
+
+        const backUrl = process.env.REACT_APP_BACK_URL
         const response = await fetch(`${backUrl}/compute_guesses`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

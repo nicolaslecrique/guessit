@@ -1,3 +1,28 @@
+
+# ibo/front readme
+
+## to run in local
+
+> npm start
+
+## To build with docker back 
+ 
+> npm run build:docker
+
+## to build with prod back
+
+> npm run build:prod
+
+## (one time) to install serve
+
+> npm install -g serve
+
+## to serve from optimized build folder 
+> serve -s build
+
+
+# Create-react-app readme
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

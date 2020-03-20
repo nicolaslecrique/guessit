@@ -20,12 +20,4 @@ services:
     image: back-img
     ports:
       - "8082:8081"
-
-  front:
-    environment: 
-      - PORT=8085
-    build:
-      context: ./front
-    image: front-img
-    ports:
-      - "8086:8085"
+      
