@@ -1,5 +1,5 @@
 
 ibo:
   ml:
-    url: https://ml-wqpbmzg6eq-ew.a.run.app/
-    #todo check if this url is constant and how it's build
+    url: http://35.210.96.109
+    # public static IP of ml compute engine VM

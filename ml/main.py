@@ -32,7 +32,7 @@ class GuessEntityQuery(BaseModel):
 async def guess_entity(guess_entity_query: GuessEntityQuery) -> Dict:
     return {"guesses": {
         "entity_1": 0.8,
-        "entity_2": 0.2
+        "entity_2": 0.3
     }
     }
 
