@@ -23,7 +23,8 @@ for i in range(0,nb_iterations):
     ranking_entites = np.argsort(-result_by_entity)
 
 t2 = time.thread_time()
-print((t2-t1)/nb_iterations)
+print("3D*2D")
+print((t2-t1)/(nb_iterations+0.00001))
 
 
 # test 2) with 2D matrix
@@ -39,5 +40,25 @@ for i in range(0,nb_iterations):
     result_by_entity = np.average(result_sum_by_base_embedding_reshape, axis=1)
     ranking_entites = np.argsort(-result_by_entity)
 
+
 t2 = time.thread_time()
+print("2D*2D")
+print((t2-t1)/(nb_iterations+0.00001))
+
+# test 3 with only one sentence
+embeddings_base_flattened = np.random.rand(nb_entities*nb_sentences_by_entity, size_embedding)
+embeddings_request_1_sentence = np.random.rand(size_embedding)
+t1 = time.thread_time()
+
+nb_iterations = 100
+for i in range(0,nb_iterations):
+
+    mult_result = np.dot(embeddings_base_flattened, embeddings_request_1_sentence)
+    result_sum_by_base_embedding_reshape = mult_result.reshape(nb_entities, nb_sentences_by_entity)
+    result_by_entity = np.average(result_sum_by_base_embedding_reshape, axis=1)
+    ranking_entites = np.argsort(-result_by_entity)
+
+
+t2 = time.thread_time()
+print("2D*1D")
 print((t2-t1)/nb_iterations)
