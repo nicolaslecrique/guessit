@@ -9,4 +9,4 @@ COPY sql_init /docker-entrypoint-initdb.d
 # https://dev.mysql.com/doc/refman/5.5/en/string-functions.html#function_load-file
 # https://dev.mysql.com/doc/refman/5.5/en/server-system-variables.html#sysvar_secure_file_priv
 # SHOW VARIABLES LIKE "secure_file_priv";
-COPY mysql-files /var/lib/mysql-files
+# COPY mysql-files /var/lib/mysql-files
