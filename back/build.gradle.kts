@@ -56,7 +56,7 @@ jooq {
 	"ibo"(sourceSets["main"]) {
 		jdbc {
 			driver = "com.mysql.cj.jdbc.Driver"
-			url = "jdbc:mysql://localhost:3306/ibo"
+			url = "jdbc:mysql://localhost:3306/ibo_back"
 			user = "root"
 			password = "ibo-db-root-pwd"
 		}
@@ -64,7 +64,7 @@ jooq {
 			name = "org.jooq.codegen.DefaultGenerator"
 			database {
 				name = "org.jooq.meta.mysql.MySQLDatabase"
-				inputSchema = "ibo"
+				inputSchema = "ibo_back"
 				includes = ".*"
 				excludes = ""
 			}

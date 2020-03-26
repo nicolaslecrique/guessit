@@ -1,5 +1,5 @@
 
-USE ibo;
+USE ibo_back;
 SET NAMES utf8;
 
 INSERT INTO entity_to_guess VALUES
