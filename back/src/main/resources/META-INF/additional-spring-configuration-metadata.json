@@ -1,8 +1,13 @@
 {
   "properties": [
     {
-      "name": "ibo.ml.url",
+      "name": "ibo.ml_service.url",
       "type": "java.lang.String",
-      "description": "Description for ibo.ml.url."
-  }
-] }
+      "description": "Description for ibo.ml_service.url."
+    },
+    {
+      "name": "ibo.db.url",
+      "type": "java.lang.String",
+      "description": "Description for ibo.db.url."
+    }
+  ] }

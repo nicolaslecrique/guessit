@@ -21,3 +21,9 @@ services:
     ports:
       - "8082:8081"
       
+  db:
+    build: 
+      context: ./db-dev
+    image: db-img
+    ports: 
+      - "8085:3306"

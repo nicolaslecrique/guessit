@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate
 class MlRestService(restTemplateBuilder: RestTemplateBuilder, iboConfig: IboConfig) {
 
     private val restTemplate: RestTemplate = restTemplateBuilder.build()
-    private val mlUrl = iboConfig.ml.url
+    private val mlUrl = iboConfig.ml_service.url
 
     data class GuessEntityQuery(val description_sentences: List<String>)
     data class GuessEntityReply(val guesses: Map<String, Double>)
@@ -21,6 +21,5 @@ class MlRestService(restTemplateBuilder: RestTemplateBuilder, iboConfig: IboConf
 
         return reply!!.guesses
     }
-
 
 }

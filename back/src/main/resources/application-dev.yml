@@ -1,5 +1,10 @@
 
 
 ibo:
-  ml:
+  ml_service:
     url: http://localhost:8060
+
+  db:
+    url: "jdbc:mysql://localhost:3306/ibo?useSSL=false"
+    user: "ibo_api_db_user"
+    password: "test-ibo-psw"

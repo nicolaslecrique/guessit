@@ -1,5 +1,5 @@
 
 ibo:
-  ml:
+  ml_service:
     url: http://35.210.96.109
     # public static IP of ml compute engine VM
