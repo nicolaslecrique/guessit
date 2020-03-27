@@ -1,5 +1,9 @@
 
 ibo:
   ml_service:
-    url: http://35.210.96.109
-    # public static IP of ml compute engine VM
+    url: ${ML_SERVICE_URL}
+
+  db:
+    url: jdbc:mysql://${DB_URL}/ibo_back
+    user: ${DB_USER}
+    password: ${DB_PASSWORD}
