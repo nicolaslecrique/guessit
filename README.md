@@ -43,3 +43,4 @@ to execute get / post queries directly on back/ml: https://www.postman.com/
 * Create a mysql image on google cloud SQL
 * Connect back cloud run to mysql cloud SQL: https://cloud.google.com/sql/docs/mysql/connect-run
 * Connect to database with Mysql workbench (https://cloud.google.com/sql/docs/mysql/connect-admin-proxy) and run init scripts to create client user for back (change password!) and tables
+* Connect cloud sql to ml service VM on compute engine (https://cloud.google.com/sql/docs/mysql/connect-compute-engine) with public IP
