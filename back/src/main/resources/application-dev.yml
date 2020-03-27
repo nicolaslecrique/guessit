@@ -8,3 +8,5 @@ ibo:
     url: "jdbc:mysql://localhost:3306/ibo_back?useSSL=false"
     user: "ibo_back_db_user"
     password: "test-ibo_back-psw"
+    use_cloud_sql: false
+    cloud_sql_instance: ~

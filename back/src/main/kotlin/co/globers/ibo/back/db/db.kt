@@ -1,14 +1,14 @@
 package co.globers.ibo.back.db
 
 import co.globers.ibo.back.IboConfig
+import co.globers.ibo.jooq.Tables
 import org.jooq.DSLContext
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
 import org.springframework.stereotype.Repository
 import java.sql.DriverManager
 import java.sql.Timestamp
-
-import co.globers.ibo.jooq.Tables as Tables
+import java.util.*
 
 @Repository
 class Db(iboConfig: IboConfig) {
@@ -23,7 +23,22 @@ class Db(iboConfig: IboConfig) {
     private val dbConfig = iboConfig.db
 
     private fun <T> withContext(query: (DSLContext) -> T): T {
-        DriverManager.getConnection(dbConfig.url, dbConfig.user, dbConfig.password).use {connection ->
+
+        val info = Properties()
+        info.putAll( mapOf(
+                "user" to dbConfig.user,
+                "password" to dbConfig.password)
+        )
+
+        if (dbConfig.use_cloud_sql) {
+            info.putAll(mapOf(
+                    "socketFactory" to "com.google.cloud.sql.mysql.SocketFactory",
+                    "useSSL" to "false",
+                    "cloudSqlInstance" to dbConfig.cloud_sql_instance
+            ))
+        }
+
+        DriverManager.getConnection(dbConfig.url, info).use {connection ->
             val context = DSL.using(connection, SQLDialect.MYSQL)
             return query(context)
         }
@@ -34,6 +49,7 @@ class Db(iboConfig: IboConfig) {
         return withContext { context ->
 
             val result = context.select().from(Tables.ENTITY_TO_GUESS).fetch()
+
             result.map { r ->
                 val id= r.getValue(Tables.ENTITY_TO_GUESS.ID)
                 val uri= r.getValue(Tables.ENTITY_TO_GUESS.URI)

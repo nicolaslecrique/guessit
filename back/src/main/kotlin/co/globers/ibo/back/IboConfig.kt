@@ -20,6 +20,8 @@ class IboConfig {
         lateinit var url: String
         lateinit var user: String
         lateinit var password: String
+        var use_cloud_sql: Boolean = false
+        var cloud_sql_instance: String? = null
     }
 
 }

@@ -43,6 +43,8 @@ dependencies {
 	implementation("mysql:mysql-connector-java:8.0.19")
 	jooqRuntime("mysql:mysql-connector-java:8.0.19")
 	implementation("org.jooq:jooq:3.13.1")
+	// to run on gloud sql cf. https://github.com/GoogleCloudPlatform/cloud-sql-jdbc-socket-factory
+	implementation("com.google.cloud.sql:mysql-socket-factory-connector-j-8:1.0.15")
 }
 
 jooq {
