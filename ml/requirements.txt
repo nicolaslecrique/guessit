@@ -22,3 +22,5 @@ torch==1.4.0 ; sys_platform == 'darwin'
 torchvision==0.5.0 ; sys_platform == 'darwin'
 
 transformers==2.5.1
+mysql-connector==2.2.9
+psycopg2==2.8.4
