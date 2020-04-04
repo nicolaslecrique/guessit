@@ -6,6 +6,10 @@ WORKDIR /usr/app
 
 EXPOSE $PORT
 
+RUN apt-get update \ 
+        && apt-get install -y --no-install-recommends  build-essential libpq-dev \
+        && rm -rf /var/lib/apt/lists/*
+
 # Install requirements before copying app so pip install is not re-runned if requirements dont change
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
