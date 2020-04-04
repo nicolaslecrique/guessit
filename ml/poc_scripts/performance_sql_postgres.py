@@ -131,7 +131,7 @@ sum_deserialize_tot_time = 0
 for i in range(nb_iterations):
     print('Iteration:', i)
     #tot_time, deserialize_tot_time = get_data_json()
-    tot_time, deserialize_tot_time = get_data_blob_2()
+    tot_time, deserialize_tot_time = get_data_blob()
     sum_tot_time += tot_time
     sum_deserialize_tot_time += deserialize_tot_time
 print('Avg tot time:', sum_tot_time / nb_iterations)
