@@ -1,7 +1,4 @@
 
-USE ibo_back;
-SET NAMES utf8;
-
-INSERT INTO entity_to_guess VALUES
-(NULL, 'toto_uri', 'toto_name', NULL),
-(NULL, 'titi-uri', 'titi_name', NULL);
+INSERT INTO ibo_back.entity_to_guess(uri, name) VALUES
+('toto_uri', 'toto_name'),
+('titi-uri', 'titi_name');

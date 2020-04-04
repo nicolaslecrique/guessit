@@ -4,8 +4,9 @@ ibo:
     url: http://ml:8083
 
   db:
-    url: "jdbc:mysql://db:3306/ibo_back?useSSL=false"
+    url: "jdbc:mysql://db:5432/postgres?useSSL=false"
     user: "ibo_back_db_user"
     password: "test-ibo_back-psw"
     use_cloud_sql: false
     cloud_sql_instance: ~
+

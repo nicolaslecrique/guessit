@@ -40,11 +40,11 @@ dependencies {
 
 	// Mysql / Jooq
 	// https://github.com/etiennestuder/gradle-jooq-plugin
-	implementation("mysql:mysql-connector-java:8.0.19")
-	jooqRuntime("mysql:mysql-connector-java:8.0.19")
+	implementation("org.postgresql:postgresql:42.2.12")
+	jooqRuntime("org.postgresql:postgresql:42.2.12")
 	implementation("org.jooq:jooq:3.13.1")
 	// to run on gloud sql cf. https://github.com/GoogleCloudPlatform/cloud-sql-jdbc-socket-factory
-	implementation("com.google.cloud.sql:mysql-socket-factory-connector-j-8:1.0.15")
+	implementation("com.google.cloud.sql:postgres-socket-factory:1.0.15")
 }
 
 jooq {
@@ -57,15 +57,15 @@ jooq {
 	// to generate code from db: gradle generateSampleJooqSchemaSource
 	"ibo"(sourceSets["main"]) {
 		jdbc {
-			driver = "com.mysql.cj.jdbc.Driver"
-			url = "jdbc:mysql://localhost:3306/ibo_back"
-			user = "root"
+			driver = "org.postgresql.Driver"
+			url = "jdbc:postgresql://localhost:5432/postgres"
+			user = "postgres"
 			password = "ibo-db-root-pwd"
 		}
 		generator {
 			name = "org.jooq.codegen.DefaultGenerator"
 			database {
-				name = "org.jooq.meta.mysql.MySQLDatabase"
+				name = "org.jooq.meta.postgres.PostgresDatabase"
 				inputSchema = "ibo_back"
 				includes = ".*"
 				excludes = ""

@@ -32,14 +32,14 @@ class Db(iboConfig: IboConfig) {
 
         if (dbConfig.use_cloud_sql) {
             info.putAll(mapOf(
-                    "socketFactory" to "com.google.cloud.sql.mysql.SocketFactory",
+                    "socketFactory" to "com.google.cloud.sql.postgres.SocketFactory",
                     "useSSL" to "false",
                     "cloudSqlInstance" to dbConfig.cloud_sql_instance
             ))
         }
 
         DriverManager.getConnection(dbConfig.url, info).use {connection ->
-            val context = DSL.using(connection, SQLDialect.MYSQL)
+            val context = DSL.using(connection, SQLDialect.POSTGRES)
             return query(context)
         }
     }

@@ -1,2 +1,2 @@
 
-docker run -d --publish 3306:3306 --name ibo-db ibo-db-img
+docker run -d --publish 5432:5432 --name ibo-db-postgres ibo-db-postgres-img

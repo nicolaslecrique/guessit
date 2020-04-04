@@ -26,4 +26,4 @@ services:
       context: ./db-dev
     image: db-img
     ports: 
-      - "8085:3306"
+      - "8085:5432"

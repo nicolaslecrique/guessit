@@ -1,6 +1,6 @@
-FROM mysql:5.7
+FROM postgres:12-alpine
 
-ENV MYSQL_ROOT_PASSWORD ibo-db-root-pwd
+ENV POSTGRES_PASSWORD ibo-db-root-pwd
 # container will execute scripts on docker-entrypoint-initdb.d folder by alphabetical order
 # cf. https://hub.docker.com/_/mysql/, initialize a fresh instance
 COPY sql_init /docker-entrypoint-initdb.d

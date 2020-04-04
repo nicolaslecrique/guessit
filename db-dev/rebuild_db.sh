@@ -1,4 +1,4 @@
 
 
-docker rm -f ibo-db
-docker build . -t ibo-db-img
+docker rm -f ibo-db-postgres
+docker build . -t ibo-db-postgres-img
