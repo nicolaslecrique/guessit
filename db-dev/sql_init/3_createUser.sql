@@ -1,4 +1,3 @@
-
 -- TODO: security; restrict rights to select/update/delete/insert
 
 CREATE USER ibo_back_db_user PASSWORD 'test-ibo_back-psw';
