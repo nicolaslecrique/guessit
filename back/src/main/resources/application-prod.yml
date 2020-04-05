@@ -4,7 +4,7 @@ ibo:
     url: ${ML_SERVICE_URL}
 
   db:
-    url: jdbc:mysql:///ibo_back # mysql url will be resolved by mysql-socket-factory-connector, we just set database schema
+    url: jdbc:postgresql:///postgres # postgresql url will be resolved by postgresql-socket-factory-connector, we just set database schema
     user: ${DB_USER}
     password: ${DB_PASSWORD}
     use_cloud_sql: true
