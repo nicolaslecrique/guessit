@@ -13,8 +13,7 @@ CREATE TABLE ibo_ml.sentence_embedding(
 	id SERIAL PRIMARY KEY,
 	uri VARCHAR(255) NOT NULL UNIQUE,
 	sentence VARCHAR(2046) NOT NULL,
-	sentence_embedding JSON NOT NULL,
+	sentence_embedding real[] NOT NULL,
 	entity_to_guess_id INT NOT NULL REFERENCES ibo_ml.entity_to_guess(id),
-	creation_datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	sentence_embedding_blob real[] NOT NULL
+	creation_datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
