@@ -38,7 +38,7 @@ dependencies {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
 
-	// Mysql / Jooq
+	// Postgres / Jooq
 	// https://github.com/etiennestuder/gradle-jooq-plugin
 	implementation("org.postgresql:postgresql:42.2.12")
 	jooqRuntime("org.postgresql:postgresql:42.2.12")
@@ -50,7 +50,7 @@ dependencies {
 jooq {
 	version = "3.13.1"
 	edition = nu.studer.gradle.jooq.JooqEdition.OSS
-	generateSchemaSourceOnCompilation = true
+	generateSchemaSourceOnCompilation = false
 	// https://github.com/etiennestuder/gradle-jooq-plugin#defining-the-jooq-version-when-the-spring-boot-plugin-is-applied
 	ext["jooq.version"] = "3.13.1"
 
@@ -78,6 +78,7 @@ jooq {
 			}
 			target {
 				packageName = "co.globers.ibo.jooq"
+				directory = "src/main/kotlin/"
 			}
 			strategy {
 				name = "org.jooq.codegen.DefaultGeneratorStrategy"
