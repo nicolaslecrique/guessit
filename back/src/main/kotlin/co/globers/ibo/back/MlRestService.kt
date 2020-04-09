@@ -11,15 +11,16 @@ class MlRestService(restTemplateBuilder: RestTemplateBuilder, iboConfig: IboConf
     private val restTemplate: RestTemplate = restTemplateBuilder.build()
     private val mlUrl = iboConfig.ml_service.url
 
-    data class GuessEntityQuery(val description_sentences: List<String>)
-    data class GuessEntityReply(val guesses: Map<String, Double>)
+    data class GuessEntityQuery(val uri: String, val description_sentences: List<String>)
+    data class EntityScoreReply(val uri: String, val score: Double)
+    data class GuessEntityReply(val guesses: List<EntityScoreReply>)
 
-    fun computeGuesses(description_sentences: List<String>): Map<String, Double> {
+    fun computeGuesses(uri:String, description_sentences: List<String>): GuessEntityReply {
 
         val url = "$mlUrl/guess_entity"
-        val reply = restTemplate.postForObject(url, GuessEntityQuery(description_sentences), GuessEntityReply::class.java)
+        val reply = restTemplate.postForObject(url, GuessEntityQuery(uri, description_sentences), GuessEntityReply::class.java)
 
-        return reply!!.guesses
+        return reply!!
     }
 
 }

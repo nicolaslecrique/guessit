@@ -11,11 +11,11 @@ import java.util.*
 @RestController
 class MlForwardController(private val mlRestService: MlRestService) {
 
-    data class ComputeGuessQueryBody(val description_sentences: List<String>)
+    data class ComputeGuessQueryBody(val uri: String, val description_sentences: List<String>)
 
     @PostMapping("/compute_guesses", consumes = [MediaType.APPLICATION_JSON_VALUE])
-    fun computeGuesses(@RequestBody query: ComputeGuessQueryBody): Map<String, Double> {
-        return mlRestService.computeGuesses(query.description_sentences)
+    fun computeGuesses(@RequestBody query: ComputeGuessQueryBody): MlRestService.GuessEntityReply {
+        return mlRestService.computeGuesses(query.uri, query.description_sentences)
     }
 
 }

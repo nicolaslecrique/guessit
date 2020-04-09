@@ -13,7 +13,7 @@ function App() {
         const response = await fetch(`${backUrl}/compute_guesses`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ description_sentences: ['sentence-1', 'sentence-2'] }),
+            body: JSON.stringify({ uri: 'entity-uri', description_sentences: ['sentence-1', 'sentence-2'] }),
         })
         console.log(await response.json())
     }
