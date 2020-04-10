@@ -4,12 +4,15 @@ cd ..
 
 # NB: nothing to "build" for ml service before we build container
 
-# build and run ml and back image
+# build and run ml/back and db images
 docker-compose up --build -d
 
 # build and run front
 cd front
-npm run build:docker
-serve -s build
 
-cd..
+npm install
+
+npm run build:docker
+npx serve -s build
+
+cd ..
