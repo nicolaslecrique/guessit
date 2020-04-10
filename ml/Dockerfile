@@ -3,7 +3,6 @@ FROM python:3.7-slim
 
 WORKDIR /usr/app
 
-
 EXPOSE $PORT
 
 RUN apt-get update \ 
@@ -14,9 +13,10 @@ RUN apt-get update \
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-COPY . .
+COPY app app
+COPY ml_model ml_model
 
-CMD exec uvicorn main:app --host 0.0.0.0 --port $PORT
+CMD exec uvicorn app.main:app --host 0.0.0.0 --port $PORT
 
 
 # # See what's int the container

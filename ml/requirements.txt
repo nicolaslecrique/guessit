@@ -21,5 +21,8 @@ torchvision==0.5.0+cpu ; sys_platform != 'darwin'
 torch==1.4.0 ; sys_platform == 'darwin'
 torchvision==0.5.0 ; sys_platform == 'darwin'
 
-transformers==2.5.1
 psycopg2==2.8.4
+sentence-transformers==0.2.5.1
+
+# Dev
+pylint==2.4.4
