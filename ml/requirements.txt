@@ -26,3 +26,4 @@ sentence-transformers==0.2.5.1
 
 # Dev
 pylint==2.4.4
+mypy==0.770

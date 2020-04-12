@@ -31,7 +31,7 @@ def get_all_entities() -> Dict[str, Entity]:
                  "ON entity.id = sentence.entity_to_guess_id")
         cursor.execute(query)
 
-        entities = dict()
+        entities: Dict[str, Entity] = {}
         for (entity_id, entity_uri, sentence, sentence_embedding) in cursor:
             entity = entities.setdefault(entity_uri, Entity(db_id=entity_id, uri=entity_uri))
 

@@ -1,15 +1,11 @@
-from typing import List
+from typing import Dict, List
 
 from pydantic import BaseModel # pylint: disable=no-name-in-module
 
 
 class GuessEntityQuery(BaseModel):
-    uri: str
+    entity_to_guess_uri: str
     description_sentences: List[str]
 
-class EntityScore(BaseModel):
-    uri: str
-    score: float
-
 class GuessEntityReply(BaseModel):
-    guesses: List[EntityScore]
+    guesses: Dict[str, float]

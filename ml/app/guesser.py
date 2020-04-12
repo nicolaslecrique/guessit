@@ -1,5 +1,4 @@
-
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 
 import numpy as np
 from sentence_transformers import SentenceTransformer
@@ -10,12 +9,12 @@ from app import models
 
 class Guesser:
     def __init__(self, transformers_model: str) -> None:
-        self.ml_model = SentenceTransformer(transformers_model)
+        self.ml_model: SentenceTransformer = SentenceTransformer(transformers_model)
 
-        self.entities = db.get_all_entities()
-        self.embeddings_cache = dict()
+        self.entities: Dict[str, models.Entity] = db.get_all_entities()
+        self.embeddings_cache: Dict[str, np.ndarray] = {}
 
-    def guess(self, entity_uri: str, query_sentences: List[str]) -> List[Tuple[str, float]]:
+    def guess(self, entity_uri: str, query_sentences: List[str]) -> Dict[str, float]:
         # Is it a known entity ?
         guessed_entity = self.entities.get(entity_uri, None)
         if guessed_entity is None:
@@ -65,12 +64,12 @@ class Guesser:
             # The embedding is a (1, N) matrix, store it as a vector (N,) in db
             db.insert_sentence_embedding(sentence, embedding[0], guessed_entity.db_id)
 
-        return guesses[:4]
+        return dict(guesses[:4])
 
     def _normalized_embeddings(self, sentences: List[str]) -> np.ndarray:
         embeddings_list = self.ml_model.encode(sentences)
 
-        def normalize_and_reshape(vector) -> np.ndarray:
+        def normalize_and_reshape(vector: np.ndarray) -> np.ndarray:
             # reshape: from (N,) vector to (1, N) matrix
             return (vector / np.linalg.norm(vector)).reshape(1, vector.shape[0])
 

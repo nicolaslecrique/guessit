@@ -28,10 +28,9 @@ def create_app() -> FastAPI:
         os.environ['PGUSER'] = 'ibo_ml_db_user'
         os.environ['PGPASSWORD'] = 'test-ibo_ml-psw'
 
-    if 'TRANSFORMERS_MODEL' not in os.environ:
-        os.environ['TRANSFORMERS_MODEL'] = 'ml_model'
+    transformers_model = os.environ.get('TRANSFORMERS_MODEL', 'ml_model')
 
-    app.state.guesser = guesser.Guesser(os.environ.get('TRANSFORMERS_MODEL'))
+    app.state.guesser = guesser.Guesser(transformers_model)
 
     return app
 
