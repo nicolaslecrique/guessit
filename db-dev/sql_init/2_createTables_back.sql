@@ -36,6 +36,6 @@ CREATE TABLE ibo_back.entity_guessing_sentence(
 	uri VARCHAR(255) NOT NULL UNIQUE,
 	entity_guessing_id INT NOT NULL REFERENCES ibo_back.entity_guessing(id),
 	sentence VARCHAR(2046) NOT NULL,
-	guessed_entity_id INT NOT NULL REFERENCES ibo_back.entity_guessing(id),
+	guessed_entity_id INT NOT NULL REFERENCES ibo_back.entity_to_guess(id),
 	creation_datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
