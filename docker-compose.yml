@@ -5,6 +5,11 @@ services:
   ml:
     environment: 
       - PORT=8083
+      - PGHOST=db
+      - PGDATABASE=postgres
+      - PGUSER=ibo_ml_db_user
+      - PGPASSWORD=test-ibo_ml-psw
+      - TRANSFORMERS_MODEL=ml_model
     build:
       context: ./ml
     image: ml-img
@@ -26,4 +31,4 @@ services:
       context: ./db-dev
     image: db-img
     ports: 
-      - "8085:5432"
+      - "5432:5432"
