@@ -1,10 +1,10 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	id("org.springframework.boot") version "2.2.5.RELEASE"
+	id("org.springframework.boot") version "2.2.6.RELEASE"
 	id("io.spring.dependency-management") version "1.0.9.RELEASE"
-	kotlin("jvm") version "1.3.61"
-	kotlin("plugin.spring") version "1.3.61"
+	kotlin("jvm") version "1.3.71"
+	kotlin("plugin.spring") version "1.3.71"
 
 	// https://github.com/etiennestuder/gradle-jooq-plugin
 	id("nu.studer.jooq")
@@ -28,8 +28,12 @@ repositories {
 
 dependencies {
 
+	implementation("org.springframework.boot:spring-boot-starter-webflux")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+	testImplementation("io.projectreactor:reactor-test")
+
 	// default dependencies from spring boot initializer
-	implementation("org.springframework.boot:spring-boot-starter-web")
+	//implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
