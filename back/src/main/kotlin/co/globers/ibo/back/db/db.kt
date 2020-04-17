@@ -24,7 +24,7 @@ class Db(iboConfig: IboConfig) {
 
     private val dbConfig = iboConfig.db
 
-    private val connectionInfos = Properties();
+    private val connectionInfos = Properties()
 
     init {
         connectionInfos.putAll( mapOf(
@@ -50,21 +50,50 @@ class Db(iboConfig: IboConfig) {
         }
     }
 
+    private fun <T> withTransactionContext(query: (DSLContext) -> T): Mono<T> {
+        return withContext { context ->
+            context.transactionResult { transConfig ->
+                val transactionContext = DSL.using(transConfig)
+                query(transactionContext)
+            }
+        }
+    }
+
     fun insertUser(userUri: String): Mono<Int> {
         return withContext { context ->
             context.insertInto(Tables.USER, Tables.USER.URI).values(userUri).execute()
         }
     }
 
-    fun insertGameSession(gameSessionUri: String, userUri: String): Mono<Int> {
-        return withContext { context ->
-            context
+    fun insertGameSession(gameSessionUri: String, userUri: String, entityGuessingUriToEntityToGuessId: Map<String,Int>): Mono<Int> {
+        return withTransactionContext { context ->
+
+            val gameSessionId = context
                     .insertInto(Tables.GAME_SESSION, Tables.GAME_SESSION.URI, Tables.GAME_SESSION.USER_ID)
                     .select(
-                            context.select(inline(gameSessionUri), Tables.USER.ID).from(Tables.USER).where(Tables.USER.URI.equal(userUri)))
-                    .execute()
+                            context
+                                    .select(inline(gameSessionUri), Tables.USER.ID)
+                                    .from(Tables.USER)
+                                    .where(Tables.USER.URI.equal(userUri))
+                    )
+                    .returningResult(Tables.GAME_SESSION.ID)
+                    .fetchOne()
+                    .value1()
+            if (gameSessionId % 2 == 0) {
+                throw Exception("WTF $gameSessionId")
+            }
+
+            var insertQuery = context
+                    .insertInto(Tables.ENTITY_GUESSING, Tables.ENTITY_GUESSING.URI, Tables.ENTITY_GUESSING.GAME_SESSION_ID, Tables.ENTITY_GUESSING.ENTITY_TO_GUESS_ID)
+
+            entityGuessingUriToEntityToGuessId.forEach { (entityGuessingUri, entityToGuessId) ->
+                insertQuery = insertQuery.values(entityGuessingUri, gameSessionId, entityToGuessId)
+            }
+
+            insertQuery.execute()
         }
     }
+
 
     fun selectRandomEntitiesToGuess(nbEntities: Int): Mono<List<EntityToGuess>> {
 
