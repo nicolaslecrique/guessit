@@ -5,7 +5,9 @@ import co.globers.ibo.jooq.Tables
 import org.jooq.DSLContext
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
+import org.jooq.impl.DSL.inline
 import org.springframework.stereotype.Repository
+import reactor.core.publisher.Mono
 import java.sql.DriverManager
 import java.sql.Timestamp
 import java.util.*
@@ -22,33 +24,58 @@ class Db(iboConfig: IboConfig) {
 
     private val dbConfig = iboConfig.db
 
-    private fun <T> withContext(query: (DSLContext) -> T): T {
+    private val connectionInfos = Properties();
 
-        val info = Properties()
-        info.putAll( mapOf(
+    init {
+        connectionInfos.putAll( mapOf(
                 "user" to dbConfig.user,
                 "password" to dbConfig.password)
         )
 
         if (dbConfig.use_cloud_sql) {
-            info.putAll(mapOf(
+            connectionInfos.putAll(mapOf(
                     "socketFactory" to "com.google.cloud.sql.postgres.SocketFactory",
                     "useSSL" to "false",
                     "cloudSqlInstance" to dbConfig.cloud_sql_instance
             ))
         }
 
-        DriverManager.getConnection(dbConfig.url, info).use {connection ->
+    }
+
+    private fun <T> withContext(query: (DSLContext) -> T): Mono<T> {
+        DriverManager.getConnection(dbConfig.url, connectionInfos).use {connection ->
             val context = DSL.using(connection, SQLDialect.POSTGRES)
-            return query(context)
+            val result: T = query(context)
+            return Mono.just(result)
         }
     }
 
-    fun getEntitiesToGuess(): List<EntityToGuess> {
-
+    fun insertUser(userUri: String): Mono<Int> {
         return withContext { context ->
+            context.insertInto(Tables.USER, Tables.USER.URI).values(userUri).execute()
+        }
+    }
 
-            val result = context.select().from(Tables.ENTITY_TO_GUESS).fetch()
+    fun insertGameSession(gameSessionUri: String, userUri: String): Mono<Int> {
+        return withContext { context ->
+            context
+                    .insertInto(Tables.GAME_SESSION, Tables.GAME_SESSION.URI, Tables.GAME_SESSION.USER_ID)
+                    .select(
+                            context.select(inline(gameSessionUri), Tables.USER.ID).from(Tables.USER).where(Tables.USER.URI.equal(userUri)))
+                    .execute()
+        }
+    }
+
+    fun selectRandomEntitiesToGuess(nbEntities: Int): Mono<List<EntityToGuess>> {
+
+        return withContext {context ->
+
+            val result = context
+                    .select()
+                    .from(Tables.ENTITY_TO_GUESS)
+                    .orderBy(DSL.rand())
+                    .limit(nbEntities)
+                    .fetch()
 
             result.map { r ->
                 val id= r.getValue(Tables.ENTITY_TO_GUESS.ID)
@@ -57,8 +84,10 @@ class Db(iboConfig: IboConfig) {
                 val name= r.getValue(Tables.ENTITY_TO_GUESS.NAME)
 
                 EntityToGuess(id, uri, creationDatetime, name)
-             }
+
+            }
         }
     }
+
 
 }
