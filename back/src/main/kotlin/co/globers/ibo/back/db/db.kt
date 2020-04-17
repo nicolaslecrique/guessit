@@ -79,10 +79,7 @@ class Db(iboConfig: IboConfig) {
                     .returningResult(Tables.GAME_SESSION.ID)
                     .fetchOne()
                     .value1()
-            if (gameSessionId % 2 == 0) {
-                throw Exception("WTF $gameSessionId")
-            }
-
+            
             var insertQuery = context
                     .insertInto(Tables.ENTITY_GUESSING, Tables.ENTITY_GUESSING.URI, Tables.ENTITY_GUESSING.GAME_SESSION_ID, Tables.ENTITY_GUESSING.ENTITY_TO_GUESS_ID)
 
