@@ -90,22 +90,20 @@ class RestApi(
 
         return Mono
                 .zip(proposedEntitiesSorted, alreadyProposedEntitiesUri)
-                .map { tuple ->
+                .map { currAndPreviousUris ->
                     // find the correct proposition: best not yet proposed, if everything already proposed, return first
-                    tuple.t1.firstOrNull() { ! tuple.t2.contains(it) } ?: tuple.t1.first()
-                }.doOnNext {
-                    db.insertEntityGuessingSentence(
-                            request.entityGuessingUri, UUID.randomUUID().toString(), it, request.newSentence )
+                    currAndPreviousUris.t1.firstOrNull() { ! currAndPreviousUris.t2.contains(it) }
+                            ?: currAndPreviousUris.t1.first()
                 }
-                .zipWhen{
+                .zipWhen{ guessedEntityUri ->
                     // associate name to uri
-                    db.selectEntityName(it)
-                }.map {
-                    PostEntityGuessingSentencesResult(it.t1,it.t2)
+                    db.selectEntityName(guessedEntityUri)
+                }.map { guessedEntityUriAndName ->
+                    PostEntityGuessingSentencesResult(guessedEntityUriAndName.t1,guessedEntityUriAndName.t2)
+                }.doOnNext { result ->
+                    db.insertEntityGuessingSentence(
+                            request.entityGuessingUri, UUID.randomUUID().toString(), result.guessedEntityUri, request.newSentence )
                 }
-
     }
-
-
 
 }
