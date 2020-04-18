@@ -79,7 +79,7 @@ class Db(iboConfig: IboConfig) {
                     .returningResult(Tables.GAME_SESSION.ID)
                     .fetchOne()
                     .value1()
-            
+
             var insertQuery = context
                     .insertInto(Tables.ENTITY_GUESSING, Tables.ENTITY_GUESSING.URI, Tables.ENTITY_GUESSING.GAME_SESSION_ID, Tables.ENTITY_GUESSING.ENTITY_TO_GUESS_ID)
 
@@ -112,6 +112,64 @@ class Db(iboConfig: IboConfig) {
                 EntityToGuess(id, uri, creationDatetime, name)
 
             }
+        }
+    }
+
+    fun selectGuessedEntitiesUris(entityGuessingUri: String): Mono<List<String>> {
+        return withContext { context ->
+            context
+                    .select(Tables.ENTITY_TO_GUESS.URI)
+                    .from(Tables.ENTITY_TO_GUESS)
+                    .join(Tables.ENTITY_GUESSING_SENTENCE).on(Tables.ENTITY_GUESSING_SENTENCE.GUESSED_ENTITY_ID.equal(Tables.ENTITY_TO_GUESS.ID))
+                    .join(Tables.ENTITY_GUESSING).on(Tables.ENTITY_GUESSING.ID.equal(Tables.ENTITY_GUESSING_SENTENCE.ENTITY_GUESSING_ID))
+                    .where(Tables.ENTITY_GUESSING.URI.equal(entityGuessingUri))
+                    .fetch()
+                    .map { r -> r.getValue(Tables.ENTITY_TO_GUESS.URI) }
+        }
+    }
+
+    // add sentence / guess to an entityGuessing
+    fun insertEntityGuessingSentence(
+            entityGuessingUri: String,
+            entityGuessingSentenceUri: String,
+            guessedEntityUri: String,
+            sentence: String
+    ): Mono<Int> {
+
+        return withContext { context ->
+
+            context
+                    .insertInto(
+                            Tables.ENTITY_GUESSING_SENTENCE,
+                            Tables.ENTITY_GUESSING_SENTENCE.URI,
+                            Tables.ENTITY_GUESSING_SENTENCE.ENTITY_GUESSING_ID,
+                            Tables.ENTITY_GUESSING_SENTENCE.SENTENCE,
+                            Tables.ENTITY_GUESSING_SENTENCE.GUESSED_ENTITY_ID
+                    )
+                    .select(
+                            context
+                                    .select(
+                                            inline(entityGuessingSentenceUri),
+                                            Tables.ENTITY_GUESSING.ID,
+                                            inline(sentence),
+                                            Tables.ENTITY_TO_GUESS.ID
+                                    )
+                                    .from(Tables.ENTITY_GUESSING, Tables.ENTITY_TO_GUESS)
+                                    .where(Tables.ENTITY_GUESSING.URI.equal(entityGuessingUri))
+                                    .and(Tables.ENTITY_TO_GUESS.URI.equal(guessedEntityUri))
+                    )
+                    .execute()
+        }
+    }
+
+    fun selectEntityName(entityUri: String): Mono<String> {
+        return withContext { context ->
+            context
+                    .select(Tables.ENTITY_TO_GUESS.NAME)
+                    .from(Tables.ENTITY_TO_GUESS)
+                    .where(Tables.ENTITY_TO_GUESS.URI.equal(entityUri))
+                    .fetchOne()
+                    .map { r -> r.getValue(Tables.ENTITY_TO_GUESS.NAME) }
         }
     }
 
