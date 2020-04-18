@@ -58,7 +58,7 @@ jooq {
 	// https://github.com/etiennestuder/gradle-jooq-plugin#defining-the-jooq-version-when-the-spring-boot-plugin-is-applied
 	ext["jooq.version"] = "3.13.1"
 
-	// to generate code from db: gradle generateSampleJooqSchemaSource
+	// to generate code from db: gradle generateIboJooqSchemaSource
 	"ibo"(sourceSets["main"]) {
 		jdbc {
 			driver = "org.postgresql.Driver"
