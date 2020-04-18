@@ -66,6 +66,7 @@ public class Keys {
     public static final ForeignKey<Record, Record> ENTITY_GUESSING__ENTITY_GUESSING_GAME_SESSION_ID_FKEY = ForeignKeys0.ENTITY_GUESSING__ENTITY_GUESSING_GAME_SESSION_ID_FKEY;
     public static final ForeignKey<Record, Record> ENTITY_GUESSING__ENTITY_GUESSING_ENTITY_TO_GUESS_ID_FKEY = ForeignKeys0.ENTITY_GUESSING__ENTITY_GUESSING_ENTITY_TO_GUESS_ID_FKEY;
     public static final ForeignKey<Record, Record> ENTITY_GUESSING_SENTENCE__ENTITY_GUESSING_SENTENCE_ENTITY_GUESSING_ID_FKEY = ForeignKeys0.ENTITY_GUESSING_SENTENCE__ENTITY_GUESSING_SENTENCE_ENTITY_GUESSING_ID_FKEY;
+    public static final ForeignKey<Record, Record> ENTITY_GUESSING_SENTENCE__ENTITY_GUESSING_SENTENCE_GUESSED_ENTITY_ID_FKEY = ForeignKeys0.ENTITY_GUESSING_SENTENCE__ENTITY_GUESSING_SENTENCE_GUESSED_ENTITY_ID_FKEY;
     public static final ForeignKey<Record, Record> GAME_SESSION__GAME_SESSION_USER_ID_FKEY = ForeignKeys0.GAME_SESSION__GAME_SESSION_USER_ID_FKEY;
 
     // -------------------------------------------------------------------------
@@ -97,6 +98,7 @@ public class Keys {
         public static final ForeignKey<Record, Record> ENTITY_GUESSING__ENTITY_GUESSING_GAME_SESSION_ID_FKEY = Internal.createForeignKey(Keys.GAME_SESSION_PKEY, EntityGuessing.ENTITY_GUESSING, "entity_guessing_game_session_id_fkey", new TableField[] { EntityGuessing.ENTITY_GUESSING.GAME_SESSION_ID }, true);
         public static final ForeignKey<Record, Record> ENTITY_GUESSING__ENTITY_GUESSING_ENTITY_TO_GUESS_ID_FKEY = Internal.createForeignKey(Keys.ENTITY_TO_GUESS_PKEY, EntityGuessing.ENTITY_GUESSING, "entity_guessing_entity_to_guess_id_fkey", new TableField[] { EntityGuessing.ENTITY_GUESSING.ENTITY_TO_GUESS_ID }, true);
         public static final ForeignKey<Record, Record> ENTITY_GUESSING_SENTENCE__ENTITY_GUESSING_SENTENCE_ENTITY_GUESSING_ID_FKEY = Internal.createForeignKey(Keys.ENTITY_GUESSING_PKEY, EntityGuessingSentence.ENTITY_GUESSING_SENTENCE, "entity_guessing_sentence_entity_guessing_id_fkey", new TableField[] { EntityGuessingSentence.ENTITY_GUESSING_SENTENCE.ENTITY_GUESSING_ID }, true);
+        public static final ForeignKey<Record, Record> ENTITY_GUESSING_SENTENCE__ENTITY_GUESSING_SENTENCE_GUESSED_ENTITY_ID_FKEY = Internal.createForeignKey(Keys.ENTITY_TO_GUESS_PKEY, EntityGuessingSentence.ENTITY_GUESSING_SENTENCE, "entity_guessing_sentence_guessed_entity_id_fkey", new TableField[] { EntityGuessingSentence.ENTITY_GUESSING_SENTENCE.GUESSED_ENTITY_ID }, true);
         public static final ForeignKey<Record, Record> GAME_SESSION__GAME_SESSION_USER_ID_FKEY = Internal.createForeignKey(Keys.USER_PKEY, GameSession.GAME_SESSION, "game_session_user_id_fkey", new TableField[] { GameSession.GAME_SESSION.USER_ID }, true);
     }
 }
