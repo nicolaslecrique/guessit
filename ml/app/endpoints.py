@@ -8,6 +8,6 @@ router = APIRouter()
 
 @router.post("/guess_entity", response_model=GuessEntityReply)
 def guess_entity(request: Request, query: GuessEntityQuery) -> GuessEntityReply:
-    guesses = request.app.state.guesser.guess(query.entity_to_guess_uri, query.description_sentences)
+    guesses = request.app.state.guesser.guess(query.entityToGuessUri, query.descriptionSentences)
 
     return GuessEntityReply(guesses=guesses)

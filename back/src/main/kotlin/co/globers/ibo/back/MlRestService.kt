@@ -9,7 +9,7 @@ class MlRestService(iboConfig: IboConfig) {
     private val mlClient = WebClient.create(iboConfig.ml_service.url)
 
     // api specifications, do not rename
-    data class GuessEntityQuery(val entity_to_guess_uri: String, val description_sentences: List<String>)
+    data class GuessEntityQuery(val entityToGuessUri: String, val descriptionSentences: List<String>)
     data class GuessEntityReply(val guesses: Map<String, Double>)
 
     fun computeGuesses(entityToGuessUri:String, descriptionSentences: List<String>): Map<String, Double> {
