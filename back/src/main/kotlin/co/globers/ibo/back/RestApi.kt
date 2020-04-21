@@ -85,4 +85,23 @@ class RestApi(
         return PostEntityGuessingSentencesResult(guessedEntityUri, guessedEntityName)
     }
 
+    data class GetGameSessionResultResult(
+            val entityGuessingSessions: List<EntityGuessing>
+    ) {
+        data class EntityGuessing(
+                val entityToGuessName: String,
+                val entityGuessedName: String
+        )
+    }
+
+    @GetMapping("/game_session_result")
+    fun getGameSessionResult(@RequestParam gameSessionUri: String): Mono<GetGameSessionResultResult> {
+
+        //val result: Map<String,String> = db.selectEntityNameToGuessAndGuessed(gameSessionUri)
+
+
+        return Mono.empty();
+    }
+
+
 }

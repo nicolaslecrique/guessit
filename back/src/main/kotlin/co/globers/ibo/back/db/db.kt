@@ -181,4 +181,64 @@ class Db(iboConfig: IboConfig) {
     }
 
 
+    fun selectEntityNameToGuessAndGuessed(gameSessionUri: String): Mono<Map<String, String>> {
+
+        return withContext { context ->
+
+            val entityGuessingUri = "EntityGuessingUri"
+
+            val entityToGuessName = context
+                    .select(Tables.ENTITY_TO_GUESS.NAME)
+                    .from(Tables.ENTITY_TO_GUESS)
+                    .join(Tables.ENTITY_GUESSING).on(Tables.ENTITY_GUESSING.ENTITY_TO_GUESS_ID.equal(Tables.ENTITY_TO_GUESS.ID))
+                    .where(Tables.ENTITY_GUESSING.URI.equal(entityGuessingUri))
+
+            val tableEntityToGuessGuessed = Tables.ENTITY_TO_GUESS.`as`("entityToGuessGuessed")
+            val entityGuessedName = context
+                    .select(tableEntityToGuessGuessed.NAME)
+                    .from(tableEntityToGuessGuessed)
+                    .join(Tables.ENTITY_GUESSING_SENTENCE).on(Tables.ENTITY_GUESSING_SENTENCE.GUESSED_ENTITY_ID.equal(tableEntityToGuessGuessed.ID))
+                    .where(Tables.ENTITY_GUESSING.URI.equal(entityGuessingUri))
+                    .and(Tables.ENTITY_GUESSING_SENTENCE.ENTITY_GUESSING_ID.equal(Tables.ENTITY_GUESSING.ID))
+
+
+
+            // return max creation date for an entityGuessingUri
+            val maxCreationDate = context
+                    .select(DSL.max(Tables.ENTITY_GUESSING_SENTENCE.CREATION_DATETIME))
+                    .from(Tables.ENTITY_GUESSING_SENTENCE)
+                    .join(Tables.ENTITY_GUESSING).on(Tables.ENTITY_GUESSING.ID.eq(Tables.ENTITY_GUESSING_SENTENCE.ENTITY_GUESSING_ID))
+                    .where(Tables.ENTITY_GUESSING.URI.eq(entityGuessingUri))
+
+            // return entity guessed in the last sentence of an entityGuessingUri
+            val entityIdGuessedWithMaxDate = context
+                    .select(Tables.ENTITY_GUESSING_SENTENCE.GUESSED_ENTITY_ID)
+                    .from(Tables.ENTITY_GUESSING_SENTENCE)
+                    .join(Tables.ENTITY_GUESSING).on(Tables.ENTITY_GUESSING.ID.eq(Tables.ENTITY_GUESSING_SENTENCE.ENTITY_GUESSING_ID))
+                    .where(Tables.ENTITY_GUESSING.URI.eq(entityGuessingUri))
+                    .and(Tables.ENTITY_GUESSING_SENTENCE.CREATION_DATETIME.eq(maxCreationDate))
+
+
+            // return entity name from entityId
+            val entityNameGuessed = context
+                    .select(Tables.ENTITY_TO_GUESS.NAME)
+                    .from(Tables.ENTITY_TO_GUESS)
+                    .where(Tables.ENTITY_TO_GUESS.ID.eq(entityIdGuessedWithMaxDate))
+
+
+
+            // pour un groupe de sentence, retourn le max
+
+
+
+            // idées:
+
+
+            mapOf()
+        }
+
+
+    }
+
+
 }
