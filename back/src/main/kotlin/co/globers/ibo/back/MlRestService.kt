@@ -2,7 +2,6 @@ package co.globers.ibo.back
 
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
-import reactor.core.publisher.Mono
 
 @Service
 class MlRestService(iboConfig: IboConfig) {
@@ -13,7 +12,7 @@ class MlRestService(iboConfig: IboConfig) {
     data class GuessEntityQuery(val entity_to_guess_uri: String, val description_sentences: List<String>)
     data class GuessEntityReply(val guesses: Map<String, Double>)
 
-    fun computeGuesses(entityToGuessUri:String, descriptionSentences: List<String>): Mono<Map<String, Double>> {
+    fun computeGuesses(entityToGuessUri:String, descriptionSentences: List<String>): Map<String, Double> {
 
         return  mlClient
                 .post()
@@ -22,6 +21,7 @@ class MlRestService(iboConfig: IboConfig) {
                 .retrieve()
                 .bodyToMono(GuessEntityReply::class.java)
                 .map { it.guesses }
+                .block()!!
     }
 
 }

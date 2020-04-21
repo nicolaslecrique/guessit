@@ -28,12 +28,13 @@ repositories {
 
 dependencies {
 
+	// Needed for WebClient
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
+
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-	testImplementation("io.projectreactor:reactor-test")
 
 	// default dependencies from spring boot initializer
-	//implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")

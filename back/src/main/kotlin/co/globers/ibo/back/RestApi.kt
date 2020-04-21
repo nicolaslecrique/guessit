@@ -3,12 +3,9 @@ package co.globers.ibo.back
 import co.globers.ibo.back.db.Db
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import reactor.core.publisher.Mono
 import java.util.*
 
 @CrossOrigin
@@ -21,11 +18,10 @@ class RestApi(
     data class PostNewUserResult(val userUri: String)
 
     @PostMapping("/user")
-    fun postNewUser(): Mono<PostNewUserResult> {
+    fun postNewUser(): PostNewUserResult {
         val userUri = UUID.randomUUID().toString()
-        return db
-                .insertUser(userUri)
-                .map { PostNewUserResult(userUri) }
+        db.insertUser(userUri)
+        return PostNewUserResult(userUri)
     }
 
     data class PostNewGameSessionRequestBody(val userUri: String)
@@ -40,37 +36,21 @@ class RestApi(
     }
 
     @PostMapping("/game_session", consumes = [MediaType.APPLICATION_JSON_VALUE])
-    fun postNewGameSession(@RequestBody request: PostNewGameSessionRequestBody): Mono<PostNewGameSessionResult> {
+    fun postNewGameSession(@RequestBody request: PostNewGameSessionRequestBody): PostNewGameSessionResult {
 
         val gameSessionUri = UUID.randomUUID().toString()
-
         val entitiesToGuess = db.selectRandomEntitiesToGuess(20)
 
         // define an entityGuessingUri for each entity randomly selected
-        val guessingUriToEntity = entitiesToGuess.map { list ->
-            list.map { UUID.randomUUID().toString() to it }.toMap()
-        }
+        val entityGuessingUriToEntity = entitiesToGuess.map { UUID.randomUUID().toString() to it }.toMap()
+        db.insertGameSession(gameSessionUri, request.userUri, entityGuessingUriToEntity.mapValues { it.value.id })
 
-        // insert game session
-        val guessingUriToEntityInserted = guessingUriToEntity
-                .flatMap { uriToEntity ->
-                    db.insertGameSession(
-                            gameSessionUri,
-                            request.userUri,
-                            uriToEntity.mapValues { it.value.id }
-                    ).map { uriToEntity }
+        return PostNewGameSessionResult(
+                gameSessionUri,
+                entityGuessingUriToEntity.map { (entityGuessingUri, entity) ->
+                    PostNewGameSessionResult.Entity(entity.uri, entityGuessingUri, entity.name)
                 }
-
-        // return inserted game session
-        return guessingUriToEntityInserted
-                .map { entityGuessingUriToEntity ->
-                    PostNewGameSessionResult(
-                            gameSessionUri,
-                            entityGuessingUriToEntity.map { (entityGuessingUri, entity) ->
-                                PostNewGameSessionResult.Entity(entity.uri, entityGuessingUri, entity.name)
-                            }
-                    )
-                }
+        )
     }
 
     data class PostEntityGuessingSentencesRequestBody(
@@ -85,34 +65,24 @@ class RestApi(
     )
 
     @PostMapping("/entity_guessing_sentence", consumes = [MediaType.APPLICATION_JSON_VALUE])
-    fun postEntityGuessingSentences(@RequestBody request: PostEntityGuessingSentencesRequestBody): Mono<PostEntityGuessingSentencesResult> {
+    fun postEntityGuessingSentences(@RequestBody request: PostEntityGuessingSentencesRequestBody): PostEntityGuessingSentencesResult {
 
         val proposedEntitiesSorted = mlRestService
-                .computeGuesses(
-                        request.entityToGuessUri,
-                        request.previousSentences + request.newSentence)
-                .map { guesses -> guesses.toList().sortedBy { -it.second }.map { it.first } }
+                .computeGuesses(request.entityToGuessUri,request.previousSentences + request.newSentence)
+                .toList()
+                .sortedBy { -it.second }
+                .map { it.first }
 
-        val alreadyProposedEntitiesUri = db
-                .selectGuessedEntitiesUris(request.entityGuessingUri)
-                .map { it.toSet() }
+        val alreadyProposedEntitiesUri = db.selectGuessedEntitiesUris(request.entityGuessingUri)
 
-        return Mono
-                .zip(proposedEntitiesSorted, alreadyProposedEntitiesUri)
-                .map { currAndPreviousUris ->
-                    // find the correct proposition: best not yet proposed, if everything already proposed, return first
-                    currAndPreviousUris.t1.firstOrNull { !currAndPreviousUris.t2.contains(it) }
-                            ?: currAndPreviousUris.t1.first()
-                }
-                .zipWhen { guessedEntityUri ->
-                    // associate name to uri
-                    db.selectEntityName(guessedEntityUri)
-                }.map { guessedEntityUriAndName ->
-                    PostEntityGuessingSentencesResult(guessedEntityUriAndName.t1, guessedEntityUriAndName.t2)
-                }.doOnNext { result ->
-                    db.insertEntityGuessingSentence(
-                            request.entityGuessingUri, UUID.randomUUID().toString(), result.guessedEntityUri, request.newSentence)
-                }
+        val guessedEntityUri = proposedEntitiesSorted
+                .firstOrNull { !alreadyProposedEntitiesUri.contains(it) }
+                ?: proposedEntitiesSorted.first()
+
+        db.insertEntityGuessingSentence(
+                request.entityGuessingUri, UUID.randomUUID().toString(), guessedEntityUri, request.newSentence)
+        val guessedEntityName = db.selectEntityName(guessedEntityUri)
+        return PostEntityGuessingSentencesResult(guessedEntityUri, guessedEntityName)
     }
 
 }

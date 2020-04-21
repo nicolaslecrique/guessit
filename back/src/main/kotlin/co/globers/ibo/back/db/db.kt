@@ -42,16 +42,15 @@ class Db(iboConfig: IboConfig) {
 
     }
 
-    private fun <T> withContext(query: (DSLContext) -> T): Mono<T> {
+    private fun <T> withContext(query: (DSLContext) -> T): T {
 
         DriverManager.getConnection(dbConfig.url, connectionInfos).use {connection ->
             val context = DSL.using(connection, SQLDialect.POSTGRES)
-            val result: T = query(context)
-            return Mono.just(result)
+            return query(context)
         }
     }
 
-    private fun <T> withTransactionContext(query: (DSLContext) -> T): Mono<T> {
+    private fun <T> withTransactionContext(query: (DSLContext) -> T): T {
         return withContext { context ->
             context.transactionResult { transConfig ->
                 val transactionContext = DSL.using(transConfig)
@@ -60,13 +59,13 @@ class Db(iboConfig: IboConfig) {
         }
     }
 
-    fun insertUser(userUri: String): Mono<Int> {
+    fun insertUser(userUri: String): Int {
         return withContext { context ->
             context.insertInto(Tables.USER, Tables.USER.URI).values(userUri).execute()
         }
     }
 
-    fun insertGameSession(gameSessionUri: String, userUri: String, entityGuessingUriToEntityToGuessId: Map<String,Int>): Mono<Int> {
+    fun insertGameSession(gameSessionUri: String, userUri: String, entityGuessingUriToEntityToGuessId: Map<String,Int>): Int {
         return withTransactionContext { context ->
 
             // 1) Insert Game session
@@ -100,7 +99,7 @@ class Db(iboConfig: IboConfig) {
     }
 
 
-    fun selectRandomEntitiesToGuess(nbEntities: Int): Mono<List<EntityToGuess>> {
+    fun selectRandomEntitiesToGuess(nbEntities: Int): List<EntityToGuess> {
 
         return withContext {context ->
 
@@ -123,7 +122,7 @@ class Db(iboConfig: IboConfig) {
         }
     }
 
-    fun selectGuessedEntitiesUris(entityGuessingUri: String): Mono<List<String>> {
+    fun selectGuessedEntitiesUris(entityGuessingUri: String): List<String> {
         return withContext { context ->
             context
                     .select(Tables.ENTITY_TO_GUESS.URI)
@@ -142,7 +141,7 @@ class Db(iboConfig: IboConfig) {
             entityGuessingSentenceUri: String,
             guessedEntityUri: String,
             sentence: String
-    ): Mono<Int> {
+    ): Int {
 
         return withContext { context ->
 
@@ -170,7 +169,7 @@ class Db(iboConfig: IboConfig) {
         }
     }
 
-    fun selectEntityName(entityUri: String): Mono<String> {
+    fun selectEntityName(entityUri: String): String {
         return withContext { context ->
             context
                     .select(Tables.ENTITY_TO_GUESS.NAME)
