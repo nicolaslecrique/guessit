@@ -43,6 +43,7 @@ class Db(iboConfig: IboConfig) {
     }
 
     private fun <T> withContext(query: (DSLContext) -> T): Mono<T> {
+
         DriverManager.getConnection(dbConfig.url, connectionInfos).use {connection ->
             val context = DSL.using(connection, SQLDialect.POSTGRES)
             val result: T = query(context)
@@ -68,6 +69,7 @@ class Db(iboConfig: IboConfig) {
     fun insertGameSession(gameSessionUri: String, userUri: String, entityGuessingUriToEntityToGuessId: Map<String,Int>): Mono<Int> {
         return withTransactionContext { context ->
 
+            // 1) Insert Game session
             val gameSessionId = context
                     .insertInto(Tables.GAME_SESSION, Tables.GAME_SESSION.URI, Tables.GAME_SESSION.USER_ID)
                     .select(
@@ -80,8 +82,14 @@ class Db(iboConfig: IboConfig) {
                     .fetchOne()
                     .value1()
 
+            // 2) insert entity guessings
             var insertQuery = context
-                    .insertInto(Tables.ENTITY_GUESSING, Tables.ENTITY_GUESSING.URI, Tables.ENTITY_GUESSING.GAME_SESSION_ID, Tables.ENTITY_GUESSING.ENTITY_TO_GUESS_ID)
+                    .insertInto(
+                            Tables.ENTITY_GUESSING,
+                            Tables.ENTITY_GUESSING.URI,
+                            Tables.ENTITY_GUESSING.GAME_SESSION_ID,
+                            Tables.ENTITY_GUESSING.ENTITY_TO_GUESS_ID
+                    )
 
             entityGuessingUriToEntityToGuessId.forEach { (entityGuessingUri, entityToGuessId) ->
                 insertQuery = insertQuery.values(entityGuessingUri, gameSessionId, entityToGuessId)
