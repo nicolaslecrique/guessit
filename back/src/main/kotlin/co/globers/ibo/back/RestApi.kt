@@ -3,8 +3,10 @@ package co.globers.ibo.back
 import co.globers.ibo.back.db.Db
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.CrossOrigin
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
 
@@ -85,6 +87,8 @@ class RestApi(
         return PostEntityGuessingSentencesResult(guessedEntityUri, guessedEntityName)
     }
 
+
+    /*
     data class GetGameSessionResultResult(
             val entityGuessingSessions: List<EntityGuessing>
     ) {
@@ -95,13 +99,15 @@ class RestApi(
     }
 
     @GetMapping("/game_session_result")
-    fun getGameSessionResult(@RequestParam gameSessionUri: String): Mono<GetGameSessionResultResult> {
+    fun getGameSessionResult(@RequestParam gameSessionUri: String): GetGameSessionResultResult {
 
         //val result: Map<String,String> = db.selectEntityNameToGuessAndGuessed(gameSessionUri)
 
 
         return Mono.empty();
     }
+    */
+
 
 
 }

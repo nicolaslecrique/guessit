@@ -181,6 +181,7 @@ class Db(iboConfig: IboConfig) {
     }
 
 
+    /*
     fun selectEntityNameToGuessAndGuessed(gameSessionUri: String): Mono<Map<String, String>> {
 
         return withContext { context ->
@@ -239,6 +240,8 @@ class Db(iboConfig: IboConfig) {
 
 
     }
+    */
+
 
 
 }
