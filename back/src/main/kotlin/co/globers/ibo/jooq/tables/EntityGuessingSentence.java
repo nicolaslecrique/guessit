@@ -40,7 +40,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class EntityGuessingSentence extends TableImpl<Record> {
 
-    private static final long serialVersionUID = -1304175;
+    private static final long serialVersionUID = 1679409825;
 
     /**
      * The reference instance of <code>ibo_back.entity_guessing_sentence</code>
@@ -74,6 +74,11 @@ public class EntityGuessingSentence extends TableImpl<Record> {
      * The column <code>ibo_back.entity_guessing_sentence.sentence</code>.
      */
     public final TableField<Record, String> SENTENCE = createField(DSL.name("sentence"), org.jooq.impl.SQLDataType.VARCHAR(2046).nullable(false), this, "");
+
+    /**
+     * The column <code>ibo_back.entity_guessing_sentence.guessed_entity_id</code>.
+     */
+    public final TableField<Record, Integer> GUESSED_ENTITY_ID = createField(DSL.name("guessed_entity_id"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>ibo_back.entity_guessing_sentence.creation_datetime</code>.
@@ -135,11 +140,15 @@ public class EntityGuessingSentence extends TableImpl<Record> {
 
     @Override
     public List<ForeignKey<Record, ?>> getReferences() {
-        return Arrays.<ForeignKey<Record, ?>>asList(Keys.ENTITY_GUESSING_SENTENCE__ENTITY_GUESSING_SENTENCE_ENTITY_GUESSING_ID_FKEY);
+        return Arrays.<ForeignKey<Record, ?>>asList(Keys.ENTITY_GUESSING_SENTENCE__ENTITY_GUESSING_SENTENCE_ENTITY_GUESSING_ID_FKEY, Keys.ENTITY_GUESSING_SENTENCE__ENTITY_GUESSING_SENTENCE_GUESSED_ENTITY_ID_FKEY);
     }
 
     public EntityGuessing entityGuessing() {
         return new EntityGuessing(this, Keys.ENTITY_GUESSING_SENTENCE__ENTITY_GUESSING_SENTENCE_ENTITY_GUESSING_ID_FKEY);
+    }
+
+    public EntityToGuess entityToGuess() {
+        return new EntityToGuess(this, Keys.ENTITY_GUESSING_SENTENCE__ENTITY_GUESSING_SENTENCE_GUESSED_ENTITY_ID_FKEY);
     }
 
     @Override
