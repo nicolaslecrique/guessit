@@ -87,8 +87,6 @@ class RestApi(
         return PostEntityGuessingSentencesResult(guessedEntityUri, guessedEntityName)
     }
 
-
-    /*
     data class GetGameSessionResultResult(
             val entityGuessingSessions: List<EntityGuessing>
     ) {
@@ -97,16 +95,15 @@ class RestApi(
                 val entityGuessedName: String
         )
     }
-
     @GetMapping("/game_session_result")
     fun getGameSessionResult(@RequestParam gameSessionUri: String): GetGameSessionResultResult {
+        val results = db.selectGameResults(gameSessionUri)
 
-        //val result: Map<String,String> = db.selectEntityNameToGuessAndGuessed(gameSessionUri)
-
-
-        return Mono.empty();
+        return GetGameSessionResultResult(
+                results.map { GetGameSessionResultResult.EntityGuessing(it.entityToGuessName, it.entityGuessedName) }
+        )
     }
-    */
+
 
 
 

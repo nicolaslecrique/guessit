@@ -7,7 +7,6 @@ import org.jooq.SQLDialect
 import org.jooq.impl.DSL
 import org.jooq.impl.DSL.inline
 import org.springframework.stereotype.Repository
-import reactor.core.publisher.Mono
 import java.sql.DriverManager
 import java.sql.Timestamp
 import java.util.*
@@ -181,67 +180,64 @@ class Db(iboConfig: IboConfig) {
     }
 
 
-    /*
-    fun selectEntityNameToGuessAndGuessed(gameSessionUri: String): Mono<Map<String, String>> {
+    data class DbPlayedEntity(
+            val entityToGuessUri: String,
+            val entityToGuessName: String,
+            val entityGuessedUri: String,
+            val entityGuessedName: String
+    )
+
+    fun selectGameResults(gameSessionUri: String): List<DbPlayedEntity> {
 
         return withContext { context ->
-
-            val entityGuessingUri = "EntityGuessingUri"
-
-            val entityToGuessName = context
-                    .select(Tables.ENTITY_TO_GUESS.NAME)
-                    .from(Tables.ENTITY_TO_GUESS)
-                    .join(Tables.ENTITY_GUESSING).on(Tables.ENTITY_GUESSING.ENTITY_TO_GUESS_ID.equal(Tables.ENTITY_TO_GUESS.ID))
-                    .where(Tables.ENTITY_GUESSING.URI.equal(entityGuessingUri))
-
-            val tableEntityToGuessGuessed = Tables.ENTITY_TO_GUESS.`as`("entityToGuessGuessed")
-            val entityGuessedName = context
-                    .select(tableEntityToGuessGuessed.NAME)
-                    .from(tableEntityToGuessGuessed)
-                    .join(Tables.ENTITY_GUESSING_SENTENCE).on(Tables.ENTITY_GUESSING_SENTENCE.GUESSED_ENTITY_ID.equal(tableEntityToGuessGuessed.ID))
-                    .where(Tables.ENTITY_GUESSING.URI.equal(entityGuessingUri))
-                    .and(Tables.ENTITY_GUESSING_SENTENCE.ENTITY_GUESSING_ID.equal(Tables.ENTITY_GUESSING.ID))
+            val playedEntityGuessingIds = context
+                    .select(Tables.ENTITY_GUESSING.ID, DSL.count().`as`("count") )
+                    .from(Tables.ENTITY_GUESSING)
+                    .join(Tables.GAME_SESSION).on(Tables.GAME_SESSION.ID.eq(Tables.ENTITY_GUESSING.GAME_SESSION_ID))
+                    .join(Tables.ENTITY_GUESSING_SENTENCE).on(Tables.ENTITY_GUESSING_SENTENCE.ENTITY_GUESSING_ID.eq(Tables.ENTITY_GUESSING.ID))
+                    .where(Tables.GAME_SESSION.URI.eq(gameSessionUri))
+                    .groupBy(Tables.ENTITY_GUESSING.ID)
+                    .fetch()
+                    .filter { r -> r.get("count") as Int > 0 }
+                    .map { r -> r.get(Tables.ENTITY_GUESSING.ID) }
 
 
+            playedEntityGuessingIds.map { entityGuessingId ->
 
-            // return max creation date for an entityGuessingUri
-            val maxCreationDate = context
-                    .select(DSL.max(Tables.ENTITY_GUESSING_SENTENCE.CREATION_DATETIME))
-                    .from(Tables.ENTITY_GUESSING_SENTENCE)
-                    .join(Tables.ENTITY_GUESSING).on(Tables.ENTITY_GUESSING.ID.eq(Tables.ENTITY_GUESSING_SENTENCE.ENTITY_GUESSING_ID))
-                    .where(Tables.ENTITY_GUESSING.URI.eq(entityGuessingUri))
+                val entityToGuess = context.
+                        select(Tables.ENTITY_TO_GUESS.URI, Tables.ENTITY_TO_GUESS.NAME)
+                        .from(Tables.ENTITY_TO_GUESS)
+                        .join(Tables.ENTITY_GUESSING).on(Tables.ENTITY_GUESSING.ENTITY_TO_GUESS_ID.eq(Tables.ENTITY_TO_GUESS.ID))
+                        .where(Tables.ENTITY_GUESSING.ID.eq(entityGuessingId))
+                        .fetchOne()
 
-            // return entity guessed in the last sentence of an entityGuessingUri
-            val entityIdGuessedWithMaxDate = context
-                    .select(Tables.ENTITY_GUESSING_SENTENCE.GUESSED_ENTITY_ID)
-                    .from(Tables.ENTITY_GUESSING_SENTENCE)
-                    .join(Tables.ENTITY_GUESSING).on(Tables.ENTITY_GUESSING.ID.eq(Tables.ENTITY_GUESSING_SENTENCE.ENTITY_GUESSING_ID))
-                    .where(Tables.ENTITY_GUESSING.URI.eq(entityGuessingUri))
-                    .and(Tables.ENTITY_GUESSING_SENTENCE.CREATION_DATETIME.eq(maxCreationDate))
+                val entityGuessed = context.
+                        select(Tables.ENTITY_TO_GUESS.URI, Tables.ENTITY_TO_GUESS.NAME)
+                        .from(Tables.ENTITY_TO_GUESS)
+                        .where(Tables.ENTITY_TO_GUESS.ID.eq(
+                                context.
+                                select(Tables.ENTITY_GUESSING_SENTENCE.GUESSED_ENTITY_ID)
+                                        .from(Tables.ENTITY_GUESSING_SENTENCE)
+                                        .where(Tables.ENTITY_GUESSING_SENTENCE.ENTITY_GUESSING_ID.eq(entityGuessingId))
+                                        .and(
+                                                Tables.ENTITY_GUESSING_SENTENCE.CREATION_DATETIME.eq(context
+                                                        .select(DSL.max(Tables.ENTITY_GUESSING_SENTENCE.CREATION_DATETIME))
+                                                        .from(Tables.ENTITY_GUESSING_SENTENCE)
+                                                        .where(Tables.ENTITY_GUESSING_SENTENCE.ENTITY_GUESSING_ID.eq(entityGuessingId))
+                                                )
+                                        ))
+                        )
+                        .fetchOne()
 
+                DbPlayedEntity(
+                        entityToGuess.get(Tables.ENTITY_TO_GUESS.URI),
+                        entityToGuess.get(Tables.ENTITY_TO_GUESS.NAME),
+                        entityGuessed.get(Tables.ENTITY_TO_GUESS.URI),
+                        entityGuessed.get(Tables.ENTITY_TO_GUESS.NAME)
+                )
+            }
 
-            // return entity name from entityId
-            val entityNameGuessed = context
-                    .select(Tables.ENTITY_TO_GUESS.NAME)
-                    .from(Tables.ENTITY_TO_GUESS)
-                    .where(Tables.ENTITY_TO_GUESS.ID.eq(entityIdGuessedWithMaxDate))
-
-
-
-            // pour un groupe de sentence, retourn le max
-
-
-
-            // idées:
-
-
-            mapOf()
         }
-
-
     }
-    */
-
-
 
 }
