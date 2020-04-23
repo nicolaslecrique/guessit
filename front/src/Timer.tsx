@@ -1,14 +1,18 @@
 import React from 'react'
 
 
+type TimerProps = {
+  onFinish: () => void
+}
+
 type TimerState = {
   timeLeft: number
 }
   
-class Timer extends React.Component<{}, TimerState> {
+class Timer extends React.Component<TimerProps, TimerState> {
   timerId!: NodeJS.Timeout
 
-  constructor(props: {}) {
+  constructor(props: TimerProps) {
     super(props);
     this.state = {
       timeLeft: 30
@@ -27,6 +31,8 @@ class Timer extends React.Component<{}, TimerState> {
     this.setState({ timeLeft: this.state.timeLeft - 1 })
     if (this.state.timeLeft === 0) {
       clearInterval(this.timerId)
+
+      this.props.onFinish()
     }
   }
 

@@ -3,9 +3,10 @@ import { Link, Redirect } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import Base from './Base'
 import ChooseEntity from './ChooseEntity'
-import { Discussion, MessageProps } from './Common'
+import { Discussion, MessageProps } from './Discussion'
 import Timer from './Timer'
 import { Entity, GameSession, postUser, postEntityGuessingSentences, postGameSession } from './BackRestService'
+import { scoreRoute } from './Routing'
 
 
 // TODO bind/class field function/arrow function
@@ -50,11 +51,12 @@ class Board extends React.Component<{}, BoardState> {
     }
   }
 
-  componentDidMount() {
-    this.initUser().then(userUri => this.initGameSession(userUri))
+  async componentDidMount(): Promise<void> {
+    const userUri = await this.initUser()
+    this.initGameSession(userUri)
   }
 
-  nextEntity() {
+  nextEntity(): void {
     const entities = this.state.gameSession.entitiesToGuess.slice()
     const entity = entities.shift()
 
@@ -71,13 +73,13 @@ class Board extends React.Component<{}, BoardState> {
     }
   }
 
-  startRound() {
+  startRound(): void {
     this.setState({
       playState: PlayState.Play,
     })
   }
 
-  nextRound() {
+  nextRound(): void {
     this.nextEntity()
     this.setState({
       playState: PlayState.ChooseEntity,
@@ -87,7 +89,7 @@ class Board extends React.Component<{}, BoardState> {
     })
   }
 
-  entityGuessed(entityName: string) {
+  entityGuessed(entityName: string): void {
     let message = entityName
     let newPlayState = this.state.playState
     if (entityName === this.state.entity.entityName) {
@@ -104,7 +106,7 @@ class Board extends React.Component<{}, BoardState> {
     })
   }
 
-  sendMessage() {
+  sendMessage(): void {
     let messages = this.state.messages.slice()
 
     let entityToGuessUri = this.state.entity.entityUri
@@ -121,7 +123,7 @@ class Board extends React.Component<{}, BoardState> {
     })
   }
 
-  async initUser() {
+  async initUser(): Promise<string> {
     let userUri = Cookies.get("userUri")
     if (!userUri) {
       userUri = await postUser()
@@ -136,7 +138,7 @@ class Board extends React.Component<{}, BoardState> {
     return userUri
   }
 
-  async initGameSession(userUri: string) {
+  async initGameSession(userUri: string): Promise<void> {
     let gameSession = await postGameSession(userUri)
 
     const entity = gameSession.entitiesToGuess.shift()
@@ -149,16 +151,17 @@ class Board extends React.Component<{}, BoardState> {
     }
   }
 
-  guessEntity(entityToGuessUri: string, entityGuessingUri: string, previousSentences: string[], newSentence: string) {
-    postEntityGuessingSentences(entityToGuessUri, entityGuessingUri, previousSentences, newSentence)
-    .then(
-      (guessedEntity) => {
-        this.entityGuessed(guessedEntity.guessedEntityName)
-      }
-    )
+  async guessEntity(
+    entityToGuessUri: string, 
+    entityGuessingUri: string, 
+    previousSentences: string[], 
+    newSentence: string): Promise<void> {
+    
+    const guessedEntity = await postEntityGuessingSentences(entityToGuessUri, entityGuessingUri, previousSentences, newSentence)
+    this.entityGuessed(guessedEntity.guessedEntityName)
   }
 
-  renderChooseEntity() {
+  renderChooseEntity(): JSX.Element {
     return (
       <ChooseEntity
         entityName={this.state.entity.entityName}
@@ -169,11 +172,11 @@ class Board extends React.Component<{}, BoardState> {
     )
   }
 
-  renderPlaying() {
+  renderPlaying(): JSX.Element {
     return (
       <Base>
         <div>
-          <b>{this.state.entity.entityName}</b> | <Timer/> | <button onClick={() => {this.nextRound()}}>Skip</button>
+          <b>{this.state.entity.entityName}</b> | <Timer onFinish={() => this.setState({playState: PlayState.EndOfRound})}/> | <button onClick={() => {this.nextRound()}}>Skip</button>
         </div>
         <br/>
         <Discussion messages={this.state.messages}/>
@@ -189,11 +192,11 @@ class Board extends React.Component<{}, BoardState> {
     )
   }
 
-  renderEndOfRound() {
+  renderEndOfRound(): JSX.Element {
     let button
     // If it's the last round
     if (this.state.remainingRounds === 1) {
-      button = <Link to={"/score/" + this.state.gameSession.gameSessionUri} ><button>Score</button></Link>
+      button = <Link to={scoreRoute(this.state.gameSession.gameSessionUri)} ><button>Score</button></Link>
     } else {
       button = <button onClick={() => {this.nextRound()}}>Next round</button>
     }
@@ -211,13 +214,13 @@ class Board extends React.Component<{}, BoardState> {
     )
   }
 
-  render() {
+  render(): JSX.Element {
     switch(this.state.playState) { 
       case PlayState.ChooseEntity: { 
         if (this.state.remainingRounds !== 0) {
           return this.renderChooseEntity()
         } else {
-          return <Redirect to="/score" />
+          return <Redirect to={scoreRoute(this.state.gameSession.gameSessionUri)} />
         }
       } 
       case PlayState.Play: { 
@@ -227,8 +230,9 @@ class Board extends React.Component<{}, BoardState> {
         return this.renderEndOfRound()
       }
       default: {
-        break
-      } 
+        // TODO Add an exception
+        return (<div></div>)
+      }
     }
   }
 }
