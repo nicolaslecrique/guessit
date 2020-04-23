@@ -41,7 +41,7 @@ class Score extends React.Component<ScoreProps, ScoreState> {
       <Base>
         {
           this.state.gameSessionResult.entityGuessingSessions.map(
-            entityGuessing => {return (<div>{entityGuessing.entityToGuessName} | {entityGuessing.entityGuessedName}</div>)}
+            (entityGuessing, index) => {return (<div key={index}>{entityGuessing.entityToGuessName} | {entityGuessing.entityGuessedName}</div>)}
           )
         }
         <br/>
