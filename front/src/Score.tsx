@@ -2,6 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import Base from './Base'
 import { GameSessionResult, getGameSessionResult } from './BackRestService'
+import { boardRoute } from './Routing'
+
 
 type ScoreProps = {
   match: {
@@ -25,7 +27,7 @@ class Score extends React.Component<ScoreProps, ScoreState> {
     }
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     const gameSessionUri = this.props.match.params.gameSessionUri;
     if (gameSessionUri) {
       getGameSessionResult(gameSessionUri).then(
@@ -34,7 +36,7 @@ class Score extends React.Component<ScoreProps, ScoreState> {
     }
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <Base>
         {
@@ -43,7 +45,7 @@ class Score extends React.Component<ScoreProps, ScoreState> {
           )
         }
         <br/>
-        <Link to="/board"><button>Let's play again !</button></Link>
+        <Link to={boardRoute}><button>Let's play again !</button></Link>
       </Base>
     )
   }

@@ -15,22 +15,22 @@ class Timer extends React.Component<{}, TimerState> {
     }
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.timerId = setInterval(() => this.onTimer(), 1000)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     clearInterval(this.timerId)
   }
 
-  onTimer() {
+  onTimer(): void {
     this.setState({ timeLeft: this.state.timeLeft - 1 })
     if (this.state.timeLeft === 0) {
       clearInterval(this.timerId)
     }
   }
 
-  render() {
+  render(): JSX.Element {
     return (<span>{this.state.timeLeft} second(s) left</span>)
   }
 }

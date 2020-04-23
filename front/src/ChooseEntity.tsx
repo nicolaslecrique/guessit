@@ -1,14 +1,14 @@
 import React from 'react'
 import Base from './Base'
 
-export type ChooseEntityProps = { 
+type ChooseEntityProps = { 
   entityName: string,
   remainingRounds: number,
   onClickGo: () => void,
   onClickPass: () => void
 }
 
-function ChooseEntity({ entityName, remainingRounds, onClickGo, onClickPass }: ChooseEntityProps) {
+function ChooseEntity({ entityName, remainingRounds, onClickGo, onClickPass }: ChooseEntityProps): JSX.Element {
   return (
     <Base>
       <div>

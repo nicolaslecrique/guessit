@@ -1,10 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Base from './Base'
-import { Discussion, MessageProps } from './Common'
+import { Discussion, MessageProps } from './Discussion'
+import { boardRoute } from './Routing'
 
 
-function Intro() {
+function Intro(): JSX.Element {
   let messages: MessageProps[] = [
     { author: "Human", message: "It's a robot" },
     { author: "AI", message: "Wall-E ?" },
@@ -19,7 +20,7 @@ function Intro() {
       <br/>
       <Discussion messages={messages}/>
       <br/>
-      <Link to="/board"><button>Let's play !</button></Link>
+      <Link to={boardRoute}><button>Let's play !</button></Link>
     </Base>
   )
 }

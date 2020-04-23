@@ -23,7 +23,15 @@ export type GameSessionResult = {
     entityGuessingSessions: EntityGuessing[]
 }
 
-async function doPostRequest(path: string, body: any = {}) {
+async function doGetRequest(pathAndParams: string): Promise<any> {
+  const response = await fetch(`${process.env.REACT_APP_BACK_URL}/${pathAndParams}`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  })
+  return await response.json()
+}
+
+async function doPostRequest(path: string, body: any = {}): Promise<any> {
   const response = await fetch(`${process.env.REACT_APP_BACK_URL}/${path}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -32,17 +40,22 @@ async function doPostRequest(path: string, body: any = {}) {
   return await response.json()
 }
 
-export async function postUser() {
+export async function postUser(): Promise<string> {
   const json: { userUri: string } = await doPostRequest('user')
   return json.userUri
 }
 
-export async function postGameSession(userUri: string) {
+export async function postGameSession(userUri: string): Promise<GameSession> {
   const gameSession: GameSession = await doPostRequest('game_session', { userUri: userUri })
   return gameSession
 }
 
-export async function postEntityGuessingSentences(entityToGuessUri: string, entityGuessingUri: string, previousSentences: string[], newSentence: string) {
+export async function postEntityGuessingSentences(
+  entityToGuessUri: string, 
+  entityGuessingUri: string, 
+  previousSentences: string[], 
+  newSentence: string): Promise<GuessedEntity> {
+    
   const body = {
     entityToGuessUri: entityToGuessUri, 
     entityGuessingUri: entityGuessingUri, 
@@ -53,11 +66,7 @@ export async function postEntityGuessingSentences(entityToGuessUri: string, enti
   return guessedEntity
 }
 
-export async function getGameSessionResult(gameSessionUri: string) {
-  const response = await fetch(`${process.env.REACT_APP_BACK_URL}/game_session_result?gameSessionUri=${gameSessionUri}`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-  })
-  const gameSessionResult: GameSessionResult = await response.json()
+export async function getGameSessionResult(gameSessionUri: string): Promise<GameSessionResult> {
+  const gameSessionResult: GameSessionResult = await doGetRequest(`game_session_result?gameSessionUri=${gameSessionUri}`)
   return gameSessionResult
 }
