@@ -4,6 +4,7 @@ import About from './About'
 import Intro from './Intro'
 import Board from './Board'
 import Score from './Score'
+import Base from './Base'
 
 
 const scoreRoutePattern = "/score/:gameSessionUri"
@@ -16,9 +17,11 @@ export const scoreRoute = (gameSessionUri: string): string =>  `/score/${gameSes
 
 export const routing = (
   <Router>
-    <Route exact path={homeRoute} component={Intro}></Route>
-    <Route path={aboutRoute} component={About}></Route>
-    <Route path={boardRoute} component={Board}></Route>
-    <Route path={scoreRoutePattern} component={Score}></Route>
+    <Base>
+      <Route exact path={homeRoute} component={Intro}></Route>
+      <Route path={aboutRoute} component={About}></Route>
+      <Route path={boardRoute} component={Board}></Route>
+      <Route path={scoreRoutePattern} component={Score}></Route>
+    </Base>
   </Router>
 )

@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Base from './Base'
 import { Discussion, MessageProps } from './Discussion'
 import { boardRoute } from './Routing'
 
@@ -15,13 +14,13 @@ function Intro(): JSX.Element {
     { author: "AI", message: "C3PO !" },
   ]
   return (
-    <Base>
+    <div>
       <div>Can an AI guess what you are talking about ?</div>
       <br/>
       <Discussion messages={messages}/>
       <br/>
       <Link to={boardRoute}><button>Let's play !</button></Link>
-    </Base>
+    </div>
   )
 }
 

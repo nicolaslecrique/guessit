@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import Cookies from 'js-cookie'
-import Base from './Base'
 import ChooseEntity from './ChooseEntity'
 import { Discussion, MessageProps } from './Discussion'
 import Timer from './Timer'
@@ -174,7 +173,7 @@ class Board extends React.Component<{}, BoardState> {
 
   renderPlaying(): JSX.Element {
     return (
-      <Base>
+      <div>
         <div>
           <b>{this.state.entity.entityName}</b> | <Timer onFinish={() => this.setState({playState: PlayState.EndOfRound})}/> | <button onClick={() => {this.nextRound()}}>Skip</button>
         </div>
@@ -188,7 +187,7 @@ class Board extends React.Component<{}, BoardState> {
           <input type="text" value={this.state.typedMessage} onChange={(event) => {this.setState({ typedMessage: event.target.value })}}></input>
           <button>Send</button>
         </form>
-      </Base>
+      </div>
     )
   }
 
@@ -202,7 +201,7 @@ class Board extends React.Component<{}, BoardState> {
     }
 
     return (
-      <Base>
+      <div>
         <div>
           <b>{this.state.entity.entityName}</b>
         </div>
@@ -210,7 +209,7 @@ class Board extends React.Component<{}, BoardState> {
         <Discussion messages={this.state.messages}/>
         <br/>
         {button}
-      </Base>
+      </div>
     )
   }
 
@@ -225,13 +224,12 @@ class Board extends React.Component<{}, BoardState> {
       } 
       case PlayState.Play: { 
         return this.renderPlaying()
-      } 
+      }
       case PlayState.EndOfRound: { 
         return this.renderEndOfRound()
       }
       default: {
-        // TODO Add an exception
-        return (<div></div>)
+        throw new Error(`Unmanaged PlayState: ${this.state.playState}`)
       }
     }
   }

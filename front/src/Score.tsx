@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Base from './Base'
 import { GameSessionResult, getGameSessionResult } from './BackRestService'
 import { boardRoute } from './Routing'
 
@@ -38,7 +37,7 @@ class Score extends React.Component<ScoreProps, ScoreState> {
 
   render(): JSX.Element {
     return (
-      <Base>
+      <div>
         {
           this.state.gameSessionResult.entityGuessingSessions.map(
             (entityGuessing, index) => {return (<div key={index}>{entityGuessing.entityToGuessName} | {entityGuessing.entityGuessedName}</div>)}
@@ -46,7 +45,7 @@ class Score extends React.Component<ScoreProps, ScoreState> {
         }
         <br/>
         <Link to={boardRoute}><button>Let's play again !</button></Link>
-      </Base>
+      </div>
     )
   }
 }
