@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Discussion, MessageProps } from './Discussion'
-import { boardRoute } from './Routing'
+import { boardRoute } from '../core/Routing'
 
 
 function Intro(): JSX.Element {

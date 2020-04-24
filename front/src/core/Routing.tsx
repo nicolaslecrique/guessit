@@ -1,10 +1,10 @@
 import React from 'react'
 import { Route, BrowserRouter as Router } from 'react-router-dom'
-import About from './About'
-import Intro from './Intro'
-import Board from './Board'
-import Score from './Score'
-import Base from './Base'
+import About from '../component/About'
+import Intro from '../component/Intro'
+import Board from '../component/Board'
+import Score from '../component/Score'
+import Base from '../component/Base'
 
 
 const scoreRoutePattern = "/score/:gameSessionUri"

@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom'
 import * as serviceWorker from './serviceWorker'
-import { routing } from './Routing'
-import './index.css'
+import { routing } from './core/Routing'
+import './style/index.css'
 
 
 ReactDOM.render(routing, document.getElementById('root'))

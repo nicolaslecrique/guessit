@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { GameSessionResult, getGameSessionResult } from './BackRestService'
-import { boardRoute } from './Routing'
+import { GameSessionResult, getGameSessionResult } from '../service/BackRestService'
+import { boardRoute } from '../core/Routing'
 
 
 type ScoreProps = {

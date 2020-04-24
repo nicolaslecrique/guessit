@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Discussion, MessageProps } from './Discussion'
 import Timer from './Timer'
-import { scoreRoute } from './Routing'
+import { scoreRoute } from '../core/Routing'
 
 
 type PlayingProps = {

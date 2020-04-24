@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { aboutRoute } from './Routing'
+import { aboutRoute } from '../core/Routing'
 
 
 type BaseProps = {
