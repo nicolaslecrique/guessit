@@ -1,24 +1,12 @@
 import React from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import ChooseEntity from './ChooseEntity'
-import { Discussion, MessageProps } from './Discussion'
-import Timer from './Timer'
+import { MessageProps } from './Discussion'
 import { Entity, GameSession, postUser, postEntityGuessingSentences, postGameSession } from './BackRestService'
 import { scoreRoute } from './Routing'
+import Playing from './Playing'
 
-
-// TODO bind/class field function/arrow function
-// It seems that arrow function "() => ..." is less efficient than binding.
-// https://reactjs.org/docs/handling-events.html
-
-// TODO
-// Handling errors in the second parameter of then method (Bellow a copy/past of React documentation).
-// Note: it's important to handle errors here
-// instead of a catch() block so that we don't swallow
-// exceptions from actual bugs in components.
-
-// TODO Should we use hooks ?
 
 enum PlayState {
   ChooseEntity,
@@ -31,6 +19,7 @@ type BoardState = {
   userUri: string,
   gameSession: GameSession,
   entity: Entity,
+  noMoreEntitiesToChoose: boolean,
   remainingRounds: number
   messages: MessageProps[],
   typedMessage: string
@@ -44,6 +33,7 @@ class Board extends React.Component<{}, BoardState> {
       userUri: "",
       gameSession: { gameSessionUri: "", entitiesToGuess: [] },
       entity: { entityUri: "", entityGuessingUri: "", entityName: ""},
+      noMoreEntitiesToChoose: false,
       remainingRounds: 3,
       messages: [],
       typedMessage: "",
@@ -69,6 +59,10 @@ class Board extends React.Component<{}, BoardState> {
         gameSession: gameSession,
         entity: entity
       })
+    } else {
+      this.setState({
+        noMoreEntitiesToChoose: true
+      })   
     }
   }
 
@@ -160,73 +154,39 @@ class Board extends React.Component<{}, BoardState> {
     this.entityGuessed(guessedEntity.guessedEntityName)
   }
 
-  renderChooseEntity(): JSX.Element {
-    return (
-      <ChooseEntity
-        entityName={this.state.entity.entityName}
-        remainingRounds={this.state.remainingRounds}
-        onClickGo={() => this.startRound()}
-        onClickPass={() => this.nextEntity()}
-      />
-    )
-  }
-
-  renderPlaying(): JSX.Element {
-    return (
-      <div>
-        <div>
-          <b>{this.state.entity.entityName}</b> | <Timer onFinish={() => this.setState({playState: PlayState.EndOfRound})}/> | <button onClick={() => {this.nextRound()}}>Skip</button>
-        </div>
-        <br/>
-        <Discussion messages={this.state.messages}/>
-        <br/>
-        <form onSubmit={(event) => {
-          event.preventDefault()
-          this.sendMessage()
-        }}>
-          <input type="text" value={this.state.typedMessage} onChange={(event) => {this.setState({ typedMessage: event.target.value })}}></input>
-          <button>Send</button>
-        </form>
-      </div>
-    )
-  }
-
-  renderEndOfRound(): JSX.Element {
-    let button
-    // If it's the last round
-    if (this.state.remainingRounds === 1) {
-      button = <Link to={scoreRoute(this.state.gameSession.gameSessionUri)} ><button>Score</button></Link>
-    } else {
-      button = <button onClick={() => {this.nextRound()}}>Next round</button>
-    }
-
-    return (
-      <div>
-        <div>
-          <b>{this.state.entity.entityName}</b>
-        </div>
-        <br/>
-        <Discussion messages={this.state.messages}/>
-        <br/>
-        {button}
-      </div>
-    )
-  }
-
   render(): JSX.Element {
     switch(this.state.playState) { 
       case PlayState.ChooseEntity: { 
-        if (this.state.remainingRounds !== 0) {
-          return this.renderChooseEntity()
-        } else {
+        if(this.state.remainingRounds > 0 && !this.state.noMoreEntitiesToChoose) {
+          return (
+            <ChooseEntity
+              entityName={this.state.entity.entityName}
+              remainingRounds={this.state.remainingRounds}
+              onClickGo={() => this.startRound()}
+              onClickPass={() => this.nextEntity()}
+            />
+          )
+        }
+        else {
           return <Redirect to={scoreRoute(this.state.gameSession.gameSessionUri)} />
         }
       } 
-      case PlayState.Play: { 
-        return this.renderPlaying()
-      }
-      case PlayState.EndOfRound: { 
-        return this.renderEndOfRound()
+      case PlayState.Play:
+      case PlayState.EndOfRound: {
+        return (
+          <Playing
+            isEndOfRound={this.state.playState !== PlayState.Play}
+            isLastRound={this.state.remainingRounds === 1}
+            gameSessionUri={this.state.gameSession.gameSessionUri}
+            entityName={this.state.entity.entityName}
+            messages={this.state.messages}
+            onEndOfRound={() => this.setState({playState: PlayState.EndOfRound})}
+            onClickNext={() => this.nextRound()}
+            typedMessage={this.state.typedMessage}
+            onChangeTypedMessage={(message: string) =>  this.setState({ typedMessage: message })}
+            onSendMessage={() => this.sendMessage()}
+          />
+        )
       }
       default: {
         throw new Error(`Unmanaged PlayState: ${this.state.playState}`)
