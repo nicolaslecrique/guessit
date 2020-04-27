@@ -1,11 +1,11 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import Cookies from 'js-cookie'
-import ChooseEntity from './ChooseEntity'
-import { MessageProps } from './Discussion'
+import ChooseEntity from '../component/ChooseEntity'
+import { MessageProps } from '../component/Discussion'
 import { Entity, GameSession, postUser, postEntityGuessingSentences, postGameSession } from '../service/BackRestService'
 import { scoreRoute } from '../core/Routing'
-import Playing from './Playing'
+import Playing from '../component/Playing'
 
 
 enum PlayState {

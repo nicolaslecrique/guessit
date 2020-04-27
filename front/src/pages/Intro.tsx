@@ -1,7 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Discussion, MessageProps } from './Discussion'
+import { Discussion, MessageProps } from '../component/Discussion'
 import { boardRoute } from '../core/Routing'
+import {Typography} from "@material-ui/core"
 
 
 function Intro(): JSX.Element {
@@ -15,6 +16,9 @@ function Intro(): JSX.Element {
   ]
   return (
     <div>
+        <Typography variant="h2">
+            Heading H2
+        </Typography>
       <div>Can an AI guess what you are talking about ?</div>
       <br/>
       <Discussion messages={messages}/>
