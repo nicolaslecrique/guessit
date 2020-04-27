@@ -1,7 +1,9 @@
 import React, { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { aboutRoute } from '../core/Routing'
-
+import CssBaseline from "@material-ui/core/CssBaseline"
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import {Typography, Theme} from "@material-ui/core"
 
 type BaseProps = {
   children: React.ReactNode
@@ -10,6 +12,13 @@ type BaseProps = {
 type BaseState = {
   hasError: boolean
 }
+
+
+const theme: Theme = createMuiTheme({
+  typography: {
+    fontSize: 12,
+  }
+});
 
 class Base extends React.Component<BaseProps, BaseState> {
   constructor(props: BaseProps) {
@@ -39,12 +48,17 @@ class Base extends React.Component<BaseProps, BaseState> {
     }
 
     return (
-      <div>
-        <header><h1><Link to="/">Guess it AI !</Link></h1></header>
-        <div>{children}</div>
-        <br/>
-        <footer><Link to={aboutRoute}>About Us</Link></footer>
-      </div>
+        <React.Fragment>
+        <CssBaseline />
+          <ThemeProvider theme={theme}>
+            <div>
+              <header><h1><Link to="/">Guess it AI !</Link></h1></header>
+              <div>{children}</div>
+              <br/>
+              <footer><Link to={aboutRoute}>About Us</Link></footer>
+            </div>
+          </ThemeProvider>
+        </React.Fragment>
     )  
   }
 }
