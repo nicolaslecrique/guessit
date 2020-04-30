@@ -1,10 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Discussion, MessageProps } from '../component/Discussion'
+import { Discussion } from '../component/Discussion'
 import { boardRoute } from '../core/Routing'
 import {Typography} from "@material-ui/core"
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import {MessageProps} from '../component/Message'
 
 
 const demoMessages: MessageProps[] = [
