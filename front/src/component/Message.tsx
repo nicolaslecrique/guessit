@@ -1,5 +1,6 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
+import {Typography} from '@material-ui/core'
 
 
 export enum Author {
@@ -64,7 +65,9 @@ export const Message = ({ author, message}: MessageProps): JSX.Element => {
 
   return <div className={classes.messageContainer}>
     <div className={`${classes.bubble} ${author === Author.AI ? classes.bubbleAi : classes.bubblePlayer}`}>
-      {message}
+      <Typography variant="h5" align="center">
+        {message}
+      </Typography>
     </div>
   </div>
 }
