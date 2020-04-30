@@ -1,8 +1,6 @@
 import React from 'react'
+import {Message, MessageProps} from './Message'
 
-
-export type MessageProps = { author: string, message: string }
-export const Message = ({ author, message}: MessageProps): JSX.Element => <div>{author} : {message}</div>
 
 export type DiscussionProps = { messages: MessageProps[] }
 export function Discussion({ messages }: DiscussionProps): JSX.Element {
