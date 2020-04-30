@@ -16,6 +16,7 @@ type BaseState = {
 
 const theme: Theme = responsiveFontSizes(createMuiTheme({
   typography: {
+
   }
 }));
 
@@ -50,12 +51,7 @@ class Base extends React.Component<BaseProps, BaseState> {
         <React.Fragment>
         <CssBaseline />
           <ThemeProvider theme={theme}>
-            <div>
-              <header><h1><Link to="/">Guess it AI !</Link></h1></header>
-              <div>{children}</div>
-              <br/>
-              <footer><Link to={aboutRoute}>About Us</Link></footer>
-            </div>
+            {children}
           </ThemeProvider>
         </React.Fragment>
     )  
