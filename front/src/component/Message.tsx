@@ -2,21 +2,24 @@ import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import {Typography} from '@material-ui/core'
 
-
 export enum Author {
   Player,
   AI
 }
 
-export type MessageProps = { author: Author, message: string }
+export enum AiConfidence {
+  Thinking,
+  Confident,
+  Sure
+}
+
+export type MessageProps = { author: Author, message: string, aiConfidence: AiConfidence | null }
 
 
 // définir un contour, orientation gauche / droite en fonction du user
 // définir un avatar AI  / Player
 // alignement a gauche / droite en fonction du user
 // définir une type "robot" pour l'AI
-
-
 
 
 
@@ -67,12 +70,30 @@ const useStyles = makeStyles({
   }
 })
 
-export const Message = ({ author, message}: MessageProps): JSX.Element => {
+export const Message = ({ author, message, aiConfidence}: MessageProps): JSX.Element => {
   const classes = useStyles()
+  let emojiPath = ''
+  if (aiConfidence !== null){
+    switch (aiConfidence) {
+      case AiConfidence.Thinking:
+        emojiPath = process.env.PUBLIC_URL + '/img/emoji_thinking.png'
+        break;
+      case AiConfidence.Confident:
+        emojiPath = process.env.PUBLIC_URL + '/img/emoji_smirk.png'
+        break;
+      case AiConfidence.Sure:
+        emojiPath = process.env.PUBLIC_URL + '/img/emoji_happy.png'
+        break;
+
+    }
+  }
+
 
   return <div className={classes.messageContainer}>
 
-    {author === Author.AI && <div className={classes.avatar}></div>}
+    {author === Author.AI && <div className={classes.avatar}>
+        <img width="100%" src={emojiPath} alt="emoji_thinking" />
+    </div>}
 
     <div className={`${classes.bubble} ${author === Author.AI ? classes.bubbleAi : classes.bubblePlayer}`}>
       <Typography variant="subtitle1" align="center">

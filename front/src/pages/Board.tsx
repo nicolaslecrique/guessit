@@ -2,7 +2,7 @@ import React from 'react'
 import {Redirect} from 'react-router-dom'
 import Cookies from 'js-cookie'
 import ChooseEntity from '../component/ChooseEntity'
-import {Author, MessageProps} from '../component/Message'
+import {AiConfidence, Author, MessageProps} from '../component/Message'
 import {Entity, GameSession, postEntityGuessingSentences, postGameSession, postUser} from '../service/BackRestService'
 import {scoreRoute} from '../core/Routing'
 import Playing from '../component/Playing'
@@ -91,7 +91,7 @@ class Board extends React.Component<{}, BoardState> {
     }
 
     let messages = this.state.messages.slice()
-    messages.push({ author: Author.AI, message: message})
+    messages.push({ author: Author.AI, message: message, aiConfidence: AiConfidence.Thinking})
 
     this.setState({
       playState: newPlayState,

@@ -22,7 +22,9 @@ export function Discussion({ messages }: DiscussionProps): JSX.Element {
   const classes = useStyles()
   return (
     <div className={classes.root}>
-      {messages.map((message, index) => {return (<Message key={index} author={message.author} message={message.message}/>)})}
+      {messages.map((message, index) => {
+        return (<Message key={index} author={message.author} message={message.message} aiConfidence={message.aiConfidence}/>)
+      })}
     </div>
   )
 }
