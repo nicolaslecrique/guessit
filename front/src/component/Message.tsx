@@ -23,9 +23,16 @@ export type MessageProps = { author: Author, message: string }
 const useStyles = makeStyles({
   messageContainer: {
     display: 'flex',
-    marginBottom: '8px' // let some space for the arrow below the bubble
+    marginBottom: '8px' // space between messages
   },
-
+  avatar: {
+    background: '#fff',
+    height: '50px',
+    width: '50px',
+    borderRadius: '25px',
+    marginLeft: '2px',
+    marginRight: '2px',
+  },
   bubbleAi: {
     '&:before': {
       left: '16px',
@@ -64,11 +71,16 @@ export const Message = ({ author, message}: MessageProps): JSX.Element => {
   const classes = useStyles()
 
   return <div className={classes.messageContainer}>
+
+    {author === Author.AI && <div className={classes.avatar}></div>}
+
     <div className={`${classes.bubble} ${author === Author.AI ? classes.bubbleAi : classes.bubblePlayer}`}>
-      <Typography variant="h5" align="center">
+      <Typography variant="subtitle1" align="center">
         {message}
       </Typography>
     </div>
+
   </div>
 }
 
+// emojis from https://emojiisland.com/pages/download-new-emoji-icons-in-png-ios-10
