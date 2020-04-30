@@ -1,20 +1,20 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { Discussion } from '../component/Discussion'
-import { boardRoute } from '../core/Routing'
+import {Link} from 'react-router-dom'
+import {Discussion} from '../component/Discussion'
+import {boardRoute} from '../core/Routing'
 import {Typography} from "@material-ui/core"
-import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
-import {MessageProps, Author} from '../component/Message'
+import Button from '@material-ui/core/Button'
+import {makeStyles} from '@material-ui/core/styles'
+import {AiConfidence, Author, MessageProps} from '../component/Message'
 
 
 const demoMessages: MessageProps[] = [
-    { author: Author.Player, message: "It's a robot" },
-    { author: Author.AI, message: "Wall-E ?" },
-    { author: Author.Player, message: "In Star Wars" },
-    { author: Author.AI, message: "R2D2 ?" },
-    { author: Author.Player, message: "The one who talks a lot" },
-    { author: Author.AI, message: "C3PO !" },
+    { author: Author.Player, message: "It's a robot", aiConfidence: null },
+    { author: Author.AI, message: "Wall-E ?", aiConfidence: AiConfidence.Thinking  },
+    { author: Author.Player, message: "In Star Wars", aiConfidence: null  },
+    { author: Author.AI, message: "R2D2 ?", aiConfidence: AiConfidence.Confident  },
+    { author: Author.Player, message: "The one who talks a lot", aiConfidence: null  },
+    { author: Author.AI, message: "C3PO !", aiConfidence: AiConfidence.Sure  },
 ]
 
 const useStyles = makeStyles({
