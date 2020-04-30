@@ -5,16 +5,16 @@ import { boardRoute } from '../core/Routing'
 import {Typography} from "@material-ui/core"
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import {MessageProps} from '../component/Message'
+import {MessageProps, Author} from '../component/Message'
 
 
 const demoMessages: MessageProps[] = [
-    { author: "Human", message: "It's a robot" },
-    { author: "AI", message: "Wall-E ?" },
-    { author: "Human", message: "In Star Wars" },
-    { author: "AI", message: "R2D2 ?" },
-    { author: "Human", message: "The one who talks a lot" },
-    { author: "AI", message: "C3PO !" },
+    { author: Author.Player, message: "It's a robot" },
+    { author: Author.AI, message: "Wall-E ?" },
+    { author: Author.Player, message: "In Star Wars" },
+    { author: Author.AI, message: "R2D2 ?" },
+    { author: Author.Player, message: "The one who talks a lot" },
+    { author: Author.AI, message: "C3PO !" },
 ]
 
 const useStyles = makeStyles({
@@ -57,10 +57,10 @@ function Intro(): JSX.Element {
 
   return (
     <div className={classes.root}>
-        <Typography variant="h1" align="center" className={classes.title}>
+        <Typography variant="h2" align="center" className={classes.title} component="h1">
             Guess It AI!
         </Typography>
-        <Typography variant="h3" align="center" className={classes.subtitle} component="h2">
+        <Typography variant="h4" align="center" className={classes.subtitle} component="h2">
             Can an AI guess what you are talking about ?
         </Typography>
       <div className={classes.discussionContainer}>
