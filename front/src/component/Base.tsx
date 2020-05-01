@@ -1,9 +1,7 @@
 import React, { ReactNode } from 'react'
-import { Link } from 'react-router-dom'
-import { aboutRoute } from '../core/Routing'
 import CssBaseline from "@material-ui/core/CssBaseline"
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import {Typography, Theme, responsiveFontSizes} from "@material-ui/core"
+import {Theme, responsiveFontSizes} from "@material-ui/core"
 
 type BaseProps = {
   children: React.ReactNode
