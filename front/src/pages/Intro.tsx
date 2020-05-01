@@ -30,7 +30,7 @@ const styles = () => createStyles({
     justifyContent: 'space-evenly',
     maxWidth: '720px',
     margin: 'auto',
-    minHeight: '100vh',
+    height: '100vh',
   },
   // linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)'
   // background: '#fffb1e'
