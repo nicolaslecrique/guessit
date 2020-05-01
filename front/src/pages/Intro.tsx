@@ -22,7 +22,7 @@ const demoMessages: MessageProps[] = [
 const styles = () => createStyles({
   root: {
     minHeight: '100vh',
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #fffb1e 90%)'
+    background: 'linear-gradient(160deg,#fd9536,#a42f80 31%,#2c146c 79%)'
   },
   rootContent: {
     display: 'flex',
@@ -36,15 +36,19 @@ const styles = () => createStyles({
   // background: '#fffb1e'
   title: {
     margin: '24px',
-    fontFamily: '\'Permanent Marker\', cursive'
+    fontFamily: '\'Permanent Marker\', cursive',
+    color: "#fff"
   },
   subtitle: {
-    margin: '0px 24px 24px 24px'
+    margin: '0px 24px 24px 24px',
+    color: "#fff",
   },
   playButton: {
     fontFamily: '\'Permanent Marker\', cursive',
     fontSize: '20px',
-    width: '100%'
+    width: '100%',
+    backgroundColor: "#fff",
+    color: "#2c146c"
   },
   playButtonContainer: {
     width: '200px',

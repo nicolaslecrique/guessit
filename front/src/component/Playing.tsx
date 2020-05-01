@@ -18,7 +18,9 @@ type PlayingProps = {
     onChangeTypedMessage: (message: string) => void,
     onSendMessage: () => void
   }
-  
+
+  // todo extract typing bar to display it in intro
+
   function Playing({ isEndOfRound, isLastRound, gameSessionUri, entityName, messages, onEndOfRound, onClickNext, typedMessage, onChangeTypedMessage, onSendMessage }: PlayingProps): JSX.Element {
     let statusBar: JSX.Element
     let bottomBar: JSX.Element
