@@ -2,9 +2,9 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import {Discussion} from '../component/Discussion'
 import {boardRoute} from '../core/Routing'
-import {Typography} from "@material-ui/core"
+import {createStyles, Typography, WithStyles} from "@material-ui/core"
 import Button from '@material-ui/core/Button'
-import {makeStyles} from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles';
 import {AiConfidence, Author, MessageProps} from '../component/Message'
 
 
@@ -17,7 +17,9 @@ const demoMessages: MessageProps[] = [
     { author: Author.AI, message: "C3PO !", aiConfidence: AiConfidence.Sure  },
 ]
 
-const useStyles = makeStyles({
+
+
+const styles = () => createStyles({
   root: {
     minHeight: '100vh',
     background: 'linear-gradient(45deg, #FE6B8B 30%, #fffb1e 90%)'
@@ -50,32 +52,65 @@ const useStyles = makeStyles({
     margin: '24px',
   }
 
-});
+})
 
+type IntroState = {
+  messagesToDisplay: MessageProps[]
+}
+
+interface IProps extends WithStyles<typeof styles> {
+}
 
 // TODO: Faire en sorte que "Discussion" prenne tout l'espace disponible
 // puis si ça depasse ça scroll à l'intérieur de la discussion
 
-function Intro(): JSX.Element {
+class Intro extends React.Component<IProps, IntroState> {
+  private timerId! : NodeJS.Timeout
 
-  const classes = useStyles()
+  constructor(props: IProps) {
+    super(props)
+    this.state = {
+      messagesToDisplay: []
+    }
+  }
 
-  return (
-    <div className={classes.root}>
-      <div className={classes.rootContent}>
-        <Typography variant="h2" align="center" className={classes.title} component="h1">
+  componentDidMount(): void {
+    this.timerId = setInterval(() => this.onTimer(), 1000)
+  }
+
+  componentWillUnmount(): void {
+    clearInterval(this.timerId)
+  }
+
+
+  render(): JSX.Element {
+    const { classes } = this.props;
+
+    return (
+      <div className={classes.root}>
+        <div className={classes.rootContent}>
+          <Typography variant="h2" align="center" className={classes.title} component="h1">
             Guess It AI!
-        </Typography>
-        <Typography variant="h3" align="center" className={classes.subtitle} component="h2">
+          </Typography>
+          <Typography variant="h3" align="center" className={classes.subtitle} component="h2">
             Can an AI guess what you are talking about ?
-        </Typography>
-        <Discussion messages={demoMessages}/>
-        <div className={classes.playButtonContainer}>
-          <Link to={boardRoute}><Button variant="contained" color="primary" className={classes.playButton}>Let's play !</Button></Link>
+          </Typography>
+          <Discussion messages={this.state.messagesToDisplay}/>
+          <div className={classes.playButtonContainer}>
+            <Link to={boardRoute}><Button variant="contained" color="primary" className={classes.playButton}>Let's play
+              !</Button></Link>
+          </div>
         </div>
       </div>
-    </div>
-  )
+    )
+  }
+
+  private onTimer() {
+    const newSize = (this.state.messagesToDisplay.length + 1) % (demoMessages.length + 1)
+    this.setState({
+      messagesToDisplay: demoMessages.slice(0, newSize)
+    })
+  }
 }
 
-export default Intro
+export default withStyles(styles)(Intro)
