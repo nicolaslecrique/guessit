@@ -42,7 +42,7 @@ class Board extends React.Component<{}, BoardState> {
 
   async componentDidMount(): Promise<void> {
     const userUri = await this.initUser()
-    this.initGameSession(userUri)
+    await this.initGameSession(userUri)
   }
 
   nextEntity(): void {
