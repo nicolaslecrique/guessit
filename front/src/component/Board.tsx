@@ -100,20 +100,23 @@ class Board extends React.Component<{}, BoardState> {
   }
 
   sendMessage(): void {
-    let messages = this.state.messages.slice()
+    let newSentence = this.state.typedMessage.trim()
 
-    let entityToGuessUri = this.state.entity.entityUri
-    let entityGuessingUri = this.state.entity.entityGuessingUri
-    let previousSentences = messages.map(message => {return message.message})
-    let newSentence = this.state.typedMessage
+    if (newSentence) {
+      let messages = this.state.messages.slice()
 
-    this.guessEntity(entityToGuessUri, entityGuessingUri, previousSentences, newSentence)
-
-    messages.push({ author: "Human", message: this.state.typedMessage })
-    this.setState({
-      messages: messages,
-      typedMessage: ""  
-    })
+      let entityToGuessUri = this.state.entity.entityUri
+      let entityGuessingUri = this.state.entity.entityGuessingUri
+      let previousSentences = messages.map(message => {return message.message})
+  
+      this.guessEntity(entityToGuessUri, entityGuessingUri, previousSentences, newSentence)
+  
+      messages.push({ author: "Human", message: this.state.typedMessage })
+      this.setState({
+        messages: messages,
+        typedMessage: ""  
+      })
+    }
   }
 
   async initUser(): Promise<string> {

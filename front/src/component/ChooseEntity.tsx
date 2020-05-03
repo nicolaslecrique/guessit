@@ -9,18 +9,22 @@ type ChooseEntityProps = {
 }
 
 function ChooseEntity({ entityName, remainingRounds, onClickGo, onClickPass }: ChooseEntityProps): JSX.Element {
-  return (
-    <div>
-      <div>{remainingRounds} rounds remaining</div>
-      <br/>
-      <div>Describe <b>{entityName}</b> in 30 seconds</div>
-      <br/>
+  if (entityName) {
+    return (
       <div>
-        <button onClick={() => onClickGo()}>Let's GO !</button>
-        <button onClick={() => onClickPass()}>Pass</button>
+        <div>{remainingRounds} rounds remaining</div>
+        <br/>
+        <div>Describe <b>{entityName}</b> in 30 seconds</div>
+        <br/>
+        <div>
+          <button onClick={() => onClickGo()}>Let's GO !</button>
+          <button onClick={() => onClickPass()}>Pass</button>
+        </div>
       </div>
-    </div>
-  )
+    )
+  } else {
+    return (<div>Loading ...</div>)
+  }
 }
 
 export default ChooseEntity
