@@ -27,7 +27,7 @@ def get_all_entities() -> Dict[str, Entity]:
     with connect() as cursor:
         query = ("SELECT entity.id, entity.uri, sentence.sentence, sentence.sentence_embedding "
                  "FROM ibo_ml.entity_to_guess entity "
-                 "JOIN ibo_ml.sentence_embedding sentence "
+                 "LEFT JOIN ibo_ml.sentence_embedding sentence "
                  "ON entity.id = sentence.entity_to_guess_id")
         cursor.execute(query)
 
@@ -35,9 +35,10 @@ def get_all_entities() -> Dict[str, Entity]:
         for (entity_id, entity_uri, sentence, sentence_embedding) in cursor:
             entity = entities.setdefault(entity_uri, Entity(db_id=entity_id, uri=entity_uri))
 
-            embedding_np = np.asarray([sentence_embedding])
+            if sentence is not None:
+                embedding_np = np.asarray([sentence_embedding])
 
-            entity.append_sentence_embedding(sentence, embedding_np)
+                entity.append_sentence_embedding(sentence, embedding_np)
 
         return entities
 
