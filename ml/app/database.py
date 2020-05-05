@@ -1,3 +1,5 @@
+import logging
+import time
 from contextlib import contextmanager
 from typing import Dict
 
@@ -7,13 +9,24 @@ import psycopg2
 from app.models import Entity
 
 
+logger = logging.getLogger(__name__)
+
 @contextmanager
 def connect():
     # Calling connect with an empty string uses PG* environment variables as parameters
     # https://www.psycopg.org/docs/module.html#psycopg2.connect
     # https://github.com/psycopg/psycopg2/issues/767
-    connection = psycopg2.connect('')
-    cursor = connection.cursor()
+    connected = False
+    while not connected:
+        try:
+            connection = psycopg2.connect('')
+            cursor = connection.cursor()
+
+            connected = True
+        except psycopg2.OperationalError as exception:
+            logger.warning(f'Connection exception - retrying: exception={exception}')
+
+            time.sleep(5)
 
     try:
         yield cursor
