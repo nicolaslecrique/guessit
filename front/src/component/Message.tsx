@@ -26,7 +26,7 @@ export type MessageProps = { author: Author, message: string, aiConfidence: AiCo
 const useStyles = makeStyles({
   messageContainer: {
     display: 'flex',
-    marginBottom: '8px' // space between messages
+    marginBottom: '-16px' // space between messages
   },
   avatar: {
     background: '#fff',
@@ -36,6 +36,12 @@ const useStyles = makeStyles({
     marginLeft: '2px',
     marginRight: '2px',
   },
+  bubbleWrapAi: {
+
+  },
+  bubbleWrapPlayer: {
+    marginLeft: 'auto',
+  },
   bubbleAi: {
     '&:before': {
       left: '16px',
@@ -44,7 +50,6 @@ const useStyles = makeStyles({
     }
   },
   bubblePlayer: {
-    marginLeft: 'auto',
     '&:before': {
       right: '16px',
       borderRight: '16px solid #fff',
@@ -67,6 +72,9 @@ const useStyles = makeStyles({
       borderBottom: '20px solid transparent',
       bottom: '-16px',
     }
+  },
+  author: {
+    marginTop: '12px'
   }
 })
 
@@ -95,12 +103,15 @@ export const Message = ({ author, message, aiConfidence}: MessageProps): JSX.Ele
         <img width="100%" src={emojiPath} alt="emoji_thinking" />
     </div>}
 
-    <div className={`${classes.bubble} ${author === Author.AI ? classes.bubbleAi : classes.bubblePlayer}`}>
-      <Typography variant="subtitle1" align="center">
-        {message}
-      </Typography>
+    <div className={author === Author.AI ? classes.bubbleWrapAi : classes.bubbleWrapPlayer}>
+      <div className={`${classes.bubble} ${author === Author.AI ? classes.bubbleAi : classes.bubblePlayer}`}>
+        <Typography variant="subtitle1" align="center">
+          {message}
+        </Typography>
+      </div>
+      { author === Author.AI && <Typography className={classes.author} variant="subtitle1">AI</Typography>}
+      { author === Author.Player && <Typography className={classes.author} variant="subtitle1" align="right">You</Typography>}
     </div>
-
   </div>
 }
 
