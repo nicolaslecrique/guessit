@@ -111,7 +111,7 @@ class Board extends React.Component<{}, BoardState> {
   
       this.guessEntity(entityToGuessUri, entityGuessingUri, previousSentences, newSentence)
   
-      messages.push({ author: Author.Player, message: this.state.typedMessage })
+      messages.push({ author: Author.Player, message: this.state.typedMessage, aiConfidence: AiConfidence.Thinking })
       this.setState({
         messages: messages,
         typedMessage: ""  
