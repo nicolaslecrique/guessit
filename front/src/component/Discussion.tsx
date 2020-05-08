@@ -22,6 +22,7 @@ const useStyles = makeStyles({
 })
 
 export function Discussion({ messages }: DiscussionProps): JSX.Element {
+
   const classes = useStyles()
 
   // cf. https://stackoverflow.com/questions/37620694/how-to-scroll-to-bottom-in-react

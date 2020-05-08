@@ -14,13 +14,15 @@ enum PlayState {
   EndOfRound
 }
 
+const nbRounds = 3
+
 type BoardState = {
   playState: PlayState,
   userUri: string,
   gameSession: GameSession,
   entity: Entity,
   noMoreEntitiesToChoose: boolean,
-  remainingRounds: number
+  currentRoundIdx: number
   messages: MessageProps[],
   typedMessage: string
 }
@@ -34,7 +36,7 @@ class Board extends React.Component<{}, BoardState> {
       gameSession: { gameSessionUri: "", entitiesToGuess: [] },
       entity: { entityUri: "", entityGuessingUri: "", entityName: ""},
       noMoreEntitiesToChoose: false,
-      remainingRounds: 3,
+      currentRoundIdx: 0,
       messages: [],
       typedMessage: "",
     }
@@ -76,7 +78,7 @@ class Board extends React.Component<{}, BoardState> {
     this.nextEntity()
     this.setState({
       playState: PlayState.ChooseEntity,
-      remainingRounds: this.state.remainingRounds - 1,
+      currentRoundIdx: this.state.currentRoundIdx + 1,
       messages: [],
       typedMessage: ""
     })
@@ -160,11 +162,12 @@ class Board extends React.Component<{}, BoardState> {
   render(): JSX.Element {
     switch(this.state.playState) { 
       case PlayState.ChooseEntity: { 
-        if(this.state.remainingRounds > 0 && !this.state.noMoreEntitiesToChoose) {
+        if(this.state.currentRoundIdx < nbRounds && !this.state.noMoreEntitiesToChoose) {
           return (
             <ChooseEntity
               entityName={this.state.entity.entityName}
-              remainingRounds={this.state.remainingRounds}
+              currentRoundIdx={this.state.currentRoundIdx}
+              nbRounds={nbRounds}
               onClickGo={() => this.startRound()}
               onClickPass={() => this.nextEntity()}
             />
@@ -179,7 +182,7 @@ class Board extends React.Component<{}, BoardState> {
         return (
           <Playing
             isEndOfRound={this.state.playState !== PlayState.Play}
-            isLastRound={this.state.remainingRounds === 1}
+            isLastRound={this.state.currentRoundIdx === nbRounds - 1}
             gameSessionUri={this.state.gameSession.gameSessionUri}
             entityName={this.state.entity.entityName}
             messages={this.state.messages}

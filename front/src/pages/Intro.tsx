@@ -6,6 +6,7 @@ import {createStyles, Typography, WithStyles} from "@material-ui/core"
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles';
 import {AiConfidence, Author, MessageProps} from '../component/Message'
+import {background, fancyButton, fancyFontFamily, stdMrg} from '../style/common_style'
 
 
 const demoMessages: MessageProps[] = [
@@ -22,7 +23,7 @@ const demoMessages: MessageProps[] = [
 const styles = () => createStyles({
   root: {
     minHeight: '100vh',
-    background: 'linear-gradient(160deg,#fd9536,#a42f80 31%,#2c146c 79%)'
+    background: background
   },
   rootContent: {
     display: 'flex',
@@ -35,25 +36,21 @@ const styles = () => createStyles({
   // linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)'
   // background: '#fffb1e'
   title: {
-    margin: '24px',
-    fontFamily: '\'Permanent Marker\', cursive',
+    margin: stdMrg,
+    fontFamily: fancyFontFamily,
     color: "#fff"
   },
   subtitle: {
-    margin: '0px 24px 24px 24px',
+    margin: `0px ${stdMrg} ${stdMrg} ${stdMrg}`,
     color: "#fff",
   },
   playButton: {
-    fontFamily: '\'Permanent Marker\', cursive',
-    fontSize: '20px',
-    width: '100%',
-    backgroundColor: "#fff",
-    color: "#2c146c"
+    ...fancyButton
   },
   playButtonContainer: {
     width: '200px',
     alignSelf: 'center',
-    margin: '24px',
+    margin: stdMrg,
   }
 
 })
