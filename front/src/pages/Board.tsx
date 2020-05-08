@@ -9,12 +9,13 @@ import Playing from '../component/Playing'
 
 
 enum PlayState {
+  Loading,
   ChooseEntity,
   Play,
   EndOfRound
 }
 
-const nbRounds = 3
+const nbRounds = 5
 
 type BoardState = {
   playState: PlayState,
@@ -31,7 +32,7 @@ class Board extends React.Component<{}, BoardState> {
   constructor(props: {}) {
     super(props)
     this.state = {
-      playState: PlayState.ChooseEntity,
+      playState: PlayState.Loading,
       userUri: "",
       gameSession: { gameSessionUri: "", entitiesToGuess: [] },
       entity: { entityUri: "", entityGuessingUri: "", entityName: ""},
@@ -143,6 +144,7 @@ class Board extends React.Component<{}, BoardState> {
 
     if (entity) {
       this.setState({
+        playState: PlayState.ChooseEntity,
         gameSession: gameSession,
         entity: entity
       })
@@ -160,7 +162,9 @@ class Board extends React.Component<{}, BoardState> {
   }
 
   render(): JSX.Element {
-    switch(this.state.playState) { 
+    switch(this.state.playState) {
+      case PlayState.Loading:
+        return (<div>Loading ...</div>)
       case PlayState.ChooseEntity: { 
         if(this.state.currentRoundIdx < nbRounds && !this.state.noMoreEntitiesToChoose) {
           return (

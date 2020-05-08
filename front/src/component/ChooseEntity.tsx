@@ -57,8 +57,6 @@ function ChooseEntity({ entityName, currentRoundIdx, nbRounds, onClickGo, onClic
 
   const classes = useStyles()
 
-
-  if (entityName) {
     return (
       <div className={classes.background}>
         <div className={classes.root}>
@@ -67,16 +65,13 @@ function ChooseEntity({ entityName, currentRoundIdx, nbRounds, onClickGo, onClic
           <Typography className={classes.message} align="center" variant="h5" >Describe</Typography>
           <Typography className={classes.entityName} align="center" variant="h3" >{entityName}</Typography>
           <Typography className={classes.message} align="center" variant="h5" >in 30 seconds</Typography>
-          <div className={classes.verticalSpace}></div>
+          <div className={classes.verticalSpace}/>
           <Button className={classes.letsGoButton} variant="contained" color="primary"  onClick={() => onClickGo()}>Let's GO !</Button>
           <Button className={classes.passButton} variant="outlined" onClick={() => onClickPass()}>Pass</Button>
         </div>
         </div>
       </div>
     )
-  } else {
-    return (<div>Loading ...</div>)
-  }
 }
 
 export default ChooseEntity
