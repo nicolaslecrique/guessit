@@ -4,6 +4,7 @@ import { Discussion } from './Discussion'
 import Timer from './Timer'
 import { scoreRoute } from '../core/Routing'
 import {MessageProps} from './Message'
+import {makeStyles} from '@material-ui/core/styles'
 
 
 type PlayingProps = {
@@ -19,13 +20,21 @@ type PlayingProps = {
     onSendMessage: () => void
   }
 
+const useStyles = makeStyles({})
+
+
   // todo extract typing bar to display it in intro
 
   function Playing({ isEndOfRound, isLastRound, gameSessionUri, entityName, messages, onEndOfRound, onClickNext, typedMessage, onChangeTypedMessage, onSendMessage }: PlayingProps): JSX.Element {
     let statusBar: JSX.Element
     let bottomBar: JSX.Element
+
+    const classes = useStyles()
+
     if (!isEndOfRound) {
+
       statusBar = (<div><b>{entityName}</b> | <Timer onFinish={() => onEndOfRound()}/> | <button onClick={() => onClickNext()}>Skip</button></div>)
+
       bottomBar = (
         <form onSubmit={(event) => {
           event.preventDefault()
@@ -39,8 +48,11 @@ type PlayingProps = {
           <button>Send</button>
         </form>
       )
+
+
     } else {
       statusBar = (<div><b>{entityName}</b></div>)
+
       if (isLastRound) {
         bottomBar = <Link to={scoreRoute(gameSessionUri)} ><button>Score</button></Link>
       } else {
