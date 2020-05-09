@@ -6,6 +6,7 @@ import {AiConfidence, Author, MessageProps} from '../component/Message'
 import {Entity, GameSession, postEntityGuessingSentences, postGameSession, postUser} from '../service/BackRestService'
 import {scoreRoute} from '../core/Routing'
 import Playing from '../component/Playing'
+import LoadingScreen from '../component/LoadingScreen'
 
 
 enum PlayState {
@@ -164,8 +165,8 @@ class Board extends React.Component<{}, BoardState> {
   render(): JSX.Element {
     switch(this.state.playState) {
       case PlayState.Loading:
-        return (<div>Loading ...</div>)
-      case PlayState.ChooseEntity: { 
+        return <LoadingScreen/>
+      case PlayState.ChooseEntity: {
         if(this.state.currentRoundIdx < nbRounds && !this.state.noMoreEntitiesToChoose) {
           return (
             <ChooseEntity
