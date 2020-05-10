@@ -9,6 +9,11 @@ import {background, fancyFontFamily, smallMrg, stdMrg} from '../style/common_sty
 import {Button, Typography} from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton'
 import SkipNextIcon from '@material-ui/icons/SkipNext';
+import SendIcon from '@material-ui/icons/Send';
+import Input from '@material-ui/core/Input';
+import TextField from '@material-ui/core/TextField'
+import InputAdornment from '@material-ui/core/InputAdornment'
+
 
 type PlayingProps = {
     isEndOfRound: boolean,
@@ -45,6 +50,7 @@ const useStyles = makeStyles({
   bottomBar: {
     display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center'
   },
   entityName: {
     fontFamily: fancyFontFamily,
@@ -61,10 +67,17 @@ const useStyles = makeStyles({
   skipButton: {
     marginLeft: 'auto',
     color: "#fff",
-  }
+  },
+  input: {
+    margin: smallMrg,
+    borderRadius: smallMrg,
+    backgroundColor: "#fff",
+    width: "100%",
+    paddingLeft: smallMrg
+  },
 })
 
-
+  // TODO: margin sur topBar / discuss / bottomBar devrait etre la même, idem en haut et en bas et entre tous les composants
   // todo extract typing bar to display it in intro
 
   function Playing({ isEndOfRound, isLastRound, gameSessionUri, entityName, messages, onEndOfRound, onClickNext, typedMessage, onChangeTypedMessage, onSendMessage }: PlayingProps): JSX.Element {
@@ -74,22 +87,32 @@ const useStyles = makeStyles({
 
     const classes = useStyles()
 
+    function handleOnEnterSentence() {
+      onSendMessage()
+    }
+
     if (!isEndOfRound) {
 
       bottomBar = (
-        <form onSubmit={(event) => {
-          event.preventDefault()
-          onSendMessage()
-        }}>
-          <input
-            type="text"
+          <TextField
+            className={classes.input}
+            id="outlined-basic"
+            placeholder="Type your sentence"
             value={typedMessage}
-            onChange={(event) => onChangeTypedMessage(event.target.value)}>
-          </input>
-          <button>Send</button>
-        </form>
+            onChange={(event) => onChangeTypedMessage(event.target.value)}
+            InputProps={{
+              endAdornment: <InputAdornment position="end">
+                <IconButton
+                  aria-label="Enter"
+                  onClick={handleOnEnterSentence}
+                >
+                  <SendIcon />
+                </IconButton>
+              </InputAdornment>,
+            }}
+          >
+          </TextField>
       )
-
 
     } else {
 
