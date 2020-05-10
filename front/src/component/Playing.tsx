@@ -5,8 +5,10 @@ import Timer from './Timer'
 import { scoreRoute } from '../core/Routing'
 import {MessageProps} from './Message'
 import {makeStyles} from '@material-ui/core/styles'
-import {background, fancyFontFamily, stdMrg} from '../style/common_style'
+import {background, fancyFontFamily, smallMrg, stdMrg} from '../style/common_style'
 import {Button, Typography} from '@material-ui/core'
+import IconButton from '@material-ui/core/IconButton'
+import SkipNextIcon from '@material-ui/icons/SkipNext';
 
 type PlayingProps = {
     isEndOfRound: boolean,
@@ -37,7 +39,8 @@ const useStyles = makeStyles({
   topBar: {
     display: 'flex',
     justifyContent: 'center',
-    margin: stdMrg
+    margin: smallMrg,
+    alignItems: 'center'
   },
   bottomBar: {
     display: 'flex',
@@ -46,6 +49,17 @@ const useStyles = makeStyles({
   entityName: {
     fontFamily: fancyFontFamily,
     marginRight: 'auto',
+    color: "#fff"
+  },
+  nbSecLeft: {
+    backgroundColor: "#fff",
+    fontFamily: fancyFontFamily,
+    paddingLeft: smallMrg,
+    paddingRight: smallMrg,
+    borderRadius: smallMrg
+  },
+  skipButton: {
+    marginLeft: 'auto',
     color: "#fff",
   }
 })
@@ -96,12 +110,14 @@ const useStyles = makeStyles({
       <div className={classes.root}>
         <div className={classes.rootContent}>
           <div className={classes.topBar}>
-            <Typography className={classes.entityName} variant="h5" >{entityName}</Typography>
+            <Typography className={classes.entityName} variant="subtitle1" >{entityName}</Typography>
             {!isEndOfRound &&
               <>
                 <Timer nbSeconds={3000} onFinish={() => onEndOfRound()} onTick={(nbSecLeft) => onTick(nbSecLeft)}/>
-                <Typography className={classes.entityName} variant="subtitle2" >{nbSecLeft}</Typography>
-                <button onClick={() => onClickNext()}>Skip</button>
+                <Typography className={classes.nbSecLeft} variant="subtitle1" >{nbSecLeft}</Typography>
+                <IconButton className={classes.skipButton} onClick={() => onClickNext()}>
+                  <SkipNextIcon/>
+                </IconButton>
               </>
             }
           </div>

@@ -21,4 +21,5 @@ export const secondButton = {
 }
 
 
+export const smallMrg = '16px'
 export const stdMrg = '24px'
