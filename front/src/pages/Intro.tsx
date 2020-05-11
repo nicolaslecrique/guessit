@@ -96,7 +96,7 @@ class Intro extends React.Component<IProps, IntroState> {
           </Typography>
           <Typography variant="h3" align="center" className={classes.subtitle} component="h2">
             Can an AI guess what you are talking about ?
-          </Typography>>
+          </Typography>
           <Discussion messages={this.state.messagesToDisplay}/>
           <div className={classes.playButtonContainer}>
             <Link to={boardRoute}><Button variant="contained" color="primary" className={classes.playButton}>Let's play
