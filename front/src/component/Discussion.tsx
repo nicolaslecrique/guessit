@@ -9,8 +9,7 @@ export type DiscussionProps = { messages: MessageProps[] }
 const useStyles = makeStyles({
   root: {
     flexGrow: 4,
-    maxWidth: '400px',
-    width: '96%',
+    width: '100%',
     alignSelf: 'center',
     backgroundColor: 'rgba(255,255,255,0.3)',
     borderRadius: '24px',

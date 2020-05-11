@@ -5,7 +5,7 @@ import Timer from './Timer'
 import { scoreRoute } from '../core/Routing'
 import {MessageProps} from './Message'
 import {makeStyles} from '@material-ui/core/styles'
-import {background, fancyFontFamily, smallMrg, stdMrg} from '../style/common_style'
+import {background, fancyButton, fancyFontFamily, smallMrg, stdMrg} from '../style/common_style'
 import {Button, Typography} from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton'
 import SkipNextIcon from '@material-ui/icons/SkipNext';
@@ -30,21 +30,22 @@ type PlayingProps = {
 
 const useStyles = makeStyles({
   root: {
-    minHeight: '100vh',
+    height: '100vh',
+    padding: smallMrg,
     background: background
   },
   rootContent: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-evenly',
-    maxWidth: '720px',
+    maxWidth: '450px',
     margin: 'auto',
-    height: '100vh',
+    height: '100%',
   },
   topBar: {
     display: 'flex',
     justifyContent: 'center',
-    margin: smallMrg,
+    marginBottom: smallMrg,
     alignItems: 'center'
   },
   bottomBar: {
@@ -55,7 +56,8 @@ const useStyles = makeStyles({
   entityName: {
     fontFamily: fancyFontFamily,
     marginRight: 'auto',
-    color: "#fff"
+    color: "#fff",
+    marginLeft: '12px' // identical to padding in "next" button
   },
   nbSecLeft: {
     backgroundColor: "#fff",
@@ -69,42 +71,47 @@ const useStyles = makeStyles({
     color: "#fff",
   },
   input: {
-    margin: smallMrg,
+    marginTop: smallMrg,
     borderRadius: smallMrg,
     backgroundColor: "#fff",
     width: "100%",
     paddingLeft: smallMrg
   },
+  nextRoundButton: {
+    ...fancyButton,
+    width: '200px'
+  }
 })
 
-  // TODO: margin sur topBar / discuss / bottomBar devrait etre la même, idem en haut et en bas et entre tous les composants
   // todo extract typing bar to display it in intro
 
   function Playing({ isEndOfRound, isLastRound, gameSessionUri, entityName, messages, onEndOfRound, onClickNext, typedMessage, onChangeTypedMessage, onSendMessage }: PlayingProps): JSX.Element {
-
 
     let bottomBar: JSX.Element
 
     const classes = useStyles()
 
-    function handleOnEnterSentence() {
-      onSendMessage()
-    }
-
     if (!isEndOfRound) {
 
       bottomBar = (
           <TextField
+            autoComplete="off"
             className={classes.input}
             id="outlined-basic"
             placeholder="Type your sentence"
             value={typedMessage}
             onChange={(event) => onChangeTypedMessage(event.target.value)}
+            onKeyPress={(event) => {
+              if (event.key === 'Enter') {
+                onSendMessage()
+                event.preventDefault();
+              }
+            }}
             InputProps={{
               endAdornment: <InputAdornment position="end">
                 <IconButton
                   aria-label="Enter"
-                  onClick={handleOnEnterSentence}
+                  onClick={onSendMessage}
                 >
                   <SendIcon />
                 </IconButton>
@@ -119,7 +126,8 @@ const useStyles = makeStyles({
       if (isLastRound) {
         bottomBar = <Link to={scoreRoute(gameSessionUri)} ><button>Score</button></Link>
       } else {
-        bottomBar = <Button onClick={() => onClickNext()}>Next round</Button>
+        bottomBar = <Button className={classes.nextRoundButton} variant="contained" color="primary"  onClick={() => onClickNext()}>Next round</Button>
+
       }
     }
 
@@ -131,24 +139,24 @@ const useStyles = makeStyles({
 
     return (
       <div className={classes.root}>
-        <div className={classes.rootContent}>
-          <div className={classes.topBar}>
-            <Typography className={classes.entityName} variant="subtitle1" >{entityName}</Typography>
-            {!isEndOfRound &&
-              <>
-                <Timer nbSeconds={3000} onFinish={() => onEndOfRound()} onTick={(nbSecLeft) => onTick(nbSecLeft)}/>
-                <Typography className={classes.nbSecLeft} variant="subtitle1" >{nbSecLeft}</Typography>
-                <IconButton className={classes.skipButton} onClick={() => onClickNext()}>
-                  <SkipNextIcon/>
-                </IconButton>
-              </>
-            }
+          <div className={classes.rootContent}>
+            <div className={classes.topBar}>
+              <Typography className={classes.entityName} variant="subtitle1" >{entityName}</Typography>
+              {!isEndOfRound &&
+                <>
+                  <Timer nbSeconds={3000} onFinish={() => onEndOfRound()} onTick={(nbSecLeft) => onTick(nbSecLeft)}/>
+                  <Typography className={classes.nbSecLeft} variant="subtitle1" >{nbSecLeft}</Typography>
+                  <IconButton className={classes.skipButton} onClick={() => onClickNext()}>
+                    <SkipNextIcon/>
+                  </IconButton>
+                </>
+              }
+            </div>
+            <Discussion messages={messages}/>
+            <div className={classes.bottomBar}>
+            {bottomBar}
+            </div>
           </div>
-          <Discussion messages={messages}/>
-          <div className={classes.bottomBar}>
-          {bottomBar}
-          </div>
-        </div>
       </div>
     )
   }
