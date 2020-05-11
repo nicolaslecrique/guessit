@@ -81,21 +81,25 @@ const useStyles = makeStyles({
 export const Message = ({ author, message, aiConfidence}: MessageProps): JSX.Element => {
   const classes = useStyles()
   let emojiPath = ''
-  if (aiConfidence !== null){
+  let messageWithMarks = null
+  if (author == Author.AI) {
     switch (aiConfidence) {
       case AiConfidence.Thinking:
         emojiPath = process.env.PUBLIC_URL + '/img/emoji_thinking.png'
+        messageWithMarks = message + "?"
         break;
       case AiConfidence.Confident:
         emojiPath = process.env.PUBLIC_URL + '/img/emoji_smirk.png'
+        messageWithMarks = message + "?"
         break;
       case AiConfidence.Sure:
         emojiPath = process.env.PUBLIC_URL + '/img/emoji_happy.png'
+        messageWithMarks = message + "!"
         break;
-
     }
+  } else {
+    messageWithMarks = message
   }
-
 
   return <div className={classes.messageContainer}>
 
@@ -106,7 +110,7 @@ export const Message = ({ author, message, aiConfidence}: MessageProps): JSX.Ele
     <div className={author === Author.AI ? classes.bubbleWrapAi : classes.bubbleWrapPlayer}>
       <div className={`${classes.bubble} ${author === Author.AI ? classes.bubbleAi : classes.bubblePlayer}`}>
         <Typography variant="subtitle1" align="center">
-          {message}
+          {messageWithMarks}
         </Typography>
       </div>
       { author === Author.AI && <Typography className={classes.author} variant="subtitle1">AI</Typography>}

@@ -89,13 +89,13 @@ class Board extends React.Component<{}, BoardState> {
   entityGuessed(entityName: string): void {
     let message = entityName
     let newPlayState = this.state.playState
-    if (entityName === this.state.entity.entityName) {
-      message += ' :)'
+    const aiFound = entityName === this.state.entity.entityName
+    if (aiFound) {
       newPlayState = PlayState.EndOfRound
     }
 
     let messages = this.state.messages.slice()
-    messages.push({ author: Author.AI, message: message, aiConfidence: AiConfidence.Thinking})
+    messages.push({ author: Author.AI, message: message, aiConfidence: aiFound ? AiConfidence.Sure : AiConfidence.Thinking})
 
     this.setState({
       playState: newPlayState,
@@ -115,7 +115,8 @@ class Board extends React.Component<{}, BoardState> {
   
       this.guessEntity(entityToGuessUri, entityGuessingUri, previousSentences, newSentence)
   
-      messages.push({ author: Author.Player, message: this.state.typedMessage, aiConfidence: AiConfidence.Thinking })
+      messages.push({ author: Author.Player, message: this.state.typedMessage, aiConfidence: null })
+
       this.setState({
         messages: messages,
         typedMessage: ""  
