@@ -6,7 +6,7 @@ import {createStyles, Typography, WithStyles} from "@material-ui/core"
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles';
 import {AiConfidence, Author, MessageProps} from '../component/Message'
-import {background, fancyButton, fancyFontFamily, stdMrg} from '../style/common_style'
+import {background, fancyButton, fancyFontFamily, smallMrg, stdMrg} from '../style/common_style'
 
 
 const demoMessages: MessageProps[] = [
@@ -23,7 +23,9 @@ const demoMessages: MessageProps[] = [
 const styles = () => createStyles({
   root: {
     minHeight: '100vh',
-    background: background
+    background: background,
+    paddingLeft: smallMrg,
+    paddingRight: smallMrg,
   },
   rootContent: {
     display: 'flex',
@@ -51,8 +53,7 @@ const styles = () => createStyles({
     width: '200px',
     alignSelf: 'center',
     margin: stdMrg,
-  }
-
+  },
 })
 
 type IntroState = {
@@ -95,7 +96,7 @@ class Intro extends React.Component<IProps, IntroState> {
           </Typography>
           <Typography variant="h3" align="center" className={classes.subtitle} component="h2">
             Can an AI guess what you are talking about ?
-          </Typography>
+          </Typography>>
           <Discussion messages={this.state.messagesToDisplay}/>
           <div className={classes.playButtonContainer}>
             <Link to={boardRoute}><Button variant="contained" color="primary" className={classes.playButton}>Let's play

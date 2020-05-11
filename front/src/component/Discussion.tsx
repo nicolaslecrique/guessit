@@ -13,6 +13,7 @@ const useStyles = makeStyles({
     alignSelf: 'center',
     backgroundColor: 'rgba(255,255,255,0.3)',
     borderRadius: '24px',
+    maxWidth: "450px",
     padding: '24px 4px 24px 4px',
     overflow: 'hidden',
     display: 'flex',
