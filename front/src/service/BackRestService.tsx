@@ -66,6 +66,14 @@ export async function postEntityGuessingSentences(
   return guessedEntity
 }
 
+export async function postSentences(entityToGuessUri: string, sentences: string[]) {
+  const body = {
+    entityToGuessUri: entityToGuessUri,
+    sentences: sentences
+  }
+  const guessedEntity: GuessedEntity = await doPostRequest('sentences', body)
+}
+
 export async function getGameSessionResult(gameSessionUri: string): Promise<GameSessionResult> {
   const gameSessionResult: GameSessionResult = await doGetRequest(`game_session_result?gameSessionUri=${gameSessionUri}`)
   return gameSessionResult
