@@ -9,19 +9,30 @@ class MlRestService(iboConfig: IboConfig) {
     private val mlClient = WebClient.create(iboConfig.ml_service.url)
 
     // api specifications, do not rename
-    data class GuessEntityQuery(val entityToGuessUri: String, val descriptionSentences: List<String>)
+    data class GuessEntityQuery(val descriptionSentences: List<String>)
     data class GuessEntityReply(val guesses: Map<String, Double>)
 
-    fun computeGuesses(entityToGuessUri:String, descriptionSentences: List<String>): Map<String, Double> {
+    fun computeGuesses(descriptionSentences: List<String>): Map<String, Double> {
 
         return  mlClient
                 .post()
                 .uri("/guess_entity")
-                .bodyValue(GuessEntityQuery(entityToGuessUri, descriptionSentences))
+                .bodyValue(GuessEntityQuery(descriptionSentences))
                 .retrieve()
                 .bodyToMono(GuessEntityReply::class.java)
                 .map { it.guesses }
                 .block()!!
     }
 
+    data class SentencesQuery(val entityToGuessUri: String, val descriptionSentences: List<String>)
+
+    fun addSentences(entityToGuessUri:String, descriptionSentences: List<String>) {
+        mlClient
+        .post()
+        .uri("/sentences")
+        .bodyValue(SentencesQuery(entityToGuessUri, descriptionSentences))
+        .retrieve()
+        .bodyToMono(Void::class.java)
+        .block();
+    }
 }
