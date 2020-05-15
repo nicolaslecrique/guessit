@@ -22,7 +22,7 @@ const demoMessages: MessageProps[] = [
 
 const styles = () => createStyles({
   root: {
-    minHeight: '100vh',
+    height: '100%',
     background: background,
     paddingLeft: smallMrg,
     paddingRight: smallMrg,
@@ -33,10 +33,8 @@ const styles = () => createStyles({
     justifyContent: 'space-evenly',
     maxWidth: '720px',
     margin: 'auto',
-    height: '100vh',
+    height: '90%', // trick because on mobile address bar count in the 100%
   },
-  // linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)'
-  // background: '#fffb1e'
   title: {
     margin: stdMrg,
     fontFamily: fancyFontFamily,
