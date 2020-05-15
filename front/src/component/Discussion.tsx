@@ -16,7 +16,8 @@ const useStyles = makeStyles({
     borderRadius: stdCornerRadius,
     maxWidth: "450px",
     padding: '24px 4px 24px 4px',
-    overflow: 'scroll',
+    overflowY: 'auto',
+    overflowX: 'hidden',
     display: 'flex',
     flexDirection: 'column',
   }
