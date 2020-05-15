@@ -12,6 +12,7 @@ import SkipNextIcon from '@material-ui/icons/SkipNext';
 import SendIcon from '@material-ui/icons/Send';
 import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
+import {InputBar} from './TypingBar'
 
 
 type PlayingProps = {
@@ -71,26 +72,6 @@ const useStyles = makeStyles({
     paddingTop: '0',
     paddingBottom: '0',
   },
-  input: {
-    // marginTop: smallMrg,
-    borderRadius: stdCornerRadius,
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-    backgroundColor: "#fff",
-    width: "100%",
-    '&:hover': {
-      borderWidth: 0
-    }
-  },
-  fieldInput: {
-    height: '36px',
-    borderRadius: '8px',
-    paddingRight :'8px',
-  },
-  notchedOutline: {
-    borderWidth: '0px',
-    borderColor: 'white !important'
-  },
   nextRoundButton: {
     ...fancyButton,
     width: '200px',
@@ -108,49 +89,10 @@ const useStyles = makeStyles({
 
     const classes = useStyles()
 
-    // necessary to prevent to loose focus when user click send button on mobile
-    const handleMouseDownSend = (event: any) => {
-      event.preventDefault();
-    };
-
-    const sendMessage = (event: any) => {
-      onSendMessage()
-      event.preventDefault();
-    }
-
     if (!isEndOfRound) {
 
       bottomBar = (
-          <TextField
-            variant="outlined"
-            autoFocus={true}
-            autoComplete="off"
-            className={classes.input}
-            id="outlined-basic"
-            placeholder="Type your sentence"
-            value={typedMessage}
-            onChange={(event: any) => onChangeTypedMessage(event.target.value)}
-            onKeyPress={sendMessage}
-            InputLabelProps={{
-              shrink: true
-            }}
-            InputProps={{
-              classes: {
-                notchedOutline: classes.notchedOutline,
-              },
-              className: classes.fieldInput,
-              endAdornment: <InputAdornment position="end">
-                <IconButton
-                  aria-label="Enter"
-                  onClick={sendMessage}
-                  onMouseDown={handleMouseDownSend}
-                >
-                  <SendIcon />
-                </IconButton>
-              </InputAdornment>,
-            }}
-          >
-          </TextField>
+        <InputBar onChangeTypedMessage={onChangeTypedMessage} onSendMessage={onSendMessage} typedMessage={typedMessage}/>
       )
 
     } else {
