@@ -15,7 +15,7 @@ const useStyles = makeStyles({
     borderRadius: '24px',
     maxWidth: "450px",
     padding: '24px 4px 24px 4px',
-    overflow: 'hidden',
+    overflow: 'scroll',
     display: 'flex',
     flexDirection: 'column',
   }
