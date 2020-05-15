@@ -54,6 +54,9 @@ const styles = () => createStyles({
     alignSelf: 'center',
     margin: stdMrg,
   },
+  linkPlay: {
+    textDecoration: 'none',
+  }
 })
 
 type IntroState = {
@@ -99,8 +102,9 @@ class Intro extends React.Component<IProps, IntroState> {
           </Typography>
           <Discussion messages={this.state.messagesToDisplay}/>
           <div className={classes.playButtonContainer}>
-            <Link to={boardRoute}><Button variant="contained" color="primary" className={classes.playButton}>Let's play
-              !</Button></Link>
+            <Link className={classes.linkPlay} to={boardRoute}>
+              <Button variant="contained" color="primary" className={classes.playButton}>Let's play !</Button>
+            </Link>
           </div>
         </div>
       </div>
