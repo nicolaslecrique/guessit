@@ -5,11 +5,15 @@ export const fancyFontFamily= '\'Permanent Marker\', cursive'
 
 export const fancyButton = {
   fontFamily: fancyFontFamily,
-    fontSize: '20px',
-    width: '100%',
-    maxWidth: '320px',
-    backgroundColor: "#fff",
-    color: "#2c146c"
+  fontSize: '20px',
+  width: '100%',
+  maxWidth: '320px',
+  backgroundColor: "#fff",
+  color: "#2c146c",
+  '&:hover':{
+    backgroundColor: "#2c146c",
+    color: "#fff",
+  },
 }
 
 export const secondButton = {
