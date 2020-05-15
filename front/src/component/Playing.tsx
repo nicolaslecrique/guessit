@@ -5,7 +5,7 @@ import Timer from './Timer'
 import { scoreRoute } from '../core/Routing'
 import {MessageProps} from './Message'
 import {makeStyles} from '@material-ui/core/styles'
-import {background, fancyButton, fancyFontFamily, smallMrg, stdCornerRadius, stdMrg} from '../style/common_style'
+import {background, fancyButton, fancyFontFamily, smallMrg, stdCornerRadius} from '../style/common_style'
 import {Button, Typography} from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton'
 import SkipNextIcon from '@material-ui/icons/SkipNext';
@@ -75,12 +75,17 @@ const useStyles = makeStyles({
     backgroundColor: "#fff",
     width: "100%"
   },
+  fieldInput: {
+    height: '36px'
+  },
   nextRoundButton: {
     ...fancyButton,
     width: '200px',
     marginTop: smallMrg,
   }
 })
+
+
 
   // todo extract typing bar to display it in intro
 
@@ -95,6 +100,11 @@ const useStyles = makeStyles({
       event.preventDefault();
     };
 
+    const sendMessage = (event: any) => {
+      onSendMessage()
+      event.preventDefault();
+    }
+
     if (!isEndOfRound) {
 
       bottomBar = (
@@ -107,17 +117,16 @@ const useStyles = makeStyles({
             placeholder="Type your sentence"
             value={typedMessage}
             onChange={(event: any) => onChangeTypedMessage(event.target.value)}
-            onKeyPress={(event: any) => {
-              if (event.key === 'Enter') {
-                onSendMessage()
-                event.preventDefault();
-              }
+            onKeyPress={sendMessage}
+            InputLabelProps={{
+              shrink: true
             }}
             InputProps={{
+              className: classes.fieldInput,
               endAdornment: <InputAdornment position="end">
                 <IconButton
                   aria-label="Enter"
-                  onClick={onSendMessage}
+                  onClick={sendMessage}
                   onMouseDown={handleMouseDownSend}
                 >
                   <SendIcon />
