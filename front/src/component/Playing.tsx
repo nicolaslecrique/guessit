@@ -73,8 +73,7 @@ const useStyles = makeStyles({
     marginTop: smallMrg,
     borderRadius: stdCornerRadius,
     backgroundColor: "#fff",
-    width: "100%",
-    paddingLeft: smallMrg
+    width: "100%"
   },
   nextRoundButton: {
     ...fancyButton,
@@ -91,17 +90,24 @@ const useStyles = makeStyles({
 
     const classes = useStyles()
 
+    // necessary to prevent to loose focus when user click send button on mobile
+    const handleMouseDownSend = (event: any) => {
+      event.preventDefault();
+    };
+
     if (!isEndOfRound) {
 
       bottomBar = (
           <TextField
+            variant="outlined"
+            autoFocus={true}
             autoComplete="off"
             className={classes.input}
             id="outlined-basic"
             placeholder="Type your sentence"
             value={typedMessage}
-            onChange={(event) => onChangeTypedMessage(event.target.value)}
-            onKeyPress={(event) => {
+            onChange={(event: any) => onChangeTypedMessage(event.target.value)}
+            onKeyPress={(event: any) => {
               if (event.key === 'Enter') {
                 onSendMessage()
                 event.preventDefault();
@@ -112,6 +118,7 @@ const useStyles = makeStyles({
                 <IconButton
                   aria-label="Enter"
                   onClick={onSendMessage}
+                  onMouseDown={handleMouseDownSend}
                 >
                   <SendIcon />
                 </IconButton>
