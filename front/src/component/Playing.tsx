@@ -68,15 +68,28 @@ const useStyles = makeStyles({
   skipButton: {
     marginLeft: 'auto',
     color: "#fff",
+    paddingTop: '0',
+    paddingBottom: '0',
   },
   input: {
-    marginTop: smallMrg,
+    // marginTop: smallMrg,
     borderRadius: stdCornerRadius,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
     backgroundColor: "#fff",
-    width: "100%"
+    width: "100%",
+    '&:hover': {
+      borderWidth: 0
+    }
   },
   fieldInput: {
-    height: '36px'
+    height: '36px',
+    borderRadius: '8px',
+    paddingRight :'8px',
+  },
+  notchedOutline: {
+    borderWidth: '0px',
+    borderColor: 'white !important'
   },
   nextRoundButton: {
     ...fancyButton,
@@ -122,6 +135,9 @@ const useStyles = makeStyles({
               shrink: true
             }}
             InputProps={{
+              classes: {
+                notchedOutline: classes.notchedOutline,
+              },
               className: classes.fieldInput,
               endAdornment: <InputAdornment position="end">
                 <IconButton

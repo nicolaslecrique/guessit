@@ -14,6 +14,8 @@ const useStyles = makeStyles({
     alignSelf: 'center',
     backgroundColor: 'rgba(255,255,255,0.3)',
     borderRadius: stdCornerRadius,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
     maxWidth: "450px",
     padding: '24px 4px 24px 4px',
     overflowY: 'auto',
