@@ -20,6 +20,8 @@ export const secondButton = {
   borderColor: "#fff"
 }
 
+export const stdCornerRadius = '8px'
+
 
 export const smallMrg = '16px'
 export const stdMrg = '24px'

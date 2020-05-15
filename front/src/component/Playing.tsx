@@ -5,7 +5,7 @@ import Timer from './Timer'
 import { scoreRoute } from '../core/Routing'
 import {MessageProps} from './Message'
 import {makeStyles} from '@material-ui/core/styles'
-import {background, fancyButton, fancyFontFamily, smallMrg, stdMrg} from '../style/common_style'
+import {background, fancyButton, fancyFontFamily, smallMrg, stdCornerRadius, stdMrg} from '../style/common_style'
 import {Button, Typography} from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton'
 import SkipNextIcon from '@material-ui/icons/SkipNext';
@@ -63,7 +63,7 @@ const useStyles = makeStyles({
     fontFamily: fancyFontFamily,
     paddingLeft: smallMrg,
     paddingRight: smallMrg,
-    borderRadius: smallMrg
+    borderRadius: stdCornerRadius
   },
   skipButton: {
     marginLeft: 'auto',
@@ -71,7 +71,7 @@ const useStyles = makeStyles({
   },
   input: {
     marginTop: smallMrg,
-    borderRadius: smallMrg,
+    borderRadius: stdCornerRadius,
     backgroundColor: "#fff",
     width: "100%",
     paddingLeft: smallMrg

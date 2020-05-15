@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import {Message, MessageProps} from './Message'
 import {makeStyles} from '@material-ui/core/styles'
+import {stdCornerRadius} from '../style/common_style'
 
 
 export type DiscussionProps = { messages: MessageProps[] }
@@ -12,7 +13,7 @@ const useStyles = makeStyles({
     width: '100%',
     alignSelf: 'center',
     backgroundColor: 'rgba(255,255,255,0.3)',
-    borderRadius: '24px',
+    borderRadius: stdCornerRadius,
     maxWidth: "450px",
     padding: '24px 4px 24px 4px',
     overflow: 'scroll',

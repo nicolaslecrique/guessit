@@ -1,6 +1,7 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import {Typography} from '@material-ui/core'
+import {stdCornerRadius} from '../style/common_style'
 
 export enum Author {
   Player,
@@ -58,7 +59,7 @@ const useStyles = makeStyles({
   },
   bubble: {
     position: "relative",
-    borderRadius: '24px',
+    borderRadius: stdCornerRadius,
     background: '#fff',
     width: 'fit-content', // TODO have maxWidth where we go to next line, else fit to content
     maxWidth: '200px',
