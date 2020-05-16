@@ -1,6 +1,6 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import {background, fancyFontFamily, stdMrg} from '../style/common_style'
+import {background, fancyFontFamily} from '../style/common_style'
 import {Typography} from '@material-ui/core'
 
 const useStyles = makeStyles({

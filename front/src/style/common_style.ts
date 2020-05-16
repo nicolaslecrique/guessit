@@ -1,5 +1,3 @@
-import React from 'react'
-
 export const background = 'linear-gradient(160deg,#fd9536,#a42f80 31%,#2c146c 79%)'
 export const fancyFontFamily= '\'Permanent Marker\', cursive'
 

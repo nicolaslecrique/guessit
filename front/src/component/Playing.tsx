@@ -9,9 +9,6 @@ import {background, fancyButton, fancyFontFamily, smallMrg, stdCornerRadius} fro
 import {Button, Typography} from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton'
 import SkipNextIcon from '@material-ui/icons/SkipNext';
-import SendIcon from '@material-ui/icons/Send';
-import TextField from '@material-ui/core/TextField'
-import InputAdornment from '@material-ui/core/InputAdornment'
 import {InputBar} from './TypingBar'
 
 

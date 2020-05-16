@@ -83,7 +83,7 @@ export const Message = ({ author, message, aiConfidence}: MessageProps): JSX.Ele
   const classes = useStyles()
   let emojiPath = ''
   let messageWithMarks = null
-  if (author == Author.AI) {
+  if (author === Author.AI) {
     switch (aiConfidence) {
       case AiConfidence.Thinking:
         emojiPath = process.env.PUBLIC_URL + '/img/emoji_thinking.png'
