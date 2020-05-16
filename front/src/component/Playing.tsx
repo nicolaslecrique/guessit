@@ -73,6 +73,9 @@ const useStyles = makeStyles({
     ...fancyButton,
     width: '200px',
     marginTop: smallMrg,
+  },
+  endGameLink: {
+    textDecoration: 'none',
   }
 })
 
@@ -95,7 +98,7 @@ const useStyles = makeStyles({
     } else {
 
       if (isLastRound) {
-        bottomBar = <Link to={scoreRoute(gameSessionUri)} ><Button className={classes.nextRoundButton} variant="contained" color="primary" >End game</Button></Link>
+        bottomBar = <Link className={classes.endGameLink} to={scoreRoute(gameSessionUri)} ><Button className={classes.nextRoundButton} variant="contained" color="primary" >Score</Button></Link>
       } else {
         bottomBar = <Button className={classes.nextRoundButton} variant="contained" color="primary"  onClick={() => onClickNext()}>Next round</Button>
       }
