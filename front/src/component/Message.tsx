@@ -45,16 +45,16 @@ const useStyles = makeStyles({
   },
   bubbleAi: {
     '&:before': {
-      left: '16px',
-      borderLeft: '16px solid #fff',
-      borderRight: '12px solid transparent',
+      left: '4px',
+      borderLeft: '8px solid #fff',
+      borderRight: '8px solid transparent',
     }
   },
   bubblePlayer: {
     '&:before': {
-      right: '16px',
-      borderRight: '16px solid #fff',
-      borderLeft: '12px solid transparent',
+      right: '4px',
+      borderRight: '8px solid #fff',
+      borderLeft: '8px solid transparent',
     }
   },
   bubble: {
@@ -63,15 +63,18 @@ const useStyles = makeStyles({
     background: '#fff',
     width: 'fit-content', // TODO have maxWidth where we go to next line, else fit to content
     maxWidth: '200px',
-    padding: '12px',
+    paddingLeft: '12px',
+    paddingRight: '12px',
+    paddingTop: '8px',
+    paddingBottom: '8px',
     '&:before': {
       content: "''",
       width: '0px',
       height: '0px',
       position: 'absolute',
-      borderTop: '12px solid #fff',
-      borderBottom: '20px solid transparent',
-      bottom: '-16px',
+      borderTop: '8px solid #fff',
+      borderBottom: '8px solid transparent',
+      bottom: '-8px',
     }
   },
   author: {
