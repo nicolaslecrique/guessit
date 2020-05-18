@@ -27,7 +27,7 @@ export type MessageProps = { author: Author, message: string, aiConfidence: AiCo
 const useStyles = makeStyles({
   messageContainer: {
     display: 'flex',
-    marginBottom: '-16px' // space between messages
+    marginBottom: '-24px' // space between messages
   },
   avatar: {
     marginTop: '8px',
