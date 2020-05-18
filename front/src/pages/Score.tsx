@@ -6,6 +6,7 @@ import {background, fancyButton} from '../style/common_style'
 import {createStyles, Typography, WithStyles} from "@material-ui/core"
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles';
+import LoadingScreen from '../component/LoadingScreen'
 
 
 interface ScoreProps extends WithStyles<typeof styles> {
@@ -17,7 +18,7 @@ interface ScoreProps extends WithStyles<typeof styles> {
 }
 
 type ScoreState = {
-  gameSessionResult: GameSessionResult
+  gameSessionResult: GameSessionResult | null
 }
 
 
@@ -59,9 +60,7 @@ class Score extends React.Component<ScoreProps, ScoreState> {
   constructor(props: ScoreProps) {
     super(props)
     this.state = {
-      gameSessionResult: {
-        entityGuessingSessions: []
-      }
+      gameSessionResult: null
     }
   }
 
@@ -77,6 +76,10 @@ class Score extends React.Component<ScoreProps, ScoreState> {
   render(): JSX.Element {
 
     const { classes } = this.props;
+
+    if (this.state.gameSessionResult === null){
+      return <LoadingScreen/>
+    }
 
     const sessions = this.state.gameSessionResult.entityGuessingSessions
 
