@@ -56,7 +56,6 @@ class RestApi(
     }
 
     data class PostEntityGuessingSentencesRequestBody(
-            val entityToGuessUri: String,
             val entityGuessingUri: String,
             val previousSentences: List<String>,
             val newSentence: String)
@@ -87,13 +86,15 @@ class RestApi(
         return PostEntityGuessingSentencesResult(guessedEntityUri, guessedEntityName)
     }
 
-    data class PostSentencesBody(
+    data class PostEndOfGuessingBody(
             val entityToGuessUri: String,
-            val sentences: List<String>)
+            val entityGuessingUri: String)
 
-    @PostMapping("/sentences", consumes = [MediaType.APPLICATION_JSON_VALUE])
-    fun postSentences(@RequestBody request: PostSentencesBody) {
-        mlRestService.addSentences(request.entityToGuessUri, request.sentences)
+    @PostMapping("/end_of_guessing", consumes = [MediaType.APPLICATION_JSON_VALUE])
+    fun endOfGuessing(@RequestBody request: PostEndOfGuessingBody) {
+        val sentences = db.selectSentences(request.entityGuessingUri)
+
+        mlRestService.addSentences(request.entityToGuessUri, sentences)
     }
 
     data class GetGameSessionResultResult(
