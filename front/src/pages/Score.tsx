@@ -2,9 +2,13 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { GameSessionResult, getGameSessionResult } from '../service/BackRestService'
 import { boardRoute } from '../core/Routing'
+import {background, fancyButton} from '../style/common_style'
+import {createStyles, Typography, WithStyles} from "@material-ui/core"
+import Button from '@material-ui/core/Button'
+import { withStyles } from '@material-ui/core/styles';
 
 
-type ScoreProps = {
+interface ScoreProps extends WithStyles<typeof styles> {
   match: {
     params: {
       gameSessionUri: string
@@ -15,6 +19,41 @@ type ScoreProps = {
 type ScoreState = {
   gameSessionResult: GameSessionResult
 }
+
+
+const styles = () => createStyles({
+  background: {
+    height: '100vh',
+    background: background,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+  linkPlay: {
+    textDecoration: 'none',
+  },
+  playButton: {
+    ...fancyButton
+  },
+  entityNameKo: {
+    color: "#fff",
+    padding: "8px 16px 8px 16px",
+    backgroundColor: 'rgba(255, 136, 0,0.6)',
+    borderRadius: "24px"
+  },
+  entityNameOk: {
+    color: "#fff",
+    backgroundColor: 'rgba(0, 204, 65,0.6)',
+    padding: "8px 16px 8px 16px",
+    borderRadius: "24px"
+  },
+  title: {
+    color: "#fff",
+  }
+})
+
+
 
 class Score extends React.Component<ScoreProps, ScoreState> {
   constructor(props: ScoreProps) {
@@ -36,18 +75,35 @@ class Score extends React.Component<ScoreProps, ScoreState> {
   }
 
   render(): JSX.Element {
+
+    const { classes } = this.props;
+
+    const sessions = this.state.gameSessionResult.entityGuessingSessions
+
+    const totalEntities = sessions.length
+    const foundEntities = sessions.filter(s => s.entityToGuessName === s.entityGuessedName).length
+
     return (
-      <div>
+      <div className={classes.background}>
+        <Typography  className={classes.title} variant="h3" >{foundEntities}/{totalEntities} found</Typography>
         {
           this.state.gameSessionResult.entityGuessingSessions.map(
-            (entityGuessing, index) => {return (<div key={index}>{entityGuessing.entityToGuessName} | {entityGuessing.entityGuessedName}</div>)}
+            (entityGuessing, index) => (
+                <Typography
+                  key={index}
+                  className={entityGuessing.entityToGuessName === entityGuessing.entityGuessedName ? classes.entityNameOk : classes.entityNameKo}
+                  variant="h5" >
+                  {entityGuessing.entityToGuessName}
+                </Typography>
+          )
           )
         }
-        <br/>
-        <Link to={boardRoute}><button>Let's play again !</button></Link>
+        <Link className={classes.linkPlay} to={boardRoute}>
+          <Button variant="contained" color="primary" className={classes.playButton}>Play again !</Button>
+        </Link>
       </div>
     )
   }
 }
 
-export default Score
+export default withStyles(styles)(Score)
