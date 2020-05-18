@@ -9,7 +9,6 @@ import {stdCornerRadius} from '../style/common_style'
 
 const useStyles = makeStyles({
   input: {
-    // marginTop: smallMrg,
     borderRadius: stdCornerRadius,
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
