@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import ChooseEntity from './ChooseEntity'
 import { MessageProps } from './Discussion'
-import { Entity, GameSession, postUser, postEntityGuessingSentences, postGameSession } from '../service/BackRestService'
+import { Entity, GameSession, postUser, postEntityGuessingSentences, postGameSession, postEndOfGuessing } from '../service/BackRestService'
 import { scoreRoute } from '../core/Routing'
 import Playing from './Playing'
 
@@ -82,19 +82,25 @@ class Board extends React.Component<{}, BoardState> {
     })
   }
 
+  endOfRound(): void {
+    postEndOfGuessing(this.state.entity.entityUri, this.state.entity.entityGuessingUri)
+
+    this.setState({
+      playState: PlayState.EndOfRound,
+    })
+  }
+
   entityGuessed(entityName: string): void {
     let message = entityName
-    let newPlayState = this.state.playState
     if (entityName === this.state.entity.entityName) {
       message += ' :)'
-      newPlayState = PlayState.EndOfRound
+      this.endOfRound()
     }
 
     let messages = this.state.messages.slice()
     messages.push({ author: "AI", message: message})
 
     this.setState({
-      playState: newPlayState,
       messages: messages
     })
   }
@@ -105,11 +111,10 @@ class Board extends React.Component<{}, BoardState> {
     if (newSentence) {
       let messages = this.state.messages.slice()
 
-      let entityToGuessUri = this.state.entity.entityUri
       let entityGuessingUri = this.state.entity.entityGuessingUri
-      let previousSentences = messages.map(message => {return message.message})
+      let previousSentences = messages.filter(message => message.author === "Human").map(message => {return message.message})
   
-      this.guessEntity(entityToGuessUri, entityGuessingUri, previousSentences, newSentence)
+      this.guessEntity(entityGuessingUri, previousSentences, newSentence)
   
       messages.push({ author: "Human", message: this.state.typedMessage })
       this.setState({
@@ -147,13 +152,12 @@ class Board extends React.Component<{}, BoardState> {
     }
   }
 
-  async guessEntity(
-    entityToGuessUri: string, 
+  async guessEntity( 
     entityGuessingUri: string, 
     previousSentences: string[], 
     newSentence: string): Promise<void> {
     
-    const guessedEntity = await postEntityGuessingSentences(entityToGuessUri, entityGuessingUri, previousSentences, newSentence)
+    const guessedEntity = await postEntityGuessingSentences(entityGuessingUri, previousSentences, newSentence)
     this.entityGuessed(guessedEntity.guessedEntityName)
   }
 
@@ -178,12 +182,12 @@ class Board extends React.Component<{}, BoardState> {
       case PlayState.EndOfRound: {
         return (
           <Playing
-            isEndOfRound={this.state.playState !== PlayState.Play}
+          isEndOfRound={this.state.playState !== PlayState.Play}
             isLastRound={this.state.remainingRounds === 1}
             gameSessionUri={this.state.gameSession.gameSessionUri}
             entityName={this.state.entity.entityName}
             messages={this.state.messages}
-            onEndOfRound={() => this.setState({playState: PlayState.EndOfRound})}
+            onEndOfRound={() => this.endOfRound()}
             onClickNext={() => this.nextRound()}
             typedMessage={this.state.typedMessage}
             onChangeTypedMessage={(message: string) =>  this.setState({ typedMessage: message })}
