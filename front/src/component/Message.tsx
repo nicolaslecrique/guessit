@@ -19,7 +19,7 @@ export type MessageProps = { author: Author, message: string, aiConfidence: AiCo
 const useStyles = makeStyles({
   messageContainer: {
     display: 'flex',
-    marginBottom: '-24px' // space between messages
+    marginBottom: '-12px' // space between messages
   },
   avatar: {
     marginTop: verySmallMrg,
@@ -105,7 +105,6 @@ export const Message = ({ author, message, aiConfidence}: MessageProps): JSX.Ele
       { author === Author.AI && <div className={classes.avatar}>
           <img width="100%" src={emojiPath} alt="emoji_thinking" />
       </div>}
-      { author === Author.Player && <Typography className={classes.author} variant="subtitle1" align="right">You</Typography>}
     </div>
   </div>
 }
