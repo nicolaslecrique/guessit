@@ -51,19 +51,25 @@ export async function postGameSession(userUri: string): Promise<GameSession> {
 }
 
 export async function postEntityGuessingSentences(
-  entityToGuessUri: string, 
   entityGuessingUri: string, 
   previousSentences: string[], 
   newSentence: string): Promise<GuessedEntity> {
     
   const body = {
-    entityToGuessUri: entityToGuessUri, 
     entityGuessingUri: entityGuessingUri, 
     previousSentences: previousSentences,
     newSentence: newSentence
   }
   const guessedEntity: GuessedEntity = await doPostRequest('entity_guessing_sentence', body)
   return guessedEntity
+}
+
+export async function postEndOfGuessing(entityToGuessUri: string, entityGuessingUri: string) {
+  const body = {
+    entityToGuessUri: entityToGuessUri,
+    entityGuessingUri: entityGuessingUri
+  }
+  await doPostRequest('end_of_guessing', body)
 }
 
 export async function getGameSessionResult(gameSessionUri: string): Promise<GameSessionResult> {

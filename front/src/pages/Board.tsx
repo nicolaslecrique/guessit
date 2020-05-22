@@ -3,7 +3,14 @@ import {Redirect} from 'react-router-dom'
 import Cookies from 'js-cookie'
 import ChooseEntity from '../component/ChooseEntity'
 import {AiConfidence, Author, MessageProps} from '../component/Message'
-import {Entity, GameSession, postEntityGuessingSentences, postGameSession, postUser} from '../service/BackRestService'
+import {
+  Entity,
+  GameSession,
+  postEndOfGuessing,
+  postEntityGuessingSentences,
+  postGameSession,
+  postUser
+} from '../service/BackRestService'
 import {scoreRoute} from '../core/Routing'
 import Playing from '../component/Playing'
 import LoadingScreen from '../component/LoadingScreen'
@@ -86,19 +93,25 @@ class Board extends React.Component<{}, BoardState> {
     })
   }
 
+  endOfRound(): void {
+    this.setState({
+      playState: PlayState.EndOfRound,
+    })
+
+    postEndOfGuessing(this.state.entity.entityUri, this.state.entity.entityGuessingUri)
+  }
+
   entityGuessed(entityName: string): void {
     let message = entityName
-    let newPlayState = this.state.playState
     const aiFound = entityName === this.state.entity.entityName
     if (aiFound) {
-      newPlayState = PlayState.EndOfRound
+      this.endOfRound()
     }
 
     let messages = this.state.messages.slice()
     messages.push({ author: Author.AI, message: message, aiConfidence: aiFound ? AiConfidence.Sure : AiConfidence.Thinking})
 
     this.setState({
-      playState: newPlayState,
       messages: messages
     })
   }
@@ -109,11 +122,10 @@ class Board extends React.Component<{}, BoardState> {
     if (newSentence) {
       let messages = this.state.messages.slice()
 
-      let entityToGuessUri = this.state.entity.entityUri
       let entityGuessingUri = this.state.entity.entityGuessingUri
-      let previousSentences = messages.map(message => {return message.message})
+      let previousSentences = messages.filter(message => message.author === Author.Player).map(message => {return message.message})
   
-      this.guessEntity(entityToGuessUri, entityGuessingUri, previousSentences, newSentence)
+      this.guessEntity(entityGuessingUri, previousSentences, newSentence)
   
       messages.push({ author: Author.Player, message: this.state.typedMessage, aiConfidence: null })
 
@@ -153,13 +165,12 @@ class Board extends React.Component<{}, BoardState> {
     }
   }
 
-  async guessEntity(
-    entityToGuessUri: string, 
+  async guessEntity( 
     entityGuessingUri: string, 
     previousSentences: string[], 
     newSentence: string): Promise<void> {
     
-    const guessedEntity = await postEntityGuessingSentences(entityToGuessUri, entityGuessingUri, previousSentences, newSentence)
+    const guessedEntity = await postEntityGuessingSentences(entityGuessingUri, previousSentences, newSentence)
     this.entityGuessed(guessedEntity.guessedEntityName)
   }
 
@@ -192,7 +203,7 @@ class Board extends React.Component<{}, BoardState> {
             gameSessionUri={this.state.gameSession.gameSessionUri}
             entityName={this.state.entity.entityName}
             messages={this.state.messages}
-            onEndOfRound={() => this.setState({playState: PlayState.EndOfRound})}
+            onEndOfRound={() => this.endOfRound()}
             onClickNext={() => this.nextRound()}
             typedMessage={this.state.typedMessage}
             onChangeTypedMessage={(message: string) =>  this.setState({ typedMessage: message })}

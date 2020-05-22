@@ -134,6 +134,18 @@ class Db(iboConfig: IboConfig) {
         }
     }
 
+    fun selectSentences(entityGuessingUri: String): List<String> {
+        return withContext { context ->
+            context
+                    .select(Tables.ENTITY_GUESSING_SENTENCE.SENTENCE)
+                    .from(Tables.ENTITY_GUESSING_SENTENCE)
+                    .join(Tables.ENTITY_GUESSING).on(Tables.ENTITY_GUESSING.ID.equal(Tables.ENTITY_GUESSING_SENTENCE.ENTITY_GUESSING_ID))
+                    .where(Tables.ENTITY_GUESSING.URI.equal(entityGuessingUri))
+                    .fetch()
+                    .map { r -> r.getValue(Tables.ENTITY_GUESSING_SENTENCE.SENTENCE) }
+        }
+    }
+
     // add sentence / guess to an entityGuessing
     fun insertEntityGuessingSentence(
             entityGuessingUri: String,
