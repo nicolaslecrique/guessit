@@ -19,16 +19,17 @@ export type MessageProps = { author: Author, message: string, aiConfidence: AiCo
 const useStyles = makeStyles({
   messageContainer: {
     display: 'flex',
-    marginBottom: '-12px' // space between messages
+    marginBottom: extraSmallMrg // space between messages
   },
   avatar: {
     marginTop: verySmallMrg,
     background: '#fff',
-    height: '50px',
-    width: '50px',
+    height: '36px',
+    width: '36px', // small enough to fit between one-line messages
     borderRadius: '25px',
     marginLeft: extraSmallMrg,
     marginRight: extraSmallMrg,
+    marginBottom: "-36px" // negative margin of the size of the avatar to neglect it in margin between messages
   },
   bubbleWrapPlayer: {
     marginLeft: 'auto',

@@ -18,7 +18,7 @@ const useStyles = makeStyles({
     backgroundColor: 'rgba(255,255,255,0.2)', // semi-transparent background
     borderRadius: stdCornerRadius,
     maxWidth: "450px",
-    padding: `${stdMrg} ${extraSmallMrg} ${stdMrg} ${extraSmallMrg}`,
+    padding: `${stdMrg} ${extraSmallMrg} 40px ${extraSmallMrg}`, // bottom padding = size of extraSmallMrg + smiley size
     overflowX: 'hidden',
     display: 'flex',
     flexDirection: 'column',
