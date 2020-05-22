@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import {Message, MessageProps} from './Message'
 import {makeStyles} from '@material-ui/core/styles'
-import {stdCornerRadius} from '../style/common_style'
+import {extraSmallMrg, stdCornerRadius, stdMrg} from '../style/common_style'
 
 
 export type DiscussionProps = {
@@ -18,7 +18,7 @@ const useStyles = makeStyles({
     backgroundColor: 'rgba(255,255,255,0.2)', // semi-transparent background
     borderRadius: stdCornerRadius,
     maxWidth: "450px",
-    padding: '24px 4px 24px 4px',
+    padding: `${stdMrg} ${extraSmallMrg} ${stdMrg} ${extraSmallMrg}`,
     overflowX: 'hidden',
     display: 'flex',
     flexDirection: 'column',

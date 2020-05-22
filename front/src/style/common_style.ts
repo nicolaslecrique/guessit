@@ -24,6 +24,6 @@ export const secondButton = {
 
 export const stdCornerRadius = '8px'
 
-
+export const extraSmallMrg = '4px'
 export const smallMrg = '16px'
 export const stdMrg = '24px'
