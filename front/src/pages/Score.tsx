@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { GameSessionResult, getGameSessionResult } from '../service/BackRestService'
 import { boardRoute } from '../core/Routing'
-import {background, fancyButton} from '../style/common_style'
+import {background, fancyButton, smallMrg, verySmallMrg} from '../style/common_style'
 import {createStyles, Typography, WithStyles} from "@material-ui/core"
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles';
@@ -39,14 +39,14 @@ const styles = () => createStyles({
   },
   entityNameKo: {
     color: "#fff",
-    padding: "8px 16px 8px 16px",
+    padding: `${verySmallMrg} ${smallMrg} ${verySmallMrg} ${smallMrg}`,
     backgroundColor: 'rgba(255, 136, 0,0.6)',
     borderRadius: "24px"
   },
   entityNameOk: {
     color: "#fff",
     backgroundColor: 'rgba(0, 204, 65,0.6)',
-    padding: "8px 16px 8px 16px",
+    padding: `${verySmallMrg} ${smallMrg} ${verySmallMrg} ${smallMrg}`,
     borderRadius: "24px"
   },
   title: {

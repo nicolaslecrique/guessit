@@ -8,7 +8,6 @@ import { withStyles } from '@material-ui/core/styles';
 import {AiConfidence, Author, MessageProps} from '../component/Message'
 import {background, fancyButton, fancyFontFamily, smallMrg, stdMrg} from '../style/common_style'
 
-
 const demoMessages: MessageProps[] = [
     { author: Author.Player, message: "It's a robot", aiConfidence: null },
     { author: Author.AI, message: "Wall-E ?", aiConfidence: AiConfidence.Thinking  },
@@ -17,8 +16,6 @@ const demoMessages: MessageProps[] = [
     { author: Author.Player, message: "The one who talks a lot", aiConfidence: null  },
     { author: Author.AI, message: "C3PO !", aiConfidence: AiConfidence.Sure  },
 ]
-
-
 
 const styles = () => createStyles({
   root: {
@@ -63,9 +60,6 @@ type IntroState = {
 
 interface IProps extends WithStyles<typeof styles> {
 }
-
-// TODO: Faire en sorte que "Discussion" prenne tout l'espace disponible
-// puis si ça depasse ça scroll à l'intérieur de la discussion
 
 class Intro extends React.Component<IProps, IntroState> {
   private timerId! : NodeJS.Timeout

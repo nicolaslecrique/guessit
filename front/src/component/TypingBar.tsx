@@ -20,8 +20,8 @@ const useStyles = makeStyles({
   },
   fieldInput: {
     height: '36px',
-    borderRadius: '8px',
-    paddingRight :'8px',
+    borderRadius: stdCornerRadius,
+    paddingRight :stdCornerRadius,
   },
   notchedOutline: {
     borderWidth: '0px',
