@@ -34,15 +34,19 @@ const useStyles = makeStyles({
     marginLeft: 'auto',
   },
   bubbleAi: {
+    background: '#c3fca4',
     '&:before': {
       left: '4px',
-      borderLeft: '8px solid #fff',
+      borderLeft: '8px solid #c3fca4',
+      borderTop: '8px solid #c3fca4',
       borderRight: '8px solid transparent',
     }
   },
   bubblePlayer: {
+    background: '#fff',
     '&:before': {
       right: '4px',
+      borderTop: '8px solid #fff',
       borderRight: '8px solid #fff',
       borderLeft: '8px solid transparent',
     }
@@ -50,7 +54,7 @@ const useStyles = makeStyles({
   bubble: {
     position: "relative",
     borderRadius: stdCornerRadius,
-    background: '#fff',
+
     width: 'fit-content',
     maxWidth: '200px',
     padding: verySmallMrg,
@@ -59,7 +63,6 @@ const useStyles = makeStyles({
       width: '0px',
       height: '0px',
       position: 'absolute',
-      borderTop: '8px solid #fff',
       borderBottom: '8px solid transparent',
       bottom: '-8px',
     }
