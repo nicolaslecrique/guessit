@@ -4,7 +4,10 @@ import {makeStyles} from '@material-ui/core/styles'
 import {stdCornerRadius} from '../style/common_style'
 
 
-export type DiscussionProps = { messages: MessageProps[] }
+export type DiscussionProps = {
+  messages: MessageProps[],
+  demoMode: boolean
+}
 
 
 const useStyles = makeStyles({
@@ -14,18 +17,23 @@ const useStyles = makeStyles({
     alignSelf: 'center',
     backgroundColor: 'rgba(255,255,255,0.3)',
     borderRadius: stdCornerRadius,
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
     maxWidth: "450px",
     padding: '24px 4px 24px 4px',
-    overflowY: 'auto',
     overflowX: 'hidden',
     display: 'flex',
     flexDirection: 'column',
+  },
+  rootInDemo: {
+    overflowY: 'hidden',
+  },
+  rootInGame: {
+    overflowY: 'auto',
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
   }
 })
 
-export function Discussion({ messages }: DiscussionProps): JSX.Element {
+export function Discussion({ messages, demoMode }: DiscussionProps): JSX.Element {
 
   const classes = useStyles()
 
@@ -41,7 +49,7 @@ export function Discussion({ messages }: DiscussionProps): JSX.Element {
   useEffect(scrollToBottom, [messages]);
 
   return (
-    <div className={classes.root}>
+    <div className={`${classes.root} ${demoMode ? classes.rootInDemo : classes.rootInGame}`}>
       {messages.map((message, index) => {
         return (<Message key={index} author={message.author} message={message.message} aiConfidence={message.aiConfidence}/>)
       })}

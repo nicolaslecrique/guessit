@@ -85,7 +85,7 @@ class DiscussionDemo extends React.Component<IProps, DiscussionDemoState> {
 
     return (
       <div className={classes.root}>
-          <Discussion messages={this.state.messagesToDisplay}/>
+          <Discussion messages={this.state.messagesToDisplay} demoMode={true}/>
       </div>
     )
   }

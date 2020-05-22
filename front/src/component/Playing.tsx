@@ -126,7 +126,7 @@ const useStyles = makeStyles({
                 </>
               }
             </div>
-            <Discussion messages={messages}/>
+            <Discussion messages={messages} demoMode={false}/>
             <div className={classes.bottomBar}>
             {bottomBar}
             </div>
