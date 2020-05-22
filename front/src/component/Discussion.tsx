@@ -15,7 +15,7 @@ const useStyles = makeStyles({
     flexGrow: 4,
     width: '100%',
     alignSelf: 'center',
-    backgroundColor: 'rgba(255,255,255,0.3)',
+    backgroundColor: 'rgba(255,255,255,0.2)', // semi-transparent background
     borderRadius: stdCornerRadius,
     maxWidth: "450px",
     padding: '24px 4px 24px 4px',
