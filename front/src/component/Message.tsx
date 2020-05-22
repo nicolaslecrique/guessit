@@ -1,7 +1,7 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import {Typography} from '@material-ui/core'
-import {stdCornerRadius} from '../style/common_style'
+import {extraSmallMrg, stdCornerRadius, verySmallMrg} from '../style/common_style'
 
 export enum Author {
   Player,
@@ -16,27 +16,19 @@ export enum AiConfidence {
 
 export type MessageProps = { author: Author, message: string, aiConfidence: AiConfidence | null }
 
-
-// définir un contour, orientation gauche / droite en fonction du user
-// définir un avatar AI  / Player
-// alignement a gauche / droite en fonction du user
-// définir une type "robot" pour l'AI
-
-
-
 const useStyles = makeStyles({
   messageContainer: {
     display: 'flex',
     marginBottom: '-24px' // space between messages
   },
   avatar: {
-    marginTop: '8px',
+    marginTop: verySmallMrg,
     background: '#fff',
     height: '50px',
     width: '50px',
     borderRadius: '25px',
-    marginLeft: '2px',
-    marginRight: '2px',
+    marginLeft: extraSmallMrg,
+    marginRight: extraSmallMrg,
   },
   bubbleWrapPlayer: {
     marginLeft: 'auto',
@@ -59,12 +51,9 @@ const useStyles = makeStyles({
     position: "relative",
     borderRadius: stdCornerRadius,
     background: '#fff',
-    width: 'fit-content', // TODO have maxWidth where we go to next line, else fit to content
+    width: 'fit-content',
     maxWidth: '200px',
-    paddingLeft: '12px',
-    paddingRight: '12px',
-    paddingTop: '8px',
-    paddingBottom: '8px',
+    padding: verySmallMrg,
     '&:before': {
       content: "''",
       width: '0px',
@@ -76,7 +65,7 @@ const useStyles = makeStyles({
     }
   },
   author: {
-    marginTop: '8px'
+    marginTop: verySmallMrg
   }
 })
 
@@ -86,6 +75,7 @@ export const Message = ({ author, message, aiConfidence}: MessageProps): JSX.Ele
   let messageWithMarks = null
   if (author === Author.AI) {
     switch (aiConfidence) {
+      // emojis from https://emojiisland.com/pages/download-new-emoji-icons-in-png-ios-10
       case AiConfidence.Thinking:
         emojiPath = process.env.PUBLIC_URL + '/img/emoji_thinking.png'
         messageWithMarks = message + "?"
@@ -120,4 +110,4 @@ export const Message = ({ author, message, aiConfidence}: MessageProps): JSX.Ele
   </div>
 }
 
-// emojis from https://emojiisland.com/pages/download-new-emoji-icons-in-png-ios-10
+
