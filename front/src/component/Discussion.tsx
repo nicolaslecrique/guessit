@@ -22,14 +22,14 @@ const useStyles = makeStyles({
     overflowX: 'hidden',
     display: 'flex',
     flexDirection: 'column',
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
   },
   rootInDemo: {
     overflowY: 'hidden',
   },
   rootInGame: {
     overflowY: 'auto',
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
   }
 })
 

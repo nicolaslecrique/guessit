@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles';
 import {AiConfidence, Author, MessageProps} from '../component/Message'
 import {background, fancyButton, fancyFontFamily, smallMrg, stdMrg} from '../style/common_style'
+import DiscussionDemo from '../component/DiscussionDemo'
 
 const demoMessages: MessageProps[] = [
     { author: Author.Player, message: "It's a robot", aiConfidence: null },
@@ -92,7 +93,7 @@ class Intro extends React.Component<IProps, IntroState> {
           <Typography variant="h3" align="center" className={classes.subtitle} component="h2">
             Can an AI guess what you are talking about ?
           </Typography>
-          <Discussion messages={this.state.messagesToDisplay} demoMode={true}/>
+          <DiscussionDemo/>
           <div className={classes.playButtonContainer}>
             <Link className={classes.linkPlay} to={boardRoute}>
               <Button variant="contained" color="primary" className={classes.playButton}>Let's play !</Button>

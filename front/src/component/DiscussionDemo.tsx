@@ -1,60 +1,38 @@
 import React from 'react'
 import {Discussion} from './Discussion'
-import {createStyles, Typography, WithStyles} from "@material-ui/core"
-import { withStyles } from '@material-ui/core/styles';
+import {createStyles, WithStyles} from "@material-ui/core"
+import {withStyles} from '@material-ui/core/styles'
 import {AiConfidence, Author, MessageProps} from './Message'
-import {background, fancyButton, fancyFontFamily, smallMrg, stdMrg} from '../style/common_style'
+import {InputBar} from './TypingBar'
 
 
 const demoMessages: MessageProps[] = [
   { author: Author.Player, message: "It's a robot", aiConfidence: null },
-  { author: Author.AI, message: "Wall-E ?", aiConfidence: AiConfidence.Thinking  },
+  { author: Author.AI, message: "Wall-E", aiConfidence: AiConfidence.Thinking  },
   { author: Author.Player, message: "In Star Wars", aiConfidence: null  },
-  { author: Author.AI, message: "R2D2 ?", aiConfidence: AiConfidence.Confident  },
+  { author: Author.AI, message: "R2D2", aiConfidence: AiConfidence.Confident  },
   { author: Author.Player, message: "The one who talks a lot", aiConfidence: null  },
-  { author: Author.AI, message: "C3PO !", aiConfidence: AiConfidence.Sure  },
+  { author: Author.AI, message: "C3PO", aiConfidence: AiConfidence.Sure  },
+  { author: Author.Player, message: "", aiConfidence: null  }, // fake message to make reset of message wait
 ]
 
+const nbTicksBetweenMessages = 20
 
 const styles = () => createStyles({
   root: {
-    height: '100%',
-    background: background,
-    paddingLeft: smallMrg,
-    paddingRight: smallMrg,
-  },
-  rootContent: {
     display: 'flex',
+    flexGrow: 4,
     flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    maxWidth: '720px',
-    margin: 'auto',
-    height: '90%', // trick because on mobile address bar count in the 100%
-  },
-  title: {
-    margin: stdMrg,
-    fontFamily: fancyFontFamily,
-    color: "#fff"
-  },
-  subtitle: {
-    margin: `0px ${stdMrg} ${stdMrg} ${stdMrg}`,
-    color: "#fff",
-  },
-  playButton: {
-    ...fancyButton
-  },
-  playButtonContainer: {
-    width: '200px',
+    width: '100%',
+    maxWidth: "450px",
     alignSelf: 'center',
-    margin: stdMrg,
   },
-  linkPlay: {
-    textDecoration: 'none',
-  }
 })
 
 type DiscussionDemoState = {
-  messagesToDisplay: MessageProps[]
+  currentMessageIndex: number
+  nextCharIndexInCurrentMessage: number
+  nbTicksUntilNextMessage: number
 }
 
 interface IProps extends WithStyles<typeof styles> {
@@ -67,12 +45,14 @@ class DiscussionDemo extends React.Component<IProps, DiscussionDemoState> {
   constructor(props: IProps) {
     super(props)
     this.state = {
-      messagesToDisplay: []
+      currentMessageIndex: 0,
+      nextCharIndexInCurrentMessage: 0,
+      nbTicksUntilNextMessage: nbTicksBetweenMessages
     }
   }
 
   componentDidMount(): void {
-    this.timerId = setInterval(() => this.onTimer(), 1000)
+    this.timerId = setInterval(() => this.onTimer(), 100)
   }
 
   componentWillUnmount(): void {
@@ -81,20 +61,66 @@ class DiscussionDemo extends React.Component<IProps, DiscussionDemoState> {
 
 
   render(): JSX.Element {
-    const { classes } = this.props;
+
+    const [messages, currentMessage] = this.buildMessageToDisplay()
 
     return (
-      <div className={classes.root}>
-          <Discussion messages={this.state.messagesToDisplay} demoMode={true}/>
-      </div>
+      <>
+          <Discussion messages={messages} demoMode={true}/>
+          <InputBar
+            onChangeTypedMessage={() => {}}
+            onSendMessage={() => {}}
+            typedMessage={currentMessage}/>
+      </>
     )
   }
 
-  private onTimer() {
-    const newSize = (this.state.messagesToDisplay.length + 1) % (demoMessages.length + 1)
-    this.setState({
-      messagesToDisplay: demoMessages.slice(0, newSize)
-    })
+  private buildMessageToDisplay(): [MessageProps[], string]{
+
+    const {currentMessageIndex, nextCharIndexInCurrentMessage} = this.state
+
+    let finishedMessages = demoMessages.slice(0, currentMessageIndex)
+    let currentMessage = demoMessages[currentMessageIndex]
+    let currentMessageSentence = currentMessage.message.slice(0, nextCharIndexInCurrentMessage)
+    if (currentMessage.author === Author.Player){
+      return [finishedMessages, currentMessageSentence]
+    } else {
+      return [finishedMessages, ""]
+    }
+
+  }
+
+  private onTimer(){
+
+    let {currentMessageIndex, nextCharIndexInCurrentMessage, nbTicksUntilNextMessage} = this.state
+    const currentMessageToPrint = demoMessages[currentMessageIndex]
+    const currentMessageToPrintLength = currentMessageToPrint.message.length
+
+    if (nbTicksUntilNextMessage > 0){
+      this.setState(
+        {
+          nbTicksUntilNextMessage: nbTicksUntilNextMessage - 1
+        }
+      )
+      return
+    }
+
+    if (currentMessageToPrintLength === nextCharIndexInCurrentMessage){
+      currentMessageIndex = (currentMessageIndex + 1) % (demoMessages.length)
+      nbTicksUntilNextMessage = nbTicksBetweenMessages
+      nextCharIndexInCurrentMessage = 0
+    } else {
+      nextCharIndexInCurrentMessage++
+    }
+
+    this.setState(
+      {
+        currentMessageIndex,
+        nextCharIndexInCurrentMessage,
+        nbTicksUntilNextMessage
+      }
+    )
+
   }
 }
 

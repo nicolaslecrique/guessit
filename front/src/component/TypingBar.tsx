@@ -14,6 +14,8 @@ const useStyles = makeStyles({
     borderTopRightRadius: 0,
     backgroundColor: "#fff",
     width: "100%",
+    alignSelf: 'center',
+    maxWidth: "450px",
     '&:hover': {
       borderWidth: 0
     }
