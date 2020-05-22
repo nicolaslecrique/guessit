@@ -1,18 +1,22 @@
 import React from 'react'
-import { Redirect } from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 import Cookies from 'js-cookie'
-import ChooseEntity from './ChooseEntity'
-import { MessageProps } from './Discussion'
-import { Entity, GameSession, postUser, postEntityGuessingSentences, postGameSession } from '../service/BackRestService'
-import { scoreRoute } from '../core/Routing'
-import Playing from './Playing'
+import ChooseEntity from '../component/ChooseEntity'
+import {AiConfidence, Author, MessageProps} from '../component/Message'
+import {Entity, GameSession, postEntityGuessingSentences, postGameSession, postUser} from '../service/BackRestService'
+import {scoreRoute} from '../core/Routing'
+import Playing from '../component/Playing'
+import LoadingScreen from '../component/LoadingScreen'
 
 
 enum PlayState {
+  Loading,
   ChooseEntity,
   Play,
   EndOfRound
 }
+
+const nbRounds = 5
 
 type BoardState = {
   playState: PlayState,
@@ -20,7 +24,7 @@ type BoardState = {
   gameSession: GameSession,
   entity: Entity,
   noMoreEntitiesToChoose: boolean,
-  remainingRounds: number
+  currentRoundIdx: number
   messages: MessageProps[],
   typedMessage: string
 }
@@ -29,12 +33,12 @@ class Board extends React.Component<{}, BoardState> {
   constructor(props: {}) {
     super(props)
     this.state = {
-      playState: PlayState.ChooseEntity,
+      playState: PlayState.Loading,
       userUri: "",
       gameSession: { gameSessionUri: "", entitiesToGuess: [] },
       entity: { entityUri: "", entityGuessingUri: "", entityName: ""},
       noMoreEntitiesToChoose: false,
-      remainingRounds: 3,
+      currentRoundIdx: 0,
       messages: [],
       typedMessage: "",
     }
@@ -42,7 +46,7 @@ class Board extends React.Component<{}, BoardState> {
 
   async componentDidMount(): Promise<void> {
     const userUri = await this.initUser()
-    this.initGameSession(userUri)
+    await this.initGameSession(userUri)
   }
 
   nextEntity(): void {
@@ -76,7 +80,7 @@ class Board extends React.Component<{}, BoardState> {
     this.nextEntity()
     this.setState({
       playState: PlayState.ChooseEntity,
-      remainingRounds: this.state.remainingRounds - 1,
+      currentRoundIdx: this.state.currentRoundIdx + 1,
       messages: [],
       typedMessage: ""
     })
@@ -85,13 +89,13 @@ class Board extends React.Component<{}, BoardState> {
   entityGuessed(entityName: string): void {
     let message = entityName
     let newPlayState = this.state.playState
-    if (entityName === this.state.entity.entityName) {
-      message += ' :)'
+    const aiFound = entityName === this.state.entity.entityName
+    if (aiFound) {
       newPlayState = PlayState.EndOfRound
     }
 
     let messages = this.state.messages.slice()
-    messages.push({ author: "AI", message: message})
+    messages.push({ author: Author.AI, message: message, aiConfidence: aiFound ? AiConfidence.Sure : AiConfidence.Thinking})
 
     this.setState({
       playState: newPlayState,
@@ -111,7 +115,8 @@ class Board extends React.Component<{}, BoardState> {
   
       this.guessEntity(entityToGuessUri, entityGuessingUri, previousSentences, newSentence)
   
-      messages.push({ author: "Human", message: this.state.typedMessage })
+      messages.push({ author: Author.Player, message: this.state.typedMessage, aiConfidence: null })
+
       this.setState({
         messages: messages,
         typedMessage: ""  
@@ -141,6 +146,7 @@ class Board extends React.Component<{}, BoardState> {
 
     if (entity) {
       this.setState({
+        playState: PlayState.ChooseEntity,
         gameSession: gameSession,
         entity: entity
       })
@@ -158,13 +164,16 @@ class Board extends React.Component<{}, BoardState> {
   }
 
   render(): JSX.Element {
-    switch(this.state.playState) { 
-      case PlayState.ChooseEntity: { 
-        if(this.state.remainingRounds > 0 && !this.state.noMoreEntitiesToChoose) {
+    switch(this.state.playState) {
+      case PlayState.Loading:
+        return <LoadingScreen/>
+      case PlayState.ChooseEntity: {
+        if(this.state.currentRoundIdx < nbRounds && !this.state.noMoreEntitiesToChoose) {
           return (
             <ChooseEntity
               entityName={this.state.entity.entityName}
-              remainingRounds={this.state.remainingRounds}
+              currentRoundIdx={this.state.currentRoundIdx}
+              nbRounds={nbRounds}
               onClickGo={() => this.startRound()}
               onClickPass={() => this.nextEntity()}
             />
@@ -179,7 +188,7 @@ class Board extends React.Component<{}, BoardState> {
         return (
           <Playing
             isEndOfRound={this.state.playState !== PlayState.Play}
-            isLastRound={this.state.remainingRounds === 1}
+            isLastRound={this.state.currentRoundIdx === nbRounds - 1}
             gameSessionUri={this.state.gameSession.gameSessionUri}
             entityName={this.state.entity.entityName}
             messages={this.state.messages}
