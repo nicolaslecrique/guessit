@@ -1,24 +1,14 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import {Discussion} from '../component/Discussion'
 import {boardRoute} from '../core/Routing'
-import {createStyles, Typography, WithStyles} from "@material-ui/core"
+import {Typography} from "@material-ui/core"
 import Button from '@material-ui/core/Button'
-import { withStyles } from '@material-ui/core/styles';
-import {AiConfidence, Author, MessageProps} from '../component/Message'
+import {makeStyles} from '@material-ui/core/styles'
 import {background, fancyButton, fancyFontFamily, smallMrg, stdMrg} from '../style/common_style'
 import DiscussionDemo from '../component/DiscussionDemo'
 
-const demoMessages: MessageProps[] = [
-    { author: Author.Player, message: "It's a robot", aiConfidence: null },
-    { author: Author.AI, message: "Wall-E ?", aiConfidence: AiConfidence.Thinking  },
-    { author: Author.Player, message: "In Star Wars", aiConfidence: null  },
-    { author: Author.AI, message: "R2D2 ?", aiConfidence: AiConfidence.Confident  },
-    { author: Author.Player, message: "The one who talks a lot", aiConfidence: null  },
-    { author: Author.AI, message: "C3PO !", aiConfidence: AiConfidence.Sure  },
-]
 
-const styles = () => createStyles({
+const useStyles = makeStyles({
   root: {
     height: '100%',
     background: background,
@@ -55,61 +45,28 @@ const styles = () => createStyles({
   }
 })
 
-type IntroState = {
-  messagesToDisplay: MessageProps[]
-}
 
-interface IProps extends WithStyles<typeof styles> {
-}
+export default function Intro(): JSX.Element {
 
-class Intro extends React.Component<IProps, IntroState> {
-  private timerId! : NodeJS.Timeout
+  const classes = useStyles()
 
-  constructor(props: IProps) {
-    super(props)
-    this.state = {
-      messagesToDisplay: []
-    }
-  }
-
-  componentDidMount(): void {
-    this.timerId = setInterval(() => this.onTimer(), 1000)
-  }
-
-  componentWillUnmount(): void {
-    clearInterval(this.timerId)
-  }
-
-
-  render(): JSX.Element {
-    const { classes } = this.props;
-
-    return (
-      <div className={classes.root}>
-        <div className={classes.rootContent}>
-          <Typography variant="h2" align="center" className={classes.title} component="h1">
-            Guess It AI!
-          </Typography>
-          <Typography variant="h3" align="center" className={classes.subtitle} component="h2">
-            Can an AI guess what you are talking about ?
-          </Typography>
-          <DiscussionDemo/>
-          <div className={classes.playButtonContainer}>
-            <Link className={classes.linkPlay} to={boardRoute}>
-              <Button variant="contained" color="primary" className={classes.playButton}>Let's play !</Button>
-            </Link>
-          </div>
+  return (
+    <div className={classes.root}>
+      <div className={classes.rootContent}>
+        <Typography variant="h2" align="center" className={classes.title} component="h1">
+          Guess It AI!
+        </Typography>
+        <Typography variant="h3" align="center" className={classes.subtitle} component="h2">
+          Can an AI guess what you are talking about ?
+        </Typography>
+        <DiscussionDemo/>
+        <div className={classes.playButtonContainer}>
+          <Link className={classes.linkPlay} to={boardRoute}>
+            <Button variant="contained" color="primary" className={classes.playButton}>Let's play !</Button>
+          </Link>
         </div>
       </div>
-    )
-  }
-
-  private onTimer() {
-    const newSize = (this.state.messagesToDisplay.length + 1) % (demoMessages.length + 1)
-    this.setState({
-      messagesToDisplay: demoMessages.slice(0, newSize)
-    })
-  }
+    </div>
+  )
 }
 
-export default withStyles(styles)(Intro)

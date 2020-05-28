@@ -57,9 +57,9 @@ function ChooseEntity({ entityName, currentRoundIdx, nbRounds, onClickGo, onClic
 
   const classes = useStyles()
 
-    return (
-      <div className={classes.background}>
-        <div className={classes.root}>
+  return (
+    <div className={classes.background}>
+      <div className={classes.root}>
         <Typography className={classes.roundsCount} align="center" variant="h5" >Round {currentRoundIdx + 1} / {nbRounds}</Typography>
         <div className={classes.rootFlex}>
           <Typography className={classes.message} align="center" variant="h5" >Describe</Typography>
@@ -69,9 +69,9 @@ function ChooseEntity({ entityName, currentRoundIdx, nbRounds, onClickGo, onClic
           <Button className={classes.letsGoButton} variant="contained" color="primary"  onClick={() => onClickGo()}>Let's GO !</Button>
           <Button className={classes.passButton} variant="outlined" onClick={() => onClickPass()}>Pass</Button>
         </div>
-        </div>
       </div>
-    )
+    </div>
+  )
 }
 
 export default ChooseEntity

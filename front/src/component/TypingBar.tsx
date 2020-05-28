@@ -23,7 +23,7 @@ const useStyles = makeStyles({
   fieldInput: {
     height: '36px',
     borderRadius: stdCornerRadius,
-    paddingRight :stdCornerRadius,
+    paddingRight: stdCornerRadius,
   },
   notchedOutline: {
     borderWidth: '0px',
@@ -38,7 +38,7 @@ export type TypingBarProps = {
 
 }
 
-export const InputBar = ({typedMessage, onChangeTypedMessage, onSendMessage}: TypingBarProps): JSX.Element => {
+export function TypingBar({typedMessage, onChangeTypedMessage, onSendMessage}: TypingBarProps): JSX.Element {
 
   const classes = useStyles()
 

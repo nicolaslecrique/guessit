@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import CssBaseline from "@material-ui/core/CssBaseline"
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import {Theme, responsiveFontSizes} from "@material-ui/core"
+import {Theme, responsiveFontSizes } from "@material-ui/core"
 
 type BaseProps = {
   children: React.ReactNode
@@ -13,9 +13,6 @@ type BaseState = {
 
 
 const theme: Theme = responsiveFontSizes(createMuiTheme({
-  typography: {
-
-  }
 }));
 
 class Base extends React.Component<BaseProps, BaseState> {

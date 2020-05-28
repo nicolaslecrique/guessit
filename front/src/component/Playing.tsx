@@ -9,7 +9,7 @@ import {background, fancyButton, fancyFontFamily, smallMrg, stdCornerRadius} fro
 import {Button, Typography} from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton'
 import SkipNextIcon from '@material-ui/icons/SkipNext';
-import {InputBar} from './TypingBar'
+import {TypingBar} from './TypingBar'
 
 
 type PlayingProps = {
@@ -79,10 +79,6 @@ const useStyles = makeStyles({
   }
 })
 
-
-
-  // todo extract typing bar to display it in intro
-
   function Playing({ isEndOfRound, isLastRound, gameSessionUri, entityName, messages, onEndOfRound, onClickNext, typedMessage, onChangeTypedMessage, onSendMessage }: PlayingProps): JSX.Element {
 
     let bottomBar: JSX.Element
@@ -93,7 +89,7 @@ const useStyles = makeStyles({
     if (!isEndOfRound) {
 
       bottomBar = (
-        <InputBar onChangeTypedMessage={onChangeTypedMessage} onSendMessage={onSendMessage} typedMessage={typedMessage}/>
+        <TypingBar onChangeTypedMessage={onChangeTypedMessage} onSendMessage={onSendMessage} typedMessage={typedMessage}/>
       )
 
     } else {
@@ -113,24 +109,24 @@ const useStyles = makeStyles({
 
     return (
       <div className={classes.root}>
-          <div className={classes.rootContent}>
-            <div className={classes.topBar}>
-              <Typography className={classes.entityName} variant="subtitle1" >{entityName}</Typography>
-              {!isEndOfRound &&
-                <>
-                  <Timer nbSeconds={timer} onFinish={() => onEndOfRound()} onTick={(nbSecLeft) => onTick(nbSecLeft)}/>
-                  <Typography className={classes.nbSecLeft} variant="subtitle1" >{nbSecLeft}</Typography>
-                  <IconButton className={classes.skipButton} onClick={() => onClickNext()}>
-                    <SkipNextIcon/>
-                  </IconButton>
-                </>
-              }
-            </div>
-            <Discussion messages={messages} demoMode={false}/>
-            <div className={classes.bottomBar}>
-            {bottomBar}
-            </div>
+        <div className={classes.rootContent}>
+          <div className={classes.topBar}>
+            <Typography className={classes.entityName} variant="subtitle1" >{entityName}</Typography>
+            {!isEndOfRound &&
+              <>
+                <Timer nbSeconds={timer} onFinish={() => onEndOfRound()} onTick={(nbSecLeft) => onTick(nbSecLeft)}/>
+                <Typography className={classes.nbSecLeft} variant="subtitle1" >{nbSecLeft}</Typography>
+                <IconButton className={classes.skipButton} onClick={() => onClickNext()}>
+                  <SkipNextIcon/>
+                </IconButton>
+              </>
+            }
           </div>
+          <Discussion messages={messages} demoMode={false}/>
+          <div className={classes.bottomBar}>
+            {bottomBar}
+          </div>
+        </div>
       </div>
     )
   }

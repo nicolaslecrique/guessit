@@ -15,9 +15,9 @@ export const scoreRoute = (gameSessionUri: string): string =>  `/score/${gameSes
 export const routing = (
   <Router>
     <Base>
-        <Route exact path={homeRoute} component={Intro}/>
-        <Route path={boardRoute} component={Board}/>
-        <Route path={scoreRoutePattern} component={Score}/>
+      <Route exact path={homeRoute} component={Intro}/>
+      <Route path={boardRoute} component={Board}/>
+      <Route path={scoreRoutePattern} component={Score}/>
     </Base>
   </Router>
 )

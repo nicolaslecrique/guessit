@@ -73,32 +73,36 @@ const useStyles = makeStyles({
   }
 })
 
-export const Message = ({ author, message, aiConfidence}: MessageProps): JSX.Element => {
+export function Message({ author, message, aiConfidence}: MessageProps): JSX.Element {
+
   const classes = useStyles()
   let emojiPath = ''
   let messageWithMarks = null
   if (author === Author.AI) {
+    let emoji = undefined
     switch (aiConfidence) {
       // emojis from https://emojiisland.com/pages/download-new-emoji-icons-in-png-ios-10
       case AiConfidence.Thinking:
-        emojiPath = process.env.PUBLIC_URL + '/img/emoji_thinking.png'
+        emoji = 'emoji_thinking'
         messageWithMarks = message + "?"
         break;
       case AiConfidence.Confident:
-        emojiPath = process.env.PUBLIC_URL + '/img/emoji_smirk.png'
+        emoji = 'emoji_smirk'
         messageWithMarks = message + "?"
         break;
       case AiConfidence.Sure:
-        emojiPath = process.env.PUBLIC_URL + '/img/emoji_happy.png'
+        emoji = 'emoji_happy'
         messageWithMarks = message + "!"
         break;
+      default:
+        throw new Error(`Unmanaged AiConfidence: ${aiConfidence}`)
     }
+    emojiPath = `${process.env.PUBLIC_URL}/img/${emoji}.png`
   } else {
     messageWithMarks = message
   }
 
   return <div className={classes.messageContainer}>
-
 
     <div className={author === Author.AI ? undefined : classes.bubbleWrapPlayer}>
       <div className={`${classes.bubble} ${author === Author.AI ? classes.bubbleAi : classes.bubblePlayer}`}>

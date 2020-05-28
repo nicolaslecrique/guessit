@@ -1,9 +1,7 @@
 import React from 'react'
 import {Discussion} from './Discussion'
-import {createStyles, WithStyles} from "@material-ui/core"
-import {withStyles} from '@material-ui/core/styles'
 import {AiConfidence, Author, MessageProps} from './Message'
-import {InputBar} from './TypingBar'
+import {TypingBar} from './TypingBar'
 
 
 const demoMessages: MessageProps[] = [
@@ -18,16 +16,6 @@ const demoMessages: MessageProps[] = [
 
 const nbTicksBetweenMessages = 20
 
-const styles = () => createStyles({
-  root: {
-    display: 'flex',
-    flexGrow: 4,
-    flexDirection: 'column',
-    width: '100%',
-    maxWidth: "450px",
-    alignSelf: 'center',
-  },
-})
 
 type DiscussionDemoState = {
   currentMessageIndex: number
@@ -35,7 +23,7 @@ type DiscussionDemoState = {
   nbTicksUntilNextMessage: number
 }
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
 }
 
 
@@ -67,7 +55,7 @@ class DiscussionDemo extends React.Component<IProps, DiscussionDemoState> {
     return (
       <>
           <Discussion messages={messages} demoMode={true}/>
-          <InputBar
+          <TypingBar
             onChangeTypedMessage={() => {}}
             onSendMessage={() => {}}
             typedMessage={currentMessage}/>
@@ -124,4 +112,4 @@ class DiscussionDemo extends React.Component<IProps, DiscussionDemoState> {
   }
 }
 
-export default withStyles(styles)(DiscussionDemo)
+export default DiscussionDemo
