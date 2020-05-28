@@ -64,12 +64,11 @@ class Score extends React.Component<ScoreProps, ScoreState> {
     }
   }
 
-  componentDidMount(): void {
+  async componentDidMount() {
     const gameSessionUri = this.props.match.params.gameSessionUri;
     if (gameSessionUri) {
-      getGameSessionResult(gameSessionUri).then(
-        (gameSessionResult) => this.setState({ gameSessionResult: gameSessionResult })
-      )
+      const gameSessionResult = await getGameSessionResult(gameSessionUri)
+      this.setState({ gameSessionResult: gameSessionResult })
     }
   }
 
@@ -98,7 +97,7 @@ class Score extends React.Component<ScoreProps, ScoreState> {
                   variant="h5" >
                   {entityGuessing.entityToGuessName}
                 </Typography>
-          )
+            )
           )
         }
         <Link className={classes.linkPlay} to={boardRoute}>

@@ -72,6 +72,5 @@ export async function postEndOfGuessing(entityToGuessUri: string, entityGuessing
 }
 
 export async function getGameSessionResult(gameSessionUri: string): Promise<GameSessionResult> {
-  const gameSessionResult: GameSessionResult = await doGetRequest(`game_session_result?gameSessionUri=${gameSessionUri}`)
-  return gameSessionResult
+  return await doGetRequest(`game_session_result?gameSessionUri=${gameSessionUri}`)
 }
