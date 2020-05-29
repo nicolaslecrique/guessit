@@ -84,7 +84,7 @@ const useStyles = makeStyles({
     let bottomBar: JSX.Element
 
     const classes = useStyles()
-    const timer = 30
+    const timer = 60
 
     if (!isEndOfRound) {
 
