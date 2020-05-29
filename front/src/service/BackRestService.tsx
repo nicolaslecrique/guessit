@@ -45,6 +45,12 @@ export async function postUser(): Promise<string> {
   return json.userUri
 }
 
+export async function checkUserExists(userUid: string): Promise<boolean> {
+  const json: { userExists: boolean } = await doGetRequest(
+    `user?userUri=${userUid}`)
+  return json.userExists
+}
+
 export async function postGameSession(userUri: string): Promise<GameSession> {
   return await doPostRequest('game_session', {userUri: userUri})
 }
@@ -59,8 +65,7 @@ export async function postEntityGuessingSentences(
     previousSentences: previousSentences,
     newSentence: newSentence
   }
-  const guessedEntity: GuessedEntity = await doPostRequest('entity_guessing_sentence', body)
-  return guessedEntity
+  return await doPostRequest('entity_guessing_sentence', body)
 }
 
 export async function postEndOfGuessing(entityToGuessUri: string, entityGuessingUri: string) {

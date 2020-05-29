@@ -17,6 +17,14 @@ class RestApi(
         private val mlRestService: MlRestService
 ) {
 
+    data class GetUserResult(val userExists: Boolean)
+
+    @GetMapping("/user")
+    fun getUser(@RequestParam userUri: String): GetUserResult {
+        val exists = db.existsUser(userUri)
+        return GetUserResult(exists)
+    }
+
     data class PostNewUserResult(val userUri: String)
 
     @PostMapping("/user")

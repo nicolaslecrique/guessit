@@ -5,7 +5,9 @@ import co.globers.ibo.jooq.Tables
 import org.jooq.DSLContext
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
+import org.jooq.impl.DSL.exists
 import org.jooq.impl.DSL.inline
+import org.jooq.impl.DSL.select
 import org.springframework.stereotype.Repository
 import java.sql.DriverManager
 import java.sql.Timestamp
@@ -61,6 +63,16 @@ class Db(iboConfig: IboConfig) {
     fun insertUser(userUri: String): Int {
         return withContext { context ->
             context.insertInto(Tables.USER, Tables.USER.URI).values(userUri).execute()
+        }
+    }
+
+    fun existsUser(userUri: String): Boolean {
+        return withContext { context ->
+            context.fetchExists(context
+                    .select()
+                    .from(Tables.USER)
+                    .where(Tables.USER.URI.equal(userUri))
+            )
         }
     }
 
