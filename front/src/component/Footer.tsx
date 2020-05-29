@@ -23,7 +23,7 @@ function Footer(): JSX.Element {
 
   return (
       <Typography className={classes.loadingMessage}  align="center" variant="body2">
-        Made by Globers™, contact: <Obfuscate email="guess-it@globers.co"/>
+        Made by Globers™, <Obfuscate email="guess-it@globers.co"/>
       </Typography>
   )
 }
