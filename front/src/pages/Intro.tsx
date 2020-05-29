@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button'
 import {makeStyles} from '@material-ui/core/styles'
 import {background, fancyButton, fancyFontFamily, smallMrg, stdMrg} from '../style/common_style'
 import DiscussionDemo from '../component/DiscussionDemo'
+import Footer from '../component/Footer'
 
 
 const useStyles = makeStyles({
@@ -21,7 +22,7 @@ const useStyles = makeStyles({
     justifyContent: 'space-evenly',
     maxWidth: '720px',
     margin: 'auto',
-    height: '90%', // trick because on mobile address bar count in the 100%
+    height: '100%', // trick because on mobile address bar count in the 100%
   },
   title: {
     margin: stdMrg,
@@ -65,6 +66,7 @@ export default function Intro(): JSX.Element {
             <Button variant="contained" color="primary" className={classes.playButton}>Let's play !</Button>
           </Link>
         </div>
+        <Footer/>
       </div>
     </div>
   )
