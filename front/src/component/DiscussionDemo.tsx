@@ -14,7 +14,7 @@ const demoMessages: MessageProps[] = [
   { author: Author.Player, message: "", aiConfidence: null  }, // fake message to make reset of message wait
 ]
 
-const nbTicksBetweenMessages = 20
+const nbTicksBetweenMessages = 10
 
 
 type DiscussionDemoState = {
