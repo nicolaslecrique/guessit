@@ -35,10 +35,10 @@ export type TypingBarProps = {
   typedMessage: string,
   onChangeTypedMessage: (message: string) => void,
   onSendMessage: () => void
-
+  isDemoMode: boolean
 }
 
-export function TypingBar({typedMessage, onChangeTypedMessage, onSendMessage}: TypingBarProps): JSX.Element {
+export function TypingBar({typedMessage, onChangeTypedMessage, onSendMessage, isDemoMode}: TypingBarProps): JSX.Element {
 
   const classes = useStyles()
 
@@ -54,8 +54,9 @@ export function TypingBar({typedMessage, onChangeTypedMessage, onSendMessage}: T
 
   return (
     <TextField
+      disabled={isDemoMode}
     variant="outlined"
-    autoFocus={true}
+    autoFocus={!isDemoMode}
     autoComplete="off"
     className={classes.input}
     id="outlined-basic"
@@ -77,6 +78,7 @@ export function TypingBar({typedMessage, onChangeTypedMessage, onSendMessage}: T
       className: classes.fieldInput,
       endAdornment: <InputAdornment position="end">
         <IconButton
+          disabled={isDemoMode}
           aria-label="Enter"
           onClick={sendMessage}
           onMouseDown={handleMouseDownSend}

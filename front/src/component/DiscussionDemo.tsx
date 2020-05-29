@@ -56,6 +56,7 @@ class DiscussionDemo extends React.Component<IProps, DiscussionDemoState> {
       <>
           <Discussion messages={messages} demoMode={true}/>
           <TypingBar
+            isDemoMode={true}
             onChangeTypedMessage={() => {}}
             onSendMessage={() => {}}
             typedMessage={currentMessage}/>

@@ -89,7 +89,12 @@ const useStyles = makeStyles({
     if (!isEndOfRound) {
 
       bottomBar = (
-        <TypingBar onChangeTypedMessage={onChangeTypedMessage} onSendMessage={onSendMessage} typedMessage={typedMessage}/>
+        <TypingBar
+          onChangeTypedMessage={onChangeTypedMessage}
+          onSendMessage={onSendMessage}
+          typedMessage={typedMessage}
+          isDemoMode={false}
+        />
       )
 
     } else {
