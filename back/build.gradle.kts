@@ -42,6 +42,8 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
+	// try to remove it in the future, it's needed to prevent missing dependency bug when spring-boot is loading
+	implementation(group="org.yaml", name="snakeyaml", version="1.26")
 
 	// Postgres / Jooq
 	// https://github.com/etiennestuder/gradle-jooq-plugin

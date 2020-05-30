@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 import ChooseEntity from '../component/ChooseEntity'
 import {AiConfidence, Author, MessageProps} from '../component/Message'
 import {
+  checkUserExists,
   Entity,
   GameSession,
   postEndOfGuessing,
@@ -138,10 +139,15 @@ class Board extends React.Component<{}, BoardState> {
 
   async initUser(): Promise<string> {
     let userUri = Cookies.get("userUri")
-    if (!userUri) {
+    if (userUri) {
+      const userExists = await checkUserExists(userUri)
+      if (!userExists) {
+        userUri = await postUser()
+      }
+    } else {
       userUri = await postUser()
     }
-    
+
     Cookies.set('userUri', userUri, { path: '' })
 
     this.setState({
