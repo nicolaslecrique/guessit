@@ -10,6 +10,7 @@ import {Button, Typography} from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton'
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 import {TypingBar} from './TypingBar'
+import {numberOfSeconds} from '../core/Game'
 
 
 type PlayingProps = {
@@ -84,12 +85,16 @@ const useStyles = makeStyles({
     let bottomBar: JSX.Element
 
     const classes = useStyles()
-    const timer = 30
 
     if (!isEndOfRound) {
 
       bottomBar = (
-        <TypingBar onChangeTypedMessage={onChangeTypedMessage} onSendMessage={onSendMessage} typedMessage={typedMessage}/>
+        <TypingBar
+          onChangeTypedMessage={onChangeTypedMessage}
+          onSendMessage={onSendMessage}
+          typedMessage={typedMessage}
+          isDemoMode={false}
+        />
       )
 
     } else {
@@ -101,7 +106,7 @@ const useStyles = makeStyles({
       }
     }
 
-    const [nbSecLeft, setNbSecLeft] = useState(timer)
+    const [nbSecLeft, setNbSecLeft] = useState(numberOfSeconds)
 
     function onTick(nbSecLeft: number) {
       setNbSecLeft(nbSecLeft)
@@ -114,7 +119,7 @@ const useStyles = makeStyles({
             <Typography className={classes.entityName} variant="subtitle1" >{entityName}</Typography>
             {!isEndOfRound &&
               <>
-                <Timer nbSeconds={timer} onFinish={() => onEndOfRound()} onTick={(nbSecLeft) => onTick(nbSecLeft)}/>
+                <Timer nbSeconds={numberOfSeconds} onFinish={() => onEndOfRound()} onTick={(nbSecLeft) => onTick(nbSecLeft)}/>
                 <Typography className={classes.nbSecLeft} variant="subtitle1" >{nbSecLeft}</Typography>
                 <IconButton className={classes.skipButton} onClick={() => onClickNext()}>
                   <SkipNextIcon/>

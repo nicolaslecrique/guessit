@@ -14,7 +14,7 @@ const demoMessages: MessageProps[] = [
   { author: Author.Player, message: "", aiConfidence: null  }, // fake message to make reset of message wait
 ]
 
-const nbTicksBetweenMessages = 20
+const nbTicksBetweenMessages = 10
 
 
 type DiscussionDemoState = {
@@ -56,6 +56,7 @@ class DiscussionDemo extends React.Component<IProps, DiscussionDemoState> {
       <>
           <Discussion messages={messages} demoMode={true}/>
           <TypingBar
+            isDemoMode={true}
             onChangeTypedMessage={() => {}}
             onSendMessage={() => {}}
             typedMessage={currentMessage}/>

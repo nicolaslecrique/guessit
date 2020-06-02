@@ -7,6 +7,7 @@ import {createStyles, Typography, WithStyles} from "@material-ui/core"
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles';
 import LoadingScreen from '../component/LoadingScreen'
+import Footer from '../component/Footer'
 
 
 interface ScoreProps extends WithStyles<typeof styles> {
@@ -103,6 +104,7 @@ class Score extends React.Component<ScoreProps, ScoreState> {
         <Link className={classes.linkPlay} to={boardRoute}>
           <Button variant="contained" color="primary" className={classes.playButton}>Play again !</Button>
         </Link>
+        <Footer/>
       </div>
     )
   }
