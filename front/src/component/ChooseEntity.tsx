@@ -3,6 +3,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import {background, fancyButton, fancyFontFamily, secondButton, stdMrg} from '../style/common_style'
 import {Typography} from '@material-ui/core'
 import Button from '@material-ui/core/Button'
+import {numberOfSeconds} from '../core/Game'
 
 
 type ChooseEntityProps = { 
@@ -64,7 +65,7 @@ function ChooseEntity({ entityName, currentRoundIdx, nbRounds, onClickGo, onClic
         <div className={classes.rootFlex}>
           <Typography className={classes.message} align="center" variant="h5" >Describe</Typography>
           <Typography className={classes.entityName} align="center" variant="h3" >{entityName}</Typography>
-          <Typography className={classes.message} align="center" variant="h5" >in 30 seconds</Typography>
+          <Typography className={classes.message} align="center" variant="h5" >in {numberOfSeconds} seconds</Typography>
           <div className={classes.verticalSpace}/>
           <Button className={classes.letsGoButton} variant="contained" color="primary"  onClick={() => onClickGo()}>Let's GO !</Button>
           <Button className={classes.passButton} variant="outlined" onClick={() => onClickPass()}>Pass</Button>

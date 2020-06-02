@@ -14,6 +14,7 @@ import {
 import {scoreRoute} from '../core/Routing'
 import Playing from '../component/Playing'
 import LoadingScreen from '../component/LoadingScreen'
+import {numberOfRounds} from '../core/Game'
 
 
 enum PlayState {
@@ -22,8 +23,6 @@ enum PlayState {
   Play,
   EndOfRound
 }
-
-const nbRounds = 5
 
 type BoardState = {
   playState: PlayState,
@@ -179,12 +178,12 @@ class Board extends React.Component<{}, BoardState> {
       case PlayState.Loading:
         return <LoadingScreen/>
       case PlayState.ChooseEntity: {
-        if(this.state.currentRoundIdx < nbRounds && !this.state.noMoreEntitiesToChoose) {
+        if(this.state.currentRoundIdx < numberOfRounds && !this.state.noMoreEntitiesToChoose) {
           return (
             <ChooseEntity
               entityName={this.state.entity.entityName}
               currentRoundIdx={this.state.currentRoundIdx}
-              nbRounds={nbRounds}
+              nbRounds={numberOfRounds}
               onClickGo={() => this.startRound()}
               onClickPass={() => this.nextEntity()}
             />
@@ -199,7 +198,7 @@ class Board extends React.Component<{}, BoardState> {
         return (
           <Playing
             isEndOfRound={this.state.playState !== PlayState.Play}
-            isLastRound={this.state.currentRoundIdx === nbRounds - 1}
+            isLastRound={this.state.currentRoundIdx === numberOfRounds - 1}
             gameSessionUri={this.state.gameSession.gameSessionUri}
             entityName={this.state.entity.entityName}
             messages={this.state.messages}
