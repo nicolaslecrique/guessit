@@ -1,0 +1,8 @@
+# This file has to exist otherwise the file .gitignore will be used and the folder ml_model will not be included in the Docker image.
+# https://cloud.google.com/cloud-build/docs/running-builds/start-build-manually#gcloud
+
+/.idea/
+/__pycache__/
+*.pyc
+/.venv/
+/venv/

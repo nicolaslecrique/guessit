@@ -35,12 +35,16 @@ to execute get / post queries directly on back/ml: https://www.postman.com/
 * Use compute engine OS customized for container (https://cloud.google.com/compute/docs/containers/deploying-containers)
 * Accept connection by http (will be called by back)
 * Set static public IP (to be seen by back container) (https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address), for now there is no way to access it internally (inside google cloud) from cloud run (https://cloud.google.com/run/docs/using-gcp-services)
-* Connect to database (https://cloud.google.com/sql/docs/mysql/connect-compute-engine)
+* Connect to database (https://cloud.google.com/sql/docs/postgres/connect-compute-engine)
+* Define the environment variables used by ml service in google cloud web console. The list of the variables is in the file docker-compose.yml
+    * Open the VM instances screen & click on the appropriate VM to open the details: https://console.cloud.google.com/compute/instances?project=ibo-speak&instancessize=50
+    * Click on Edit & then on 'Advanced container options' link
+    * Add the variables within 'Environment variables' section
 * adapt deploy_to_comput_engine.sh
 
-### Setp PostgreSQL database
+### Setup PostgreSQL database
 
 * Create a Postgre 12 image on google cloud SQL
-* Connect back cloud run to mysql cloud SQL: https://cloud.google.com/sql/docs/postgres/connect-run
-* Connect to database with Mysql workbench (https://cloud.google.com/sql/docs/postgres/connect-admin-proxy) and run init scripts to create client user for back (change password!) and tables
+* Connect back cloud run to postgresql cloud SQL: https://cloud.google.com/sql/docs/postgres/connect-run
+* Connect to database with PgAdmin (https://cloud.google.com/sql/docs/postgres/connect-admin-proxy) and run init scripts to create client user for back (change password!) and tables
 * Connect cloud sql to ml service VM on compute engine (https://cloud.google.com/sql/docs/postgres/connect-compute-engine) with public IP
