@@ -78,8 +78,8 @@ export function Message({ author, message, aiConfidence}: MessageProps): JSX.Ele
   const classes = useStyles()
   let emojiPath = ''
   let messageWithMarks = null
+  let emoji = undefined
   if (author === Author.AI) {
-    let emoji = undefined
     switch (aiConfidence) {
       // emojis from https://emojiisland.com/pages/download-new-emoji-icons-in-png-ios-10
       case AiConfidence.Thinking:
@@ -111,7 +111,7 @@ export function Message({ author, message, aiConfidence}: MessageProps): JSX.Ele
         </Typography>
       </div>
       { author === Author.AI && <div className={classes.avatar}>
-          <img width="100%" src={emojiPath} alt="emoji_thinking" />
+          <img width="100%" src={emojiPath} alt={emoji} />
       </div>}
     </div>
   </div>
