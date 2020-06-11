@@ -10,15 +10,6 @@ from app import endpoints, guesser
 def create_app() -> FastAPI:
     app = FastAPI()
 
-    # Todo: manage security properly if exposed to the internet
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins="*",
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
-
     app.include_router(endpoints.router)
 
     # PG* environment variables are used by psycopg2.connect()

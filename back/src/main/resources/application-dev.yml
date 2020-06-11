@@ -3,6 +3,7 @@
 ibo:
   ml_service:
     url: http://localhost:8060
+    api_key: "test_ml_api_key"
 
   db:
     url: "jdbc:postgresql://localhost:5432/postgres?useSSL=false"

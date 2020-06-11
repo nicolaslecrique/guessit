@@ -14,6 +14,7 @@ class IboConfig {
 
     class MlServiceConfig {
         lateinit var url: String
+        lateinit var api_key: String
     }
 
     class DbConfig {

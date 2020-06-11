@@ -2,6 +2,7 @@
 ibo:
   ml_service:
     url: http://ml:8083
+    api_key: "test_ml_api_key"
 
   db:
     url: "jdbc:postgresql://db:5432/postgres?useSSL=false"
