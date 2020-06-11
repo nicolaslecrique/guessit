@@ -2,10 +2,7 @@ import os
 
 import uvicorn
 from fastapi import FastAPI
-from starlette.middleware.cors import CORSMiddleware
-
 from app import endpoints, guesser
-
 
 def create_app() -> FastAPI:
     app = FastAPI()
