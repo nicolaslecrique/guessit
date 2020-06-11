@@ -1,10 +1,10 @@
 import React from 'react'
-import {Discussion} from './Discussion'
-import {AiConfidence, Author, MessageProps} from './Message'
+import {Discussion, DiscussionMessageProps} from './Discussion'
+import {AiConfidence, Author} from './Message'
 import {TypingBar} from './TypingBar'
 
 
-const demoMessages: MessageProps[] = [
+const demoMessages: DiscussionMessageProps[] = [
   { author: Author.Player, message: "It's a robot", aiConfidence: null },
   { author: Author.AI, message: "Wall-E", aiConfidence: AiConfidence.Thinking  },
   { author: Author.Player, message: "In Star Wars", aiConfidence: null  },
@@ -64,7 +64,7 @@ class DiscussionDemo extends React.Component<IProps, DiscussionDemoState> {
     )
   }
 
-  private buildMessageToDisplay(): [MessageProps[], string]{
+  private buildMessageToDisplay(): [DiscussionMessageProps[], string]{
 
     const {currentMessageIndex, nextCharIndexInCurrentMessage} = this.state
 
