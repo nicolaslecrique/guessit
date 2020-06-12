@@ -14,7 +14,12 @@ export enum AiConfidence {
   Sure
 }
 
-export type MessageProps = { author: Author, message: string, aiConfidence: AiConfidence | null }
+export type MessageProps = {
+  author: Author,
+  nextMessageAuthor: Author | null,
+  message: string,
+  aiConfidence: AiConfidence | null
+}
 
 const useStyles = makeStyles({
   messageContainer: {
@@ -73,7 +78,7 @@ const useStyles = makeStyles({
   }
 })
 
-export function Message({ author, message, aiConfidence}: MessageProps): JSX.Element {
+export function Message({ author, nextMessageAuthor, message, aiConfidence}: MessageProps): JSX.Element {
 
   const classes = useStyles()
   let emojiPath = ''
@@ -110,7 +115,7 @@ export function Message({ author, message, aiConfidence}: MessageProps): JSX.Ele
           {messageWithMarks}
         </Typography>
       </div>
-      { author === Author.AI && <div className={classes.avatar}>
+      { author === Author.AI && nextMessageAuthor !== Author.AI && <div className={classes.avatar}>
           <img width="100%" src={emojiPath} alt={emoji} />
       </div>}
     </div>

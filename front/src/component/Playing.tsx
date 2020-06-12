@@ -1,9 +1,8 @@
 import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
-import { Discussion } from './Discussion'
+import {Discussion, DiscussionMessageProps} from './Discussion'
 import Timer from './Timer'
 import { scoreRoute } from '../core/Routing'
-import {MessageProps} from './Message'
 import {makeStyles} from '@material-ui/core/styles'
 import {background, fancyButton, fancyFontFamily, smallMrg, stdCornerRadius} from '../style/common_style'
 import {Button, Typography} from '@material-ui/core'
@@ -18,7 +17,7 @@ type PlayingProps = {
     isLastRound: boolean,
     gameSessionUri: string,
     entityName: string,
-    messages: MessageProps[],
+    messages: DiscussionMessageProps[],
     onEndOfRound: () => void,
     onClickNext: () => void,
     typedMessage: string,

@@ -1,14 +1,19 @@
 import React, { useEffect, useRef } from 'react'
-import {Message, MessageProps} from './Message'
+import {AiConfidence, Author, Message} from './Message'
 import {makeStyles} from '@material-ui/core/styles'
 import {extraSmallMrg, stdCornerRadius, stdMrg} from '../style/common_style'
 
 
 export type DiscussionProps = {
-  messages: MessageProps[],
+  messages: DiscussionMessageProps[],
   demoMode: boolean
 }
 
+export type DiscussionMessageProps = {
+  author: Author,
+  message: string,
+  aiConfidence: AiConfidence | null
+}
 
 const useStyles = makeStyles({
   root: {
@@ -51,7 +56,14 @@ export function Discussion({ messages, demoMode }: DiscussionProps): JSX.Element
   return (
     <div className={`${classes.root} ${demoMode ? classes.rootInDemo : classes.rootInGame}`}>
       {messages.map((message, index) => {
-        return (<Message key={index} author={message.author} message={message.message} aiConfidence={message.aiConfidence}/>)
+        return (
+          <Message
+            key={index}
+            author={message.author}
+            nextMessageAuthor={index === messages.length - 1 ? null : messages[index+1].author}
+            message={message.message}
+            aiConfidence={message.aiConfidence}
+          />)
       })}
       <div ref={messagesEndRef} />
     </div>

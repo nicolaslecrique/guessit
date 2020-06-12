@@ -2,7 +2,7 @@ import React from 'react'
 import {Redirect} from 'react-router-dom'
 import Cookies from 'js-cookie'
 import ChooseEntity from '../component/ChooseEntity'
-import {AiConfidence, Author, MessageProps} from '../component/Message'
+import {AiConfidence, Author} from '../component/Message'
 import {
   checkUserExists,
   Entity,
@@ -16,6 +16,7 @@ import {scoreRoute} from '../core/Routing'
 import Playing from '../component/Playing'
 import LoadingScreen from '../component/LoadingScreen'
 import {numberOfRounds} from '../core/Game'
+import {DiscussionMessageProps} from '../component/Discussion'
 
 
 enum PlayState {
@@ -32,7 +33,7 @@ type BoardState = {
   entity: Entity,
   noMoreEntitiesToChoose: boolean,
   currentRoundIdx: number
-  messages: MessageProps[],
+  messages: DiscussionMessageProps[],
   typedMessage: string
 }
 
