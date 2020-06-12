@@ -9,6 +9,7 @@ export enum Author {
 }
 
 export enum AiConfidence {
+  Start,
   Thinking,
   Confident,
   Sure
@@ -98,6 +99,10 @@ export function Message({ author, nextMessageAuthor, message, aiConfidence}: Mes
       case AiConfidence.Sure:
         emoji = 'emoji_happy'
         messageWithMarks = message + "!"
+        break;
+      case AiConfidence.Start:
+        emoji = 'emoji_smile'
+        messageWithMarks = message
         break;
       default:
         throw new Error(`Unmanaged AiConfidence: ${aiConfidence}`)

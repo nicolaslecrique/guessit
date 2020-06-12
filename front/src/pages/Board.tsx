@@ -15,9 +15,15 @@ import {
 import {scoreRoute} from '../core/Routing'
 import Playing from '../component/Playing'
 import LoadingScreen from '../component/LoadingScreen'
-import {numberOfRounds} from '../core/Game'
+import {numberOfRounds, numberOfSeconds} from '../core/Game'
 import {DiscussionMessageProps} from '../component/Discussion'
 
+
+const initMessage = {
+  author: Author.AI,
+  message: `Describe your character in ${numberOfSeconds} seconds. I'll try to guess it`,
+  aiConfidence: AiConfidence.Start
+}
 
 enum PlayState {
   Loading,
@@ -47,7 +53,7 @@ class Board extends React.Component<{}, BoardState> {
       entity: { entityUri: "", entityGuessingUri: "", entityName: ""},
       noMoreEntitiesToChoose: false,
       currentRoundIdx: 0,
-      messages: [],
+      messages: [initMessage],
       typedMessage: "",
     }
   }
@@ -89,7 +95,7 @@ class Board extends React.Component<{}, BoardState> {
     this.setState({
       playState: PlayState.ChooseEntity,
       currentRoundIdx: this.state.currentRoundIdx + 1,
-      messages: [],
+      messages: [initMessage],
       typedMessage: ""
     })
   }
