@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import {boardRoute} from '../core/Routing'
 import {Typography} from "@material-ui/core"
@@ -52,7 +52,9 @@ export default function Intro(): JSX.Element {
 
   const classes = useStyles()
 
-  getPing()
+  useEffect(() => {
+    getPing();
+  }, []);
 
   return (
     <div className={classes.root}>
