@@ -11,3 +11,4 @@ ibo:
     use_cloud_sql: false
     cloud_sql_instance: ~
 
+  client_url: "http://localhost:3000"
