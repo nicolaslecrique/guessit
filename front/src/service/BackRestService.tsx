@@ -40,6 +40,10 @@ async function doPostRequest(path: string, body: any = {}): Promise<any> {
   return await response.json()
 }
 
+export async function getPing(): Promise<void> {
+  await doGetRequest('ping')
+}
+
 export async function postUser(): Promise<string> {
   const json: { userUri: string } = await doPostRequest('user')
   return json.userUri
@@ -68,7 +72,7 @@ export async function postEntityGuessingSentences(
   return await doPostRequest('entity_guessing_sentence', body)
 }
 
-export async function postEndOfGuessing(entityToGuessUri: string, entityGuessingUri: string) {
+export async function postEndOfGuessing(entityToGuessUri: string, entityGuessingUri: string): Promise<void> {
   const body = {
     entityToGuessUri: entityToGuessUri,
     entityGuessingUri: entityGuessingUri
