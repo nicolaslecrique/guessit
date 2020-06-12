@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import {boardRoute} from '../core/Routing'
 import {Typography} from "@material-ui/core"
@@ -7,6 +7,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import {background, fancyButton, fancyFontFamily, smallMrg, stdMrg} from '../style/common_style'
 import DiscussionDemo from '../component/DiscussionDemo'
 import Footer from '../component/Footer'
+import {getPing} from '../service/BackRestService'
 
 
 const useStyles = makeStyles({
@@ -50,6 +51,10 @@ const useStyles = makeStyles({
 export default function Intro(): JSX.Element {
 
   const classes = useStyles()
+
+  useEffect(() => {
+    getPing();
+  }, []);
 
   return (
     <div className={classes.root}>

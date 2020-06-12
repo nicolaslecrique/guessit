@@ -16,6 +16,15 @@ class RestApi(
         private val mlRestService: MlRestService
 ) {
 
+    data class GetPingResult(
+            val complete: Boolean
+    )
+
+    @GetMapping("/ping")
+    fun getPing(): GetPingResult {
+        return GetPingResult(true)
+    }
+
     data class GetUserResult(val userExists: Boolean)
 
     @GetMapping("/user")
