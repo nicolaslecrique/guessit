@@ -11,9 +11,11 @@ class IboConfig {
 
     val ml_service = MlServiceConfig()
     val db = DbConfig()
+    lateinit var client_url: String
 
     class MlServiceConfig {
         lateinit var url: String
+        lateinit var api_key: String
     }
 
     class DbConfig {
