@@ -2,7 +2,7 @@
 ibo:
   ml_service:
     url: ${ML_SERVICE_URL}
-    api_key: "${ML_SERVICE_API_KEY}
+    api_key: "${ML_SERVICE_API_KEY}"
   db:
     url: jdbc:postgresql:///postgres # postgresql url will be resolved by postgresql-socket-factory-connector, we just set database schema
     user: ${DB_USER}
