@@ -27,7 +27,7 @@ type PlayingProps = {
 
 const useStyles = makeStyles({
   root: {
-    height: '100vh',
+    height: '100%',
     padding: smallMrg,
     background: background
   },

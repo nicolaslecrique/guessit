@@ -16,7 +16,7 @@ type ChooseEntityProps = {
 
 const useStyles = makeStyles({
   background: {
-    height: '100vh',
+    height: '100%',
     background: background,
   },
   root: {
