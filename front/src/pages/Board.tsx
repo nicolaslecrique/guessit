@@ -21,8 +21,14 @@ import {DiscussionMessageProps} from '../component/Discussion'
 
 const initMessage = {
   author: Author.AI,
-  message: `Describe your character in ${numberOfSeconds} seconds. I'll try to guess it`,
+  message: `Describe your character. I'll try to guess it`,
   aiConfidence: AiConfidence.Start
+}
+
+const timeoutMessage = {
+  author: Author.AI,
+  message: `time's up!`,
+  aiConfidence: AiConfidence.Timeout
 }
 
 enum PlayState {
@@ -100,9 +106,10 @@ class Board extends React.Component<{}, BoardState> {
     })
   }
 
-  endOfRound(): void {
+  endOfRound(found: boolean): void {
     this.setState({
       playState: PlayState.EndOfRound,
+      messages: found ? this.state.messages : this.state.messages.concat(timeoutMessage)
     })
 
     postEndOfGuessing(this.state.entity.entityUri, this.state.entity.entityGuessingUri)
@@ -112,7 +119,7 @@ class Board extends React.Component<{}, BoardState> {
     let message = entityName
     const aiFound = entityName === this.state.entity.entityName
     if (aiFound) {
-      this.endOfRound()
+      this.endOfRound(true)
     }
 
     let messages = this.state.messages.slice()
@@ -215,7 +222,7 @@ class Board extends React.Component<{}, BoardState> {
             gameSessionUri={this.state.gameSession.gameSessionUri}
             entityName={this.state.entity.entityName}
             messages={this.state.messages}
-            onEndOfRound={() => this.endOfRound()}
+            onEndOfRound={() => this.endOfRound(false)}
             onClickNext={() => this.nextRound()}
             typedMessage={this.state.typedMessage}
             onChangeTypedMessage={(message: string) =>  this.setState({ typedMessage: message })}

@@ -12,7 +12,8 @@ export enum AiConfidence {
   Start,
   Thinking,
   Confident,
-  Sure
+  Sure,
+  Timeout
 }
 
 export type MessageProps = {
@@ -102,6 +103,10 @@ export function Message({ author, nextMessageAuthor, message, aiConfidence}: Mes
         break;
       case AiConfidence.Start:
         emoji = 'emoji_smile'
+        messageWithMarks = message
+        break;
+      case AiConfidence.Timeout:
+        emoji = 'emoji_unhappy'
         messageWithMarks = message
         break;
       default:
