@@ -8,8 +8,12 @@ plugins {
 
 	// https://github.com/etiennestuder/gradle-jooq-plugin
 	id("nu.studer.jooq")
+
+	id("com.google.cloud.tools.jib") version "2.4.0"
 }
 
+// where to push jib container
+jib.to.image = "gcr.io/ibo-speak/back"
 
 group = "co.globers.ibo"
 version = "0.0.1-SNAPSHOT"
