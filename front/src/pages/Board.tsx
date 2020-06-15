@@ -27,7 +27,7 @@ const initMessage = {
 
 const timeoutMessage = {
   author: Author.AI,
-  message: `time's up!`,
+  message: `Time's up!`,
   aiConfidence: AiConfidence.Timeout
 }
 
