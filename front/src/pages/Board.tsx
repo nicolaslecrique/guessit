@@ -15,9 +15,21 @@ import {
 import {scoreRoute} from '../core/Routing'
 import Playing from '../component/Playing'
 import LoadingScreen from '../component/LoadingScreen'
-import {numberOfRounds} from '../core/Game'
+import {numberOfRounds, numberOfSeconds} from '../core/Game'
 import {DiscussionMessageProps} from '../component/Discussion'
 
+
+const initMessage = {
+  author: Author.AI,
+  message: `Describe your character. I'll try to guess it`,
+  aiConfidence: AiConfidence.Start
+}
+
+const timeoutMessage = {
+  author: Author.AI,
+  message: `Time's up!`,
+  aiConfidence: AiConfidence.Timeout
+}
 
 enum PlayState {
   Loading,
@@ -47,7 +59,7 @@ class Board extends React.Component<{}, BoardState> {
       entity: { entityUri: "", entityGuessingUri: "", entityName: ""},
       noMoreEntitiesToChoose: false,
       currentRoundIdx: 0,
-      messages: [],
+      messages: [initMessage],
       typedMessage: "",
     }
   }
@@ -89,14 +101,15 @@ class Board extends React.Component<{}, BoardState> {
     this.setState({
       playState: PlayState.ChooseEntity,
       currentRoundIdx: this.state.currentRoundIdx + 1,
-      messages: [],
+      messages: [initMessage],
       typedMessage: ""
     })
   }
 
-  endOfRound(): void {
+  endOfRound(found: boolean): void {
     this.setState({
       playState: PlayState.EndOfRound,
+      messages: found ? this.state.messages : this.state.messages.concat(timeoutMessage)
     })
 
     postEndOfGuessing(this.state.entity.entityUri, this.state.entity.entityGuessingUri)
@@ -106,7 +119,7 @@ class Board extends React.Component<{}, BoardState> {
     let message = entityName
     const aiFound = entityName === this.state.entity.entityName
     if (aiFound) {
-      this.endOfRound()
+      this.endOfRound(true)
     }
 
     let messages = this.state.messages.slice()
@@ -209,7 +222,7 @@ class Board extends React.Component<{}, BoardState> {
             gameSessionUri={this.state.gameSession.gameSessionUri}
             entityName={this.state.entity.entityName}
             messages={this.state.messages}
-            onEndOfRound={() => this.endOfRound()}
+            onEndOfRound={() => this.endOfRound(false)}
             onClickNext={() => this.nextRound()}
             typedMessage={this.state.typedMessage}
             onChangeTypedMessage={(message: string) =>  this.setState({ typedMessage: message })}
