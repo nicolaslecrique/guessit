@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton'
 import SendIcon from '@material-ui/icons/Send'
 import TextField from '@material-ui/core/TextField'
 import {stdCornerRadius} from '../style/common_style'
+import {Author} from './Message'
 
 
 const useStyles = makeStyles({
@@ -19,6 +20,9 @@ const useStyles = makeStyles({
     '&:hover': {
       borderWidth: 0
     }
+  },
+  inputNonClickable: {
+    pointerEvents: 'none',
   },
   fieldInput: {
     height: '36px',
@@ -54,11 +58,10 @@ export function TypingBar({typedMessage, onChangeTypedMessage, onSendMessage, is
 
   return (
     <TextField
-      disabled={isDemoMode}
     variant="outlined"
     autoFocus={!isDemoMode}
     autoComplete="off"
-    className={classes.input}
+    className={`${classes.input} ${isDemoMode ? classes.inputNonClickable : ''}`}
     id="outlined-basic"
     placeholder="Type your sentence"
     value={typedMessage}
