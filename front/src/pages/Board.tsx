@@ -15,7 +15,7 @@ import {
 import {scoreRoute} from '../core/Routing'
 import Playing from '../component/Playing'
 import LoadingScreen from '../component/LoadingScreen'
-import {numberOfRounds, numberOfSeconds} from '../core/Game'
+import {numberOfRounds} from '../core/Game'
 import {DiscussionMessageProps} from '../component/Discussion'
 
 
@@ -70,6 +70,7 @@ class Board extends React.Component<{}, BoardState> {
   }
 
   nextEntity(): void {
+
     const entities = this.state.gameSession.entitiesToGuess.slice()
     const entity = entities.shift()
 
@@ -88,12 +89,18 @@ class Board extends React.Component<{}, BoardState> {
         noMoreEntitiesToChoose: true
       })   
     }
+
   }
 
   startRound(): void {
     this.setState({
       playState: PlayState.Play,
     })
+  }
+
+  onGiveUpCurrentEntity(): void {
+    postEndOfGuessing(this.state.entity.entityUri, this.state.entity.entityGuessingUri)
+    this.nextRound()
   }
 
   nextRound(): void {
@@ -107,12 +114,11 @@ class Board extends React.Component<{}, BoardState> {
   }
 
   endOfRound(found: boolean): void {
+    postEndOfGuessing(this.state.entity.entityUri, this.state.entity.entityGuessingUri)
     this.setState({
       playState: PlayState.EndOfRound,
       messages: found ? this.state.messages : this.state.messages.concat(timeoutMessage)
     })
-
-    postEndOfGuessing(this.state.entity.entityUri, this.state.entity.entityGuessingUri)
   }
 
   entityGuessed(entityName: string): void {
@@ -222,8 +228,9 @@ class Board extends React.Component<{}, BoardState> {
             gameSessionUri={this.state.gameSession.gameSessionUri}
             entityName={this.state.entity.entityName}
             messages={this.state.messages}
-            onEndOfRound={() => this.endOfRound(false)}
-            onClickNext={() => this.nextRound()}
+            onTimeout={() => this.endOfRound(false)}
+            onGiveUpCurrentEntity={() => this.onGiveUpCurrentEntity()}
+            onNextAfterEndOfRound={() => this.nextRound()}
             typedMessage={this.state.typedMessage}
             onChangeTypedMessage={(message: string) =>  this.setState({ typedMessage: message })}
             onSendMessage={() => this.sendMessage()}

@@ -18,8 +18,9 @@ type PlayingProps = {
     gameSessionUri: string,
     entityName: string,
     messages: DiscussionMessageProps[],
-    onEndOfRound: () => void,
-    onClickNext: () => void,
+    onTimeout: () => void,
+    onGiveUpCurrentEntity: () => void,
+    onNextAfterEndOfRound: () => void,
     typedMessage: string,
     onChangeTypedMessage: (message: string) => void,
     onSendMessage: () => void
@@ -79,7 +80,20 @@ const useStyles = makeStyles({
   }
 })
 
-  function Playing({ isEndOfRound, isLastRound, gameSessionUri, entityName, messages, onEndOfRound, onClickNext, typedMessage, onChangeTypedMessage, onSendMessage }: PlayingProps): JSX.Element {
+  function Playing(
+    {
+      isEndOfRound,
+      isLastRound,
+      gameSessionUri,
+      entityName,
+      messages,
+      onTimeout,
+      onGiveUpCurrentEntity,
+      onNextAfterEndOfRound,
+      typedMessage,
+      onChangeTypedMessage,
+      onSendMessage
+    }: PlayingProps): JSX.Element {
 
     let bottomBar: JSX.Element
 
@@ -101,7 +115,12 @@ const useStyles = makeStyles({
       if (isLastRound) {
         bottomBar = <Link className={classes.endGameLink} to={scoreRoute(gameSessionUri)} ><Button className={classes.nextRoundButton} variant="contained" color="primary" >Score</Button></Link>
       } else {
-        bottomBar = <Button className={classes.nextRoundButton} variant="contained" color="primary"  onClick={() => onClickNext()}>Next round</Button>
+        bottomBar = <Button
+          className={classes.nextRoundButton}
+          variant="contained"
+          color="primary"
+          onClick={() => onNextAfterEndOfRound()}
+        >Next round</Button>
       }
     }
 
@@ -118,9 +137,9 @@ const useStyles = makeStyles({
             <Typography className={classes.entityName} variant="subtitle1" >{entityName}</Typography>
             {!isEndOfRound &&
               <>
-                <Timer nbSeconds={numberOfSeconds} onFinish={() => onEndOfRound()} onTick={(nbSecLeft) => onTick(nbSecLeft)}/>
+                <Timer nbSeconds={numberOfSeconds} onFinish={() => onTimeout()} onTick={(nbSecLeft) => onTick(nbSecLeft)}/>
                 <Typography className={classes.nbSecLeft} variant="subtitle1" >{nbSecLeft}</Typography>
-                <IconButton className={classes.skipButton} onClick={() => onClickNext()}>
+                <IconButton className={classes.skipButton} onClick={() => onGiveUpCurrentEntity()}>
                   <SkipNextIcon/>
                 </IconButton>
               </>
