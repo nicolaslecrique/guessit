@@ -114,7 +114,9 @@ class RestApi(
     fun endOfGuessing(@RequestBody request: PostEndOfGuessingBody): PostEndOfGuessingResult {
         val sentences = db.selectSentences(request.entityGuessingUri)
 
-        mlRestService.addSentences(request.entityToGuessUri, sentences)
+        if (sentences.isNotEmpty()) {
+            mlRestService.addSentences(request.entityToGuessUri, sentences)
+        }
         return PostEndOfGuessingResult(true)
     }
 

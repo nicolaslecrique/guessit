@@ -5,7 +5,6 @@ import IconButton from '@material-ui/core/IconButton'
 import SendIcon from '@material-ui/icons/Send'
 import TextField from '@material-ui/core/TextField'
 import {stdCornerRadius} from '../style/common_style'
-import {Author} from './Message'
 
 
 const useStyles = makeStyles({
