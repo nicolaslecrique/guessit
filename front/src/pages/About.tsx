@@ -52,17 +52,17 @@ export default function About(): JSX.Element {
   return (
     <div className={classes.root}>
       <div className={classes.rootFlex}>
-        <Typography className={classes.title} align="center" variant="h4">
+        <Typography className={classes.title} align="center" variant="h5">
           What is GuessIt.AI ?
         </Typography>
-        <Typography className={classes.content} align="center" variant="h5">
+        <Typography className={classes.content} align="center" variant="h6">
           GuessIt.AI is a game built with Machine learning. You describe a character and the AI will try to guess it.
           The more you play, the better the AI becomes !
         </Typography>
-        <Typography className={classes.title} align="center" variant="h4">
+        <Typography className={classes.title} align="center" variant="h5">
           Why did you do it ?
         </Typography>
-        <Typography className={classes.content} align="center" variant="h5">
+        <Typography className={classes.content} align="center" variant="h6">
           Our mission is to help people who need to improve their English.
           <br/>
           <br/>
@@ -81,17 +81,17 @@ export default function About(): JSX.Element {
           GuessIt.AI is a first step towards this goal. It is a research project to improve the ability of the AI to
           understand, reply, and give corrections to people learning English.
         </Typography>
-        <Typography className={classes.title} align="center" variant="h4">
+        <Typography className={classes.title} align="center" variant="h5">
           How does it works ?
         </Typography>
-        <Typography className={classes.content} align="center" variant="h5">
+        <Typography className={classes.content} align="center" variant="h6">
           GuessIt.AI uses NLP and deep learning algorithms to understand the sentences you type in. It's based on models
           like the state-of-the-art BERT model, fine-tuned for our needs.
         </Typography>
-        <Typography className={classes.title} align="center" variant="h4">
+        <Typography className={classes.title} align="center" variant="h5">
           Can I contact you ?
         </Typography>
-        <Typography className={classes.content} align="center" variant="h5">
+        <Typography className={classes.content} align="center" variant="h6">
           GuessIt.AI is made by Globers™, you can contact us at <Obfuscate email="guess-it@globers.co"/>
         </Typography>
         <Link className={classes.link} to={homeRoute}>
