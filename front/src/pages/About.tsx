@@ -56,7 +56,7 @@ export default function About(): JSX.Element {
           What is GuessIt.AI ?
         </Typography>
         <Typography className={classes.content} align="center" variant="h6">
-          GuessIt.AI is a game built with Machine learning. You describe a character and the AI will try to guess it.
+          GuessIt.AI is a game built with Machine learning. Describe a character and the AI will try to guess who it is.
           The more you play, the better the AI becomes !
         </Typography>
         <Typography className={classes.title} align="center" variant="h5">
@@ -66,15 +66,15 @@ export default function About(): JSX.Element {
           Our mission is to help people who need to improve their English.
           <br/>
           <br/>
-          Passive learning (videos, books) is great, but only gets you so far. At some point, you hit a glass ceiling,
-          and you have to write and speak ! You have to form genuine sentences, in context, and in real time.
+          Passive learning (videos, books) is great, but at some point you hit a wall, and it becomes
+          essential you write and speak in English to keep improving. You have to form genuine sentences, in context, and in real time.
           <br/>
           <br/>
-          Millions of people get stuck at this point. They don't have the time or money to get a tutor. Or they are too
+          That is where millions of people get stuck. They don't have the time or money to get a tutor. Or they are too
           self-conscious to start conversations with strangers in English.
           <br/>
           <br/>
-          Our goal is to help those people break the glass ceiling, a few minutes at a time, without judgement, from the
+          Our goal is to help those people get past that wall, a few minutes at a time, without judgement, and from the
           comfort of their couch.
           <br/>
           <br/>
@@ -82,7 +82,7 @@ export default function About(): JSX.Element {
           understand, reply, and give corrections to people learning English.
         </Typography>
         <Typography className={classes.title} align="center" variant="h5">
-          How does it works ?
+          How does it work ?
         </Typography>
         <Typography className={classes.content} align="center" variant="h6">
           GuessIt.AI uses NLP and deep learning algorithms to understand the sentences you type in. It's based on models
